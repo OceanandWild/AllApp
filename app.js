@@ -1,0 +1,670 @@
+// Botón para abrir la tienda
+const openStoreBtn = document.getElementById('openStoreBtn');
+const appStoreModal = document.getElementById('appStoreModal');
+const appContainer = document.getElementById('appContainer');
+
+// Agregar la aplicación "Updates" a la tienda
+const updatesApp = {
+    name: 'Updates',
+    version: '1.0.0',
+    lastUpdated: '2024-10-31'
+};
+
+// Array para almacenar las aplicaciones instaladas
+const installedApps = [
+    { name: 'Calculadora', version: '1.0.1', lastUpdated: '2024-10-29' },
+    { name: 'Reloj', version: '1.0.0', lastUpdated: '2024-10-30' },
+    { name: 'Notas', version: '1.0.2', lastUpdated: '2024-10-28' },
+    { name: 'Animal AI View', version: '1.0.0', lastUpdated: '2024-10-31' },
+    { name: 'CheckMate', version: '1.0.1', lastUpdated: '2024-10-25' },
+    updatesApp // Agrega la app de actualizaciones a la lista de instaladas
+];
+
+
+
+// Array para almacenar las aplicaciones instaladas
+const apps = [
+    { name: 'Calculadora'},
+    { name: 'Reloj'},
+    { name: 'Notas'},
+    { name: 'Animal AI View'},
+    { name: 'CheckMate'},
+    { name: 'Updates'},
+    { name: 'Calendario'},
+    { name: 'Mixer'},
+    { name: 'RNG'},
+    { name: 'Enciclopedia Animales Extintos'} // Nueva app
+];
+
+// Función para abrir la tienda
+openStoreBtn.addEventListener('click', () => {
+    appStoreModal.style.display = 'flex';
+});
+
+// Cerrar el modal
+function closeModal() {
+    appStoreModal.style.display = 'none';
+}
+
+// Función para instalar una app
+function installApp(appName) {
+    const app = apps.find(app => app.name === appName);
+    if (!app) {
+        console.error("Aplicación no encontrada: " + appName);
+        return;
+    }
+
+    const installButton = document.querySelector(`#install-btn-${appName}`);
+    if (installButton) {
+        installButton.disabled = true;       // Deshabilitar botón
+        installButton.textContent = "Instalada";  // Cambiar texto a "Instalada"
+        installButton.style.cursor = "not-allowed";
+        installButton.style.opacity = "0.6";
+    }
+
+    const appIconContainer = document.createElement('div');
+    appIconContainer.classList.add('app-icon-container');
+    appIconContainer.style = `
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        margin: 5px;
+        cursor: pointer; 
+    `;
+
+    const appIcon = document.createElement('div');
+    appIcon.classList.add('app-icon');
+    appIcon.style = `
+        width: 60px; 
+        height: 60px; 
+        border-radius: 10px; 
+        background-color: #4CAF50; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        transition: transform 0.2s; 
+    `;
+
+    const iconImage = document.createElement('img');
+    iconImage.src = getAppIcon(appName);
+    iconImage.alt = appName;
+    iconImage.style = `
+        width: 40px; 
+        height: 40px; 
+        border-radius: 5px; 
+    `;
+    appIcon.appendChild(iconImage);
+
+    const appLabel = document.createElement('span');
+    appLabel.textContent = appName;
+    appLabel.style = `
+        margin-top: 5px; 
+        text-align: center; 
+        font-size: 12px; 
+        color: #000; 
+    `;
+    appIconContainer.appendChild(appIcon);
+    appIconContainer.appendChild(appLabel);
+    appContainer.appendChild(appIconContainer);
+    appStoreModal.style.display = 'none';
+
+    // Función al presionar la app instalada
+    appIconContainer.addEventListener('click', () => {
+        openApp(app);
+    });
+
+    // Añadir efecto al pasar el mouse
+    appIconContainer.addEventListener('mouseenter', () => {
+        appIcon.style.transform = 'scale(1.1)';
+    });
+
+    appIconContainer.addEventListener('mouseleave', () => {
+        appIcon.style.transform = 'scale(1)';
+    });
+}
+
+// Función para renderizar la App Store con paginación
+function renderAppStore(page = 1) {
+    const appsPerPage = 6;
+    const start = (page - 1) * appsPerPage;
+    const end = start + appsPerPage;
+    const appsToShow = apps.slice(start, end);
+
+    // Limpiar el contenido actual del modal
+    appStoreModal.innerHTML = "";
+
+    // Mostrar las aplicaciones de la página actual
+    appsToShow.forEach(app => {
+        const appButton = document.createElement('button');
+        appButton.textContent = app.name;
+        appButton.id = `install-btn-${app.name}`;
+        appButton.classList.add('install-btn');
+        appButton.addEventListener('click', () => installApp(app.name));
+        
+        // Verificar si la app ya está instalada y deshabilitar el botón
+        if (app.installed) {
+            appButton.disabled = true;
+            appButton.textContent = "Instalada";
+            appButton.style.cursor = "not-allowed";
+            appButton.style.opacity = "0.6";
+        }
+        
+        appStoreModal.appendChild(appButton);
+    });
+
+    // Añadir el botón de paginación si hay más de 6 apps
+    if (apps.length > appsPerPage) {
+        const paginationContainer = document.createElement('div');
+        paginationContainer.style.textAlign = 'center';
+        paginationContainer.style.marginTop = '10px';
+
+        if (page > 1) {
+            const prevButton = document.createElement('button');
+            prevButton.textContent = "Anterior";
+            prevButton.addEventListener('click', () => renderAppStore(page - 1));
+            paginationContainer.appendChild(prevButton);
+        }
+
+        if (end < apps.length) {
+            const nextButton = document.createElement('button');
+            nextButton.textContent = "Siguiente";
+            nextButton.addEventListener('click', () => renderAppStore(page + 1));
+            paginationContainer.appendChild(nextButton);
+        }
+
+        appStoreModal.appendChild(paginationContainer);
+    }
+}
+
+// Inicializar el modal de la App Store en la página 1
+renderAppStore();
+
+
+
+
+// Función para obtener el ícono de la app
+function getAppIcon(appName) {
+    const icons = {
+        'Calculadora': 'https://i.pinimg.com/564x/89/2c/48/892c486a9a60c758e55b747da91aa671.jpg',
+        'Reloj': 'https://i.pinimg.com/564x/f7/c6/c7/f7c6c74dc920669a42c9d9f7ee575c34.jpg',
+        'Notas': 'https://i.pinimg.com/564x/f2/21/54/f221546ec773641d3e03b0509b7b4d39.jpg',
+        'Animal AI View': 'https://i.pinimg.com/736x/11/f3/88/11f388876b53afc25615f3a980d8f25e.jpg',
+        'CheckMate': 'https://i.pinimg.com/564x/eb/64/83/eb6483224dbfd351bf5ec53621a320ff.jpg',
+        'Updates': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
+        'Calendario': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
+    };
+    return icons[appName] || 'https://i.pinimg.com/564x/36/9b/3b/369b3b5c246ba187037e47afc8e26b1c.jpg'; // Ícono por defecto
+}
+
+// Función para abrir la app con animación y botón de cierre
+function openApp(app) {
+    const appWindow = document.createElement('div');
+    appWindow.style = `
+        position: fixed; top: 50%; left: 50%; width: 500px; height: 300px;
+        transform: translate(-50%, -50%) scale(0);
+        background-color: #fff; border: 2px solid #333; border-radius: 8px;
+        display: flex; flex-direction: column; align-items: center;
+        font-size: 18px; transition: transform 0.3s ease; overflow: hidden;
+    `;
+    document.body.appendChild(appWindow);
+
+    // Botón de cierre
+    const closeButton = createCloseButton(appWindow);
+    appWindow.appendChild(closeButton);
+
+    // Contenedor para el contenido
+    const content = document.createElement('div');
+    content.style = 'width: 100%; height: calc(100% - 50px); overflow-y: auto;'; 
+    appWindow.appendChild(content);
+
+    // Iniciar animación de apertura
+    setTimeout(() => {
+        appWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+    }, 10);
+
+    // Acción específica para cada app
+    setTimeout(() => {
+        // Limpiar el contenido previo, pero mantener el botón de cierre
+        content.innerHTML = ''; // Limpiar contenido anterior
+        switch (app.name) {
+            case 'Calculadora':
+                createCalculator(content);
+                break;
+            case 'Reloj':
+                showClock(content);
+                break;
+            case 'Notas':
+                createNoteApp(content);
+                break;
+            case 'Animal AI View':
+                 // Pregunta al usuario si desea ser redireccionado
+            const confirmationMessage = document.createElement('div');
+            confirmationMessage.innerHTML = `
+                <p>Esta app necesita redireccionarte para continuar, a un servicio nuestro y no de terceros, ¿deseas continuar?</p>
+                <button id="confirmYes">Sí</button>
+                <button id="confirmNo">No</button>
+            `;
+            content.appendChild(confirmationMessage);
+
+            // Manejar la respuesta del usuario
+            document.getElementById('confirmYes').addEventListener('click', () => {
+                window.location.href = 'https://oceanandwild.github.io/AnimalAI/';
+            });
+
+            document.getElementById('confirmNo').addEventListener('click', () => {
+                appWindow.style.transform = 'translate(-50%, -50%) scale(0)';
+                setTimeout(() => document.body.removeChild(appWindow), 300);
+            });
+                break;
+            case 'Updates':
+                createUpdateSystem(content);
+                break;
+                case 'Calendario': 
+                createCalendarApp(content);
+                break;
+                case 'Mixer':
+                createMixerApp(content);
+                break;
+                case 'RNG':
+                startRngApp(content);
+                break;
+                case 'Enciclopedia Animales Extintos':
+                createExtinctAnimalsEncyclopedia(content);
+                break;
+            default:
+                content.innerHTML = `<p>Aplicación no disponible.</p>`;
+        }
+    }, 500);
+}
+
+// Función para crear el botón de cierre
+function createCloseButton(appWindow) {
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Cerrar';
+    closeButton.style.cssText = `
+        position: absolute;
+top: 10px;
+right: 10px;
+padding: 2px 4px; /* Padding reducido */
+background-color: #f44336; 
+color: #fff; 
+border: none; 
+border-radius: 6px; 
+cursor: pointer; 
+font-size: 14px; /* Tamaño de fuente reducido */
+font-weight: bold; 
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+transition: background-color 0.3s, transform 0.3s;
+    `;
+
+    // Efecto de hover
+    closeButton.addEventListener('mouseover', () => {
+        closeButton.style.backgroundColor = '#d32f2f'; 
+        closeButton.style.transform = 'scale(1.05)'; 
+    });
+
+    closeButton.addEventListener('mouseout', () => {
+        closeButton.style.backgroundColor = '#f44336'; 
+        closeButton.style.transform = 'scale(1)'; 
+    });
+
+    // Evento para cerrar la ventana
+    closeButton.addEventListener('click', () => {
+        appWindow.style.transform = 'translate(-50%, -50%) scale(0)'; 
+        setTimeout(() => document.body.removeChild(appWindow), 300); 
+    });
+
+    return closeButton;
+}
+
+
+function createExtinctAnimalsEncyclopedia(content) {
+    content.innerHTML = `
+        <h2>Enciclopedia de Animales Extintos</h2>
+        <p>Explora información sobre especies que han desaparecido de nuestro planeta.</p>
+        <div id="animalList"></div>
+    `;
+
+    const animalList = document.getElementById('animalList');
+    const animals = [
+        { name: 'Dodo', info: 'El dodo era un ave no voladora endémica de la isla de Mauricio.' },
+        { name: 'Tigre de Tasmania', info: 'El último tigre de Tasmania fue visto en 1936 en Australia.' },
+        { name: 'Mamuts Lanudos', info: 'Los mamuts lanudos vivieron en la era del hielo y se extinguieron hace unos 4,000 años.' }
+    ];
+
+    animals.forEach(animal => {
+        const animalItem = document.createElement('div');
+        animalItem.style = 'margin-bottom: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 4px;';
+
+        const animalName = document.createElement('h3');
+        animalName.textContent = animal.name;
+        animalName.style = 'margin: 0; color: #333;';
+
+        const animalInfo = document.createElement('p');
+        animalInfo.textContent = animal.info;
+        animalInfo.style = 'margin: 5px 0 0; color: #555;';
+
+        animalItem.appendChild(animalName);
+        animalItem.appendChild(animalInfo);
+        animalList.appendChild(animalItem);
+    });
+}
+
+
+// Definir las auras y sus probabilidades
+const auras = [
+    { name: 'Aura de Luz', probability: 10 },
+    { name: 'Aura de Oscuridad', probability: 20 },
+    { name: 'Aura de Fuego', probability: 30 },
+    { name: 'Aura de Agua', probability: 40 },
+];
+
+// Función para rodar y obtener un aura
+function rollAura() {
+    const randomValue = Math.random() * 100; // Generar un número aleatorio entre 0 y 100
+    let cumulativeProbability = 0;
+
+    for (const aura of auras) {
+        cumulativeProbability += aura.probability;
+        if (randomValue < cumulativeProbability) {
+            return aura.name; // Retornar el aura correspondiente
+        }
+    }
+    return null; // En caso de que no se encuentre un aura (teóricamente no debería suceder)
+}
+
+function startRngApp(content) {
+    // Limpiar el contenido previo
+    content.innerHTML = '';
+
+    // Crear el contenedor para la aplicación RNG
+    const appRNGContainer = document.createElement('div');
+    appRNGContainer.style = `
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+    `;
+
+    // Agregar elementos a la aplicación RNG
+    const title = document.createElement('h2');
+    title.textContent = 'Generador de Números Aleatorios';
+    appRNGContainer.appendChild(title);
+
+    const generateBtn = document.createElement('button');
+    generateBtn.textContent = 'Generar Número';
+    generateBtn.style.padding = '10px 20px';
+    generateBtn.style.margin = '10px 0';
+    appRNGContainer.appendChild(generateBtn);
+
+    const resultDisplay = document.createElement('p');
+    resultDisplay.textContent = 'Número generado: ';
+    appRNGContainer.appendChild(resultDisplay);
+
+    // Función para generar un número aleatorio
+    generateBtn.addEventListener('click', () => {
+        const randomNum = Math.floor(Math.random() * 100) + 1; // Genera un número entre 1 y 100
+        resultDisplay.textContent = `Número generado: ${randomNum}`;
+    });
+
+    // Agregar el contenedor de la app RNG al contenido
+    content.appendChild(appRNGContainer);
+}
+
+
+
+// Función para crear la aplicación de mezcla de ingredientes
+function createMixerApp(content) {
+    // Diccionario de combinaciones
+    const combinations = {
+        "Agua+Agua": "Tsunami",
+        "Fuego+Agua": "Vapor",
+        "Tierra+Agua": "Lodo",
+        "Fuego+Tierra": "Lava",
+        "Aire+Agua": "Tormenta",
+        "Fuego+Fuego": "Incendio",
+        // Agrega más combinaciones aquí
+    };
+
+    // Contenedor de ingredientes y resultado
+    content.innerHTML = `
+        <h2>Juego de Mixer de Ingredientes</h2>
+        <div style="margin-bottom: 15px;">
+            <select id="ingredient1">
+                <option value="Agua">Agua</option>
+                <option value="Fuego">Fuego</option>
+                <option value="Tierra">Tierra</option>
+                <option value="Aire">Aire</option>
+                <!-- Agrega más opciones según los ingredientes -->
+            </select>
+            +
+            <select id="ingredient2">
+                <option value="Agua">Agua</option>
+                <option value="Fuego">Fuego</option>
+                <option value="Tierra">Tierra</option>
+                <option value="Aire">Aire</option>
+                <!-- Agrega más opciones según los ingredientes -->
+            </select>
+        </div>
+        <button id="mixButton">Mezclar Ingredientes</button>
+        <div id="result" style="margin-top: 20px; font-size: 18px; color: #333;"></div>
+    `;
+
+    // Selecciona los elementos del DOM
+    const ingredient1 = content.querySelector("#ingredient1");
+    const ingredient2 = content.querySelector("#ingredient2");
+    const mixButton = content.querySelector("#mixButton");
+    const resultDisplay = content.querySelector("#result");
+
+    // Función para realizar la mezcla de ingredientes
+    mixButton.addEventListener("click", () => {
+        const ing1 = ingredient1.value;
+        const ing2 = ingredient2.value;
+        const combinationKey = `${ing1}+${ing2}`;
+
+        // Verifica si existe una combinación
+        if (combinations[combinationKey]) {
+            resultDisplay.textContent = `Resultado: ${combinations[combinationKey]}`;
+        } else if (combinations[`${ing2}+${ing1}`]) {
+            resultDisplay.textContent = `Resultado: ${combinations[`${ing2}+${ing1}`]}`;
+        } else {
+            resultDisplay.textContent = "La combinación no produjo ningún resultado.";
+        }
+    });
+}
+
+// Función para crear la app Calendario
+function createCalendarApp(content) {
+    content.innerHTML = `<h3>Calendario</h3>`;
+
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    const calendar = document.createElement('table');
+    calendar.style = `
+      width: 100%; 
+      border-collapse: collapse;
+    `;
+    content.appendChild(calendar);
+
+    // Mostrar el mes y año actual
+    const monthYearHeader = calendar.insertRow();
+    const monthYearCell = monthYearHeader.insertCell();
+    monthYearCell.colSpan = 7;
+    monthYearCell.textContent = `${getMonthName(currentMonth)} ${currentYear}`;
+    monthYearCell.style = `
+      text-align: center;
+      font-weight: bold;
+      padding: 10px;
+    `;
+
+    // Mostrar los días de la semana
+    const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+    const daysOfWeekRow = calendar.insertRow();
+    daysOfWeek.forEach(day => {
+        const dayCell = daysOfWeekRow.insertCell();
+        dayCell.textContent = day;
+        dayCell.style = `
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #ccc;
+        `;
+    });
+
+    // Calcular el primer día del mes
+    const firstDay = (new Date(currentYear, currentMonth)).getDay();
+
+    // Llenar el calendario con los días del mes
+    let date = 1;
+    for (let i = 0; i < 6; i++) { // 6 semanas como máximo en un mes
+        const row = calendar.insertRow();
+        for (let j = 0; j < 7; j++) {
+            const cell = row.insertCell();
+            cell.style = `
+                text-align: center;
+                padding: 10px;
+                border: 1px solid #ccc;
+            `;
+            if (i === 0 && j < firstDay) {
+                // Dejar celdas vacías antes del primer día del mes
+                cell.textContent = '';
+            } else if (date > daysInMonth(currentMonth, currentYear)) {
+                // Detenerse cuando se hayan agregado todos los días del mes
+                break;
+            } else {
+                cell.textContent = date;
+                date++;
+            }
+        }
+    }
+}
+
+// Función auxiliar para obtener el nombre del mes
+function getMonthName(monthIndex) {
+    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+    return monthNames[monthIndex];
+}
+
+// Función auxiliar para obtener el número de días en un mes
+function daysInMonth(month, year) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+// Función para crear un sistema de actualizaciones funcional
+function createUpdateSystem(content) {
+    content.innerHTML += `<h3>Actualizaciones</h3>`;
+
+    // Contenedor para mostrar las actualizaciones
+    const updateContainer = document.createElement('div');
+    updateContainer.id = 'updateContainer';
+    updateContainer.style = `
+        border: 1px solid #ccc; padding: 10px; 
+        margin: 10px 0; max-height: 200px; overflow-y: auto; 
+    `;
+    content.appendChild(updateContainer);
+
+    // Mostrar información sobre actualizaciones
+    installedApps.forEach(app => {
+        const appUpdate = document.createElement('div');
+        appUpdate.textContent = `${app.name} - Versión: ${app.version} - Última actualización: ${app.lastUpdated}`;
+        updateContainer.appendChild(appUpdate);
+    });
+}
+
+// Función para cerrar la aplicación al hacer clic fuera de ella
+window.addEventListener('click', (event) => {
+    const appWindows = document.querySelectorAll('.app-window');
+    appWindows.forEach(window => {
+        if (window === event.target) {
+            closeModal();
+        }
+    });
+});
+
+// Función para crear la app CheckMate
+function createCheckMateApp(content) {
+    content.innerHTML += `<h3>CheckMate</h3>`;
+    
+    const taskInput = document.createElement('input');
+    taskInput.placeholder = 'Nueva tarea';
+    taskInput.style = 'width: 90%; padding: 5px; margin-bottom: 10px;';
+    content.appendChild(taskInput);
+
+    const addTaskBtn = document.createElement('button');
+    addTaskBtn.textContent = 'Agregar Tarea';
+    addTaskBtn.style = 'width: 90%; padding: 5px; margin-bottom: 10px;';
+    content.appendChild(addTaskBtn);
+
+    const taskList = document.createElement('ul');
+    content.appendChild(taskList);
+
+    addTaskBtn.addEventListener('click', () => {
+        if (taskInput.value.trim() !== '') {
+            const taskItem = document.createElement('li');
+            taskItem.textContent = taskInput.value.trim();
+            taskList.appendChild(taskItem);
+            taskInput.value = '';
+        }
+    });
+}
+
+// Función para crear una calculadora funcional
+function createCalculator(content) {
+    content.innerHTML += `<h3>Calculadora</h3>`;
+    const display = document.createElement('input');
+    display.id = 'display';
+    display.disabled = true;
+    display.style = `
+        width: 90%; font-size: 16px; margin-bottom: 10px;
+        text-align: right; padding: 5px; box-sizing: border-box;
+    `;
+    content.appendChild(display);
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style = 'display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; width: 100%;';
+    const buttons = ['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '=', '+'];
+    buttons.forEach(symbol => {
+        const btn = document.createElement('button');
+        btn.textContent = symbol;
+        btn.style = 'width: 100%; height: 40px; font-size: 16px;';
+        btn.addEventListener('click', () => handleCalculatorInput(symbol, display));
+        buttonContainer.appendChild(btn);
+    });
+    content.appendChild(buttonContainer);
+}
+
+// Manejador de la entrada de calculadora
+function handleCalculatorInput(symbol, display) {
+    if (symbol === '=') {
+        try {
+            display.value = eval(display.value);
+        } catch {
+            display.value = 'Error';
+        }
+    } else {
+        display.value += symbol;
+    }
+}
+
+// Función para mostrar el reloj
+function showClock(content) {
+    content.innerHTML += `<h3>Reloj</h3>`;
+    const clockDisplay = document.createElement('div');
+    clockDisplay.style = 'font-size: 24px; text-align: center; margin-top: 10px;';
+    content.appendChild(clockDisplay);
+    setInterval(() => {
+        const now = new Date();
+        clockDisplay.textContent = now.toLocaleTimeString();
+    }, 1000);
+}
+
+// Función para crear la app de notas
+function createNoteApp(content) {
+    content.innerHTML += `<h3>Notas</h3>`;
+    const noteArea = document.createElement('textarea');
+    noteArea.id = 'noteArea';
+    noteArea.style = 'width: 90%; height: 80px; padding: 5px; resize: none; box-sizing: border-box;';
+    content.appendChild(noteArea);
+}
