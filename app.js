@@ -35,7 +35,8 @@ const apps = [
     { name: 'RNG'},
     { name: 'Enciclopedia Animales Extintos'}, // Nueva app
     { name: 'Sugerir App'}, // Nueva app para sugerir una app
-    { name: 'Prompt de AllApp'} // Nueva app para el prompt de descripción
+    { name: 'Prompt de AllApp'}, // Nueva app para el prompt de descripción
+    { name: 'Reproductor de Música'} // Nueva app de Reproductor de Música
 ];
 
 // Función para abrir la tienda
@@ -279,7 +280,7 @@ function openApp(app) {
     case 'Prompt de AllApp':
     createPromptAllApp(content);
     break;
-
+    
             default:
                 content.innerHTML = `<p>Aplicación no disponible.</p>`;
         }
