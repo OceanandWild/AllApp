@@ -33,7 +33,9 @@ const apps = [
     { name: 'Calendario'},
     { name: 'Mixer'},
     { name: 'RNG'},
-    { name: 'Enciclopedia Animales Extintos'} // Nueva app
+    { name: 'Enciclopedia Animales Extintos'}, // Nueva app
+    { name: 'Sugerir App'}, // Nueva app para sugerir una app
+    { name: 'Prompt de AllApp'} // Nueva app para el prompt de descripción
 ];
 
 // Función para abrir la tienda
@@ -271,6 +273,13 @@ function openApp(app) {
                 case 'Enciclopedia Animales Extintos':
                 createExtinctAnimalsEncyclopedia(content);
                 break;
+                case 'Sugerir App':
+    createSuggestApp(content);
+    break;
+    case 'Prompt de AllApp':
+    createPromptAllApp(content);
+    break;
+
             default:
                 content.innerHTML = `<p>Aplicación no disponible.</p>`;
         }
@@ -315,6 +324,100 @@ transition: background-color 0.3s, transform 0.3s;
     });
 
     return closeButton;
+}
+
+function createPromptAllApp(content) {
+    // Crear el contenedor de la app
+    const descriptionContainer = document.createElement('div');
+    descriptionContainer.style = 'text-align: center; padding: 20px;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Prompt de AllApp';
+    descriptionContainer.appendChild(title);
+
+    // Descripción de la app
+    const description = document.createElement('p');
+    description.textContent = '¡Bienvenido al Prompt de AllApp! Aquí podrás encontrar una breve descripción de nuestra aplicación, que te ayudará a crear una imagen de fan o algo relacionado con la app. Usa el siguiente prompt para inspirarte y crea algo visualmente único. ¡Sé creativo!';
+    description.style = 'font-size: 16px; margin: 20px 0;';
+    descriptionContainer.appendChild(description);
+
+    // Botón para generar el prompt
+    const generateButton = document.createElement('button');
+    generateButton.textContent = 'Generar Prompt para Imagen';
+    generateButton.style = 'padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;';
+    descriptionContainer.appendChild(generateButton);
+
+    // Mostrar el contenedor en el contenido de la app
+    content.appendChild(descriptionContainer);
+
+    // Manejar el evento del botón para generar el prompt
+    generateButton.addEventListener('click', function () {
+        // Crear el prompt que se utilizará para crear la imagen
+        const promptText = 'Crea una imagen de una app de tecnología futurista, con pantallas interactivas flotando en el aire, colores brillantes como verde y azul, con un fondo de ciudad del futuro y personas usando dispositivos avanzados. La atmósfera debe ser dinámica y energética, mostrando cómo las personas interactúan con estas tecnologías en su vida diaria.';
+
+        // Mostrar el prompt generado
+        const promptDisplay = document.createElement('p');
+        promptDisplay.textContent = 'Prompt Generado: ' + promptText;
+        promptDisplay.style = 'font-size: 14px; margin-top: 20px; color: #555;';
+        descriptionContainer.appendChild(promptDisplay);
+
+        // Cambiar el botón a un mensaje de éxito
+        generateButton.textContent = '¡Prompt Generado! Puedes usarlo para crear tu imagen de fan.';
+        generateButton.disabled = true;
+        generateButton.style.backgroundColor = '#888';
+        generateButton.style.cursor = 'not-allowed';
+    });
+}
+
+
+function createSuggestApp(content) {
+    // Crear el formulario para sugerir una nueva app
+    const form = document.createElement('form');
+    form.style = 'display: flex; flex-direction: column; align-items: center; margin-top: 20px;';
+
+    // Input para el nombre de la app
+    const appNameInput = document.createElement('input');
+    appNameInput.type = 'text';
+    appNameInput.placeholder = 'Nombre de la nueva app';
+    appNameInput.required = true;
+    appNameInput.style = 'padding: 10px; margin-bottom: 10px; width: 80%; border-radius: 4px; border: 1px solid #ccc;';
+    form.appendChild(appNameInput);
+
+    // Input para la descripción de la app
+    const appDescriptionInput = document.createElement('textarea');
+    appDescriptionInput.placeholder = 'Descripción breve de la app';
+    appDescriptionInput.required = true;
+    appDescriptionInput.style = 'padding: 10px; margin-bottom: 10px; width: 80%; border-radius: 4px; border: 1px solid #ccc;';
+    form.appendChild(appDescriptionInput);
+
+    // Botón para enviar la sugerencia
+    const submitButton = document.createElement('button');
+    submitButton.textContent = 'Enviar Sugerencia';
+    submitButton.style = 'padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;';
+    form.appendChild(submitButton);
+
+    // Mostrar el formulario en la ventana de la app
+    content.appendChild(form);
+
+    // Manejar el envío del formulario
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        // Obtener los datos del formulario
+        const appName = appNameInput.value.trim();
+        const appDescription = appDescriptionInput.value.trim();
+
+        // Confirmación de que la sugerencia fue recibida
+        const confirmationMessage = document.createElement('p');
+        confirmationMessage.textContent = `Gracias por sugerir "${appName}". ¡Tu sugerencia ha sido enviada!`;
+        confirmationMessage.style = 'margin-top: 20px; color: green; text-align: center;';
+        content.appendChild(confirmationMessage);
+
+        // Limpiar los campos del formulario
+        appNameInput.value = '';
+        appDescriptionInput.value = '';
+    });
 }
 
 
