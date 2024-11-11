@@ -42,7 +42,7 @@ const apps = [
     { name: 'Editor de Código'}, // Nueva app de Editor de Código
     { name: 'Clicker Indefinido' }, // Nueva app Clicker Indefinido
     { name: 'Brújula' }, // Nueva app Brújula
-    { name: 'Detector de Movimiento' }, // Nueva app Brújula
+    { name: 'Detector de Movimiento' }, // Nueva app Detector de Movimiento
 ];
 
 // Función para abrir la tienda
@@ -374,10 +374,10 @@ function createMotionDetectionApp(content) {
     if (window.DeviceMotionEvent) {
         // Función para manejar el evento de movimiento
         window.addEventListener('devicemotion', (event) => {
-            // Obtenemos las aceleraciones en los ejes X, Y, Z
-            const accelerationX = event.acceleration.x;
-            const accelerationY = event.acceleration.y;
-            const accelerationZ = event.acceleration.z;
+            // Verificamos si las aceleraciones son válidas
+            const accelerationX = event.acceleration.x ?? 0;
+            const accelerationY = event.acceleration.y ?? 0;
+            const accelerationZ = event.acceleration.z ?? 0;
 
             // Calculamos la magnitud del movimiento (puedes ajustar el umbral)
             const movementThreshold = 5; // Umbral de aceleración para considerar que el dispositivo se movió
