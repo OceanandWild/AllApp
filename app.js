@@ -36,7 +36,12 @@ const apps = [
     { name: 'Enciclopedia Animales Extintos'}, // Nueva app
     { name: 'Sugerir App'}, // Nueva app para sugerir una app
     { name: 'Prompt de AllApp'}, // Nueva app para el prompt de descripción
-    { name: 'Reproductor de Música'} // Nueva app de Reproductor de Música
+    { name: 'Reproductor de Música'}, // Nueva app de Reproductor de Música
+    { name: 'Crear Proyectos'}, // Nueva app de Reproductor de Música
+    { name: 'Clima'}, // Nueva app de Clima de Montevideo
+    { name: 'Editor de Código'}, // Nueva app de Editor de Código
+    { name: 'Clicker Indefinido' }, // Nueva app Clicker Indefinido
+    { name: 'Brújula' }, // Nueva app Brújula
 ];
 
 // Función para abrir la tienda
@@ -280,7 +285,25 @@ function openApp(app) {
     case 'Prompt de AllApp':
     createPromptAllApp(content);
     break;
-    
+    case 'Crear Proyectos':
+    createProjectApp(content);
+    break;
+    case 'Reproductor de Música':
+    createMusicPlayerApp(content);
+    break;
+    case 'Clima':
+    createWeatherApp(content);
+    break;
+    case 'Editor de Código':
+        createCodeEditorApp(content);
+        break;
+        case 'Clicker Indefinido':
+    createClickerApp(content);
+    break;
+    case 'Brújula':
+    createCompassApp(content);
+    break;
+
             default:
                 content.innerHTML = `<p>Aplicación no disponible.</p>`;
         }
@@ -326,6 +349,267 @@ transition: background-color 0.3s, transform 0.3s;
 
     return closeButton;
 }
+
+function createCompassApp(content) {
+    // Crear el contenedor de la app
+    const compassContainer = document.createElement('div');
+    compassContainer.style = 'padding: 20px; text-align: center;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Brújula';
+    compassContainer.appendChild(title);
+
+    // Indicador de dirección
+    const directionIndicator = document.createElement('div');
+    directionIndicator.style = 'font-size: 32px; margin: 20px; font-weight: bold;';
+    directionIndicator.textContent = 'Cargando dirección...';
+    compassContainer.appendChild(directionIndicator);
+
+    // Flecha que muestra la dirección
+    const arrow = document.createElement('div');
+    arrow.style = 'width: 100px; height: 10px; background-color: red; margin: 20px auto; transform-origin: center center;';
+    compassContainer.appendChild(arrow);
+
+    // Comprobar si la API de sensores está disponible
+    if (window.DeviceOrientationEvent) {
+        // Solicitar permiso para iOS 13+ y otros dispositivos que lo requieran
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission()
+                .then(permissionState => {
+                    if (permissionState === 'granted') {
+                        window.addEventListener('deviceorientation', handleOrientation);
+                    } else {
+                        directionIndicator.textContent = 'Permiso denegado para acceder a los sensores.';
+                    }
+                })
+                .catch(() => {
+                    directionIndicator.textContent = 'Error al solicitar el permiso.';
+                });
+        } else {
+            // Para dispositivos que no requieren solicitud de permiso
+            window.addEventListener('deviceorientation', handleOrientation);
+        }
+    } else {
+        directionIndicator.textContent = 'Tu dispositivo no admite la API de orientación.';
+    }
+
+    // Función para manejar el evento de orientación
+    function handleOrientation(event) {
+        if (event.alpha !== null) {
+            const alpha = event.alpha; // Dirección en grados
+            directionIndicator.textContent = `Dirección: ${Math.round(alpha)}°`;
+            arrow.style.transform = `rotate(${alpha}deg)`;
+        } else {
+            directionIndicator.textContent = 'No se puede obtener la dirección.';
+        }
+    }
+
+    // Mostrar el contenedor en el contenido de la app
+    content.appendChild(compassContainer);
+}
+
+
+
+function createClickerApp(content) {
+    // Crear el contenedor de la app
+    const clickerContainer = document.createElement('div');
+    clickerContainer.style = 'padding: 20px; text-align: center;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Clicker Indefinido';
+    clickerContainer.appendChild(title);
+
+    // Input para ingresar el tiempo por click
+    const timeInput = document.createElement('input');
+    timeInput.type = 'number';
+    timeInput.placeholder = 'Tiempo por click (ms)';
+    timeInput.style = 'margin-bottom: 10px; padding: 5px;';
+    clickerContainer.appendChild(timeInput);
+
+    // Botón para iniciar el clicker
+    const startButton = document.createElement('button');
+    startButton.textContent = 'Iniciar Clicker';
+    startButton.style = 'margin: 10px; padding: 8px 16px;';
+    clickerContainer.appendChild(startButton);
+
+    // Botón para detener el clicker
+    const stopButton = document.createElement('button');
+    stopButton.textContent = 'Detener Clicker';
+    stopButton.style = 'padding: 8px 16px;';
+    clickerContainer.appendChild(stopButton);
+
+    // Contador de clicks
+    const clickCount = document.createElement('p');
+    clickCount.textContent = 'Clicks: 0';
+    clickCount.style = 'margin-top: 20px;';
+    clickerContainer.appendChild(clickCount);
+
+    // Variables para manejar el clicker
+    let clickInterval;
+    let clicks = 0;
+
+    // Función para iniciar el clicker
+    startButton.addEventListener('click', () => {
+        const time = parseInt(timeInput.value);
+        if (isNaN(time) || time <= 0) {
+            alert('Por favor, ingresa un tiempo válido en milisegundos.');
+            return;
+        }
+
+        // Limpiar cualquier intervalo anterior
+        clearInterval(clickInterval);
+
+        // Configurar un nuevo intervalo
+        clickInterval = setInterval(() => {
+            clicks++;
+            clickCount.textContent = `Clicks: ${clicks}`;
+        }, time);
+    });
+
+    // Función para detener el clicker
+    stopButton.addEventListener('click', () => {
+        clearInterval(clickInterval);
+    });
+
+    // Mostrar el contenedor en el contenido de la app
+    content.appendChild(clickerContainer);
+}
+
+
+function createCodeEditorApp(content) {
+    // Crear el contenedor de la app
+    const editorContainer = document.createElement('div');
+    editorContainer.style = 'padding: 20px; text-align: center;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Editor de Código';
+    editorContainer.appendChild(title);
+
+    // Textarea para escribir el código
+    const codeArea = document.createElement('textarea');
+    codeArea.style = 'width: 100%; height: 300px; font-family: monospace; font-size: 14px;';
+    codeArea.placeholder = 'Escribe tu código aquí...';
+    editorContainer.appendChild(codeArea);
+
+    // Botón para exportar el código
+    const exportButton = document.createElement('button');
+    exportButton.textContent = 'Exportar Código';
+    exportButton.style = 'margin-top: 10px; padding: 8px 16px;';
+    editorContainer.appendChild(exportButton);
+
+    // Evento para exportar el código en un archivo
+    exportButton.addEventListener('click', () => {
+        const code = codeArea.value;
+        const blob = new Blob([code], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = 'codigo.txt';
+        downloadLink.click();
+
+        // Limpiar el objeto URL después de descargar
+        URL.revokeObjectURL(url);
+    });
+
+    // Mostrar el contenedor en el contenido de la app
+    content.appendChild(editorContainer);
+}
+
+
+function createWeatherApp(content) {
+    // Crear el contenedor de la app
+    const weatherContainer = document.createElement('div');
+    weatherContainer.style = 'text-align: center; padding: 20px;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Clima en Montevideo';
+    weatherContainer.appendChild(title);
+
+    // Contenedor para mostrar la información del clima
+    const weatherInfo = document.createElement('div');
+    weatherInfo.style = 'font-size: 16px; margin-top: 20px;';
+    weatherContainer.appendChild(weatherInfo);
+
+    // Función para obtener el clima
+    async function fetchWeather() {
+        const apiKey = '19c84689fda5480886303926241111';
+        const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=Montevideo&lang=es`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            // Mostrar la información del clima
+            weatherInfo.innerHTML = `
+                <p><strong>Condición:</strong> ${data.current.condition.text}</p>
+                <p><strong>Temperatura:</strong> ${data.current.temp_c}°C</p>
+                <p><strong>Humedad:</strong> ${data.current.humidity}%</p>
+                <p><strong>Viento:</strong> ${data.current.wind_kph} km/h</p>
+                <img src="${data.current.condition.icon}" alt="Icono del clima">
+            `;
+        } catch (error) {
+            weatherInfo.innerHTML = `<p>Hubo un error al obtener el clima. Por favor, inténtalo de nuevo más tarde.</p>`;
+            console.error('Error al obtener el clima:', error);
+        }
+    }
+
+    // Llamar a la función para obtener el clima
+    fetchWeather();
+
+    // Mostrar el contenedor en el contenido de la app
+    content.appendChild(weatherContainer);
+}
+
+
+function createMusicPlayerApp(content) {
+    // Crear el contenedor de la app
+    const musicPlayerContainer = document.createElement('div');
+    musicPlayerContainer.style = 'text-align: center; padding: 20px;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Reproductor de Música';
+    musicPlayerContainer.appendChild(title);
+
+    // Instrucciones
+    const instructions = document.createElement('p');
+    instructions.textContent = 'Selecciona un archivo de música para reproducirlo:';
+    instructions.style = 'font-size: 16px; margin-bottom: 20px;';
+    musicPlayerContainer.appendChild(instructions);
+
+    // Input para seleccionar el archivo
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'audio/*'; // Solo archivos de audio
+    fileInput.style = 'margin-bottom: 20px;';
+    musicPlayerContainer.appendChild(fileInput);
+
+    // Contenedor para el reproductor de audio
+    const audioPlayer = document.createElement('audio');
+    audioPlayer.controls = true; // Mostrar los controles de reproducción
+    audioPlayer.style = 'width: 100%; max-width: 400px; display: none; margin-top: 20px;';
+    musicPlayerContainer.appendChild(audioPlayer);
+
+    // Evento para manejar la selección del archivo
+    fileInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const fileURL = URL.createObjectURL(file);
+            audioPlayer.src = fileURL;
+            audioPlayer.style.display = 'block'; // Mostrar el reproductor
+            audioPlayer.play(); // Reproducir el archivo automáticamente
+        }
+    });
+
+    // Mostrar el contenedor en el contenido de la app
+    content.appendChild(musicPlayerContainer);
+}
+
 
 function createPromptAllApp(content) {
     // Crear el contenedor de la app
@@ -771,4 +1055,129 @@ function createNoteApp(content) {
     noteArea.id = 'noteArea';
     noteArea.style = 'width: 90%; height: 80px; padding: 5px; resize: none; box-sizing: border-box;';
     content.appendChild(noteArea);
+}
+
+function createProjectApp(content) {
+    // Contenedor para el formulario de creación de proyectos
+    const projectContainer = document.createElement('div');
+    projectContainer.style = 'text-align: center; padding: 20px;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Crear Nuevo Proyecto';
+    projectContainer.appendChild(title);
+
+    // Botón para borrar la base de datos
+    const deleteDBButton = document.createElement('button');
+    deleteDBButton.textContent = 'Borrar Base de Datos';
+    deleteDBButton.style = 'padding: 10px 20px; background-color: #f44336; color: white; border: none; border-radius: 4px; margin-bottom: 20px;';
+    projectContainer.appendChild(deleteDBButton);
+
+    // Input para el nombre del proyecto
+    const projectNameInput = document.createElement('input');
+    projectNameInput.type = 'text';
+    projectNameInput.placeholder = 'Nombre del proyecto';
+    projectNameInput.style = 'padding: 10px; margin-bottom: 10px; width: 100%;';
+    projectContainer.appendChild(projectNameInput);
+
+    // Selección del estado del proyecto
+    const projectStatusSelect = document.createElement('select');
+    projectStatusSelect.style = 'padding: 10px; margin-bottom: 10px; width: 100%;';
+    const statuses = [
+        { text: 'Estable', color: 'green' },
+        { text: 'Requiere Mantenimiento', color: 'orange' },
+        { text: 'Inestable', color: 'red' },
+        { text: 'Falta Actualizar', color: 'blue' }
+    ];
+    statuses.forEach(status => {
+        const option = document.createElement('option');
+        option.value = status.text;
+        option.textContent = status.text;
+        option.style.color = status.color;
+        projectStatusSelect.appendChild(option);
+    });
+    projectContainer.appendChild(projectStatusSelect);
+
+    // Input para el proveedor del proyecto
+    const projectProviderInput = document.createElement('input');
+    projectProviderInput.type = 'text';
+    projectProviderInput.placeholder = 'Proveedor';
+    projectProviderInput.style = 'padding: 10px; margin-bottom: 10px; width: 100%;';
+    projectContainer.appendChild(projectProviderInput);
+
+    // Botón para crear el proyecto
+    const createProjectButton = document.createElement('button');
+    createProjectButton.textContent = 'Crear Proyecto';
+    createProjectButton.style = 'padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px;';
+    projectContainer.appendChild(createProjectButton);
+
+    // Lista para mostrar los proyectos
+    const projectList = document.createElement('div');
+    projectList.style = 'margin-top: 20px;';
+    projectContainer.appendChild(projectList);
+
+    // Función para mostrar los proyectos desde IndexedDB
+    function displayProjects() {
+        projectList.innerHTML = ''; // Limpiar la lista de proyectos
+
+        const transaction = db.transaction('projects', 'readonly');
+        const objectStore = transaction.objectStore('projects');
+
+        objectStore.openCursor().onsuccess = function(event) {
+            const cursor = event.target.result;
+            if (cursor) {
+                const project = cursor.value;
+                const projectItem = document.createElement('div');
+                projectItem.style = `padding: 10px; margin: 5px; background-color: ${statuses.find(s => s.text === project.status).color}; border-radius: 4px;`;
+                projectItem.textContent = `Nombre: ${project.name}, Estado: ${project.status}, Proveedor: ${project.provider}`;
+                projectList.appendChild(projectItem);
+                cursor.continue();
+            }
+        };
+    }
+
+    // Guardar el proyecto en IndexedDB
+    createProjectButton.addEventListener('click', () => {
+        const name = projectNameInput.value;
+        const status = projectStatusSelect.value;
+        const provider = projectProviderInput.value;
+
+        if (name && status && provider) {
+            const transaction = db.transaction('projects', 'readwrite');
+            const objectStore = transaction.objectStore('projects');
+            const project = { name, status, provider };
+            objectStore.add(project);
+            displayProjects(); // Actualizar la lista de proyectos
+            projectNameInput.value = '';
+            projectProviderInput.value = '';
+        }
+    });
+
+    // Función para borrar la base de datos
+    deleteDBButton.addEventListener('click', () => {
+        indexedDB.deleteDatabase('ProjectDatabase');
+        alert('Base de datos borrada. Por favor, recarga la página para volver a crearla.');
+    });
+
+    // Inicializar la base de datos y mostrar proyectos
+    let db;
+    const request = indexedDB.open('ProjectDatabase', 1);
+
+    request.onupgradeneeded = (event) => {
+        db = event.target.result;
+        if (!db.objectStoreNames.contains('projects')) {
+            db.createObjectStore('projects', { keyPath: 'id', autoIncrement: true });
+        }
+    };
+
+    request.onsuccess = (event) => {
+        db = event.target.result;
+        displayProjects();
+    };
+
+    request.onerror = (event) => {
+        console.error('Error opening IndexedDB', event);
+    };
+
+    content.appendChild(projectContainer);
 }
