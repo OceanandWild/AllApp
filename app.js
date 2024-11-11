@@ -368,27 +368,48 @@ function createMotionDetectionApp(content) {
     motionContainer.appendChild(warningMessage);
 
     if (window.DeviceMotionEvent) {
-        window.addEventListener('devicemotion', (event) => {
-            const accelerationX = event.acceleration.x ?? 0;
-            const accelerationY = event.acceleration.y ?? 0;
-            const accelerationZ = event.acceleration.z ?? 0;
-
-            const movementThreshold = 5;
-            const movementMagnitude = Math.sqrt(accelerationX * accelerationX + accelerationY * accelerationY + accelerationZ * accelerationZ);
-
-            if (movementMagnitude > movementThreshold) {
-                warningMessage.textContent = '¡El dispositivo se ha movido!';
-                warningMessage.style.color = 'red';
-
-                setTimeout(() => {
-                    warningMessage.textContent = 'Esperando movimiento...';
-                    warningMessage.style.color = 'green';
-                }, 2000);
-            }
-        });
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+            // Solicitar permiso para dispositivos iOS
+            DeviceMotionEvent.requestPermission()
+                .then(permissionState => {
+                    if (permissionState === 'granted') {
+                        // Permiso concedido, comienza a escuchar el evento
+                        window.addEventListener('devicemotion', handleMotion);
+                    } else {
+                        warningMessage.textContent = 'Permiso denegado para acceder a los sensores.';
+                        warningMessage.style.color = 'orange';
+                    }
+                })
+                .catch((err) => {
+                    warningMessage.textContent = 'Error al solicitar permisos.';
+                    warningMessage.style.color = 'orange';
+                });
+        } else {
+            // En dispositivos Android o donde no sea necesario el permiso explícito
+            window.addEventListener('devicemotion', handleMotion);
+        }
     } else {
         warningMessage.textContent = 'Tu dispositivo no soporta la detección de movimiento.';
         warningMessage.style.color = 'orange';
+    }
+
+    function handleMotion(event) {
+        const accelerationX = event.acceleration.x ?? 0;
+        const accelerationY = event.acceleration.y ?? 0;
+        const accelerationZ = event.acceleration.z ?? 0;
+
+        const movementThreshold = 5; // Umbral para considerar un movimiento
+        const movementMagnitude = Math.sqrt(accelerationX * accelerationX + accelerationY * accelerationY + accelerationZ * accelerationZ);
+
+        if (movementMagnitude > movementThreshold) {
+            warningMessage.textContent = '¡El dispositivo se ha movido!';
+            warningMessage.style.color = 'red';
+
+            setTimeout(() => {
+                warningMessage.textContent = 'Esperando movimiento...';
+                warningMessage.style.color = 'green';
+            }, 2000);
+        }
     }
 
     content.appendChild(motionContainer);
@@ -413,6 +434,7 @@ function createCompassApp(content) {
 
     if (window.DeviceOrientationEvent) {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+            // Solicitar permiso para dispositivos iOS
             DeviceOrientationEvent.requestPermission()
                 .then(permissionState => {
                     if (permissionState === 'granted') {
@@ -425,6 +447,7 @@ function createCompassApp(content) {
                     directionIndicator.textContent = 'Error al solicitar el permiso.';
                 });
         } else {
+            // En dispositivos Android o donde no sea necesario el permiso explícito
             window.addEventListener('deviceorientation', handleOrientation);
         }
     } else {
