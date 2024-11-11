@@ -42,6 +42,7 @@ const apps = [
     { name: 'Editor de Código'}, // Nueva app de Editor de Código
     { name: 'Clicker Indefinido' }, // Nueva app Clicker Indefinido
     { name: 'Brújula' }, // Nueva app Brújula
+    { name: 'Detector de Movimiento' }, // Nueva app Brújula
 ];
 
 // Función para abrir la tienda
@@ -303,7 +304,10 @@ function openApp(app) {
     case 'Brújula':
     createCompassApp(content);
     break;
-
+    case 'Detector de Movimiento':
+        createMotionDetectionApp(content);
+        break;
+    
             default:
                 content.innerHTML = `<p>Aplicación no disponible.</p>`;
         }
@@ -350,6 +354,57 @@ transition: background-color 0.3s, transform 0.3s;
     return closeButton;
 }
 
+function createMotionDetectionApp(content) {
+    // Crear el contenedor de la app
+    const motionContainer = document.createElement('div');
+    motionContainer.style = 'padding: 20px; text-align: center;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Detección de Movimiento';
+    motionContainer.appendChild(title);
+
+    // Mensaje de advertencia inicial
+    const warningMessage = document.createElement('div');
+    warningMessage.style = 'font-size: 24px; margin: 20px; font-weight: bold; color: green;';
+    warningMessage.textContent = 'Esperando movimiento...';
+    motionContainer.appendChild(warningMessage);
+
+    // Comprobar si la API de movimiento está disponible
+    if (window.DeviceMotionEvent) {
+        // Función para manejar el evento de movimiento
+        window.addEventListener('devicemotion', (event) => {
+            // Obtenemos las aceleraciones en los ejes X, Y, Z
+            const accelerationX = event.acceleration.x;
+            const accelerationY = event.acceleration.y;
+            const accelerationZ = event.acceleration.z;
+
+            // Calculamos la magnitud del movimiento (puedes ajustar el umbral)
+            const movementThreshold = 5; // Umbral de aceleración para considerar que el dispositivo se movió
+            const movementMagnitude = Math.sqrt(accelerationX * accelerationX + accelerationY * accelerationY + accelerationZ * accelerationZ);
+
+            // Si el movimiento excede el umbral, mostramos un mensaje
+            if (movementMagnitude > movementThreshold) {
+                warningMessage.textContent = '¡El dispositivo se ha movido!';
+                warningMessage.style.color = 'red';
+
+                // Opcional: Restablecer el mensaje después de 2 segundos
+                setTimeout(() => {
+                    warningMessage.textContent = 'Esperando movimiento...';
+                    warningMessage.style.color = 'green';
+                }, 2000);
+            }
+        });
+    } else {
+        warningMessage.textContent = 'Tu dispositivo no soporta la detección de movimiento.';
+        warningMessage.style.color = 'orange';
+    }
+
+    // Mostrar el contenedor en el contenido de la app
+    content.appendChild(motionContainer);
+}
+
+
 function createCompassApp(content) {
     // Crear el contenedor de la app
     const compassContainer = document.createElement('div');
@@ -373,11 +428,12 @@ function createCompassApp(content) {
 
     // Comprobar si la API de sensores está disponible
     if (window.DeviceOrientationEvent) {
-        // Solicitar permiso para iOS 13+ y otros dispositivos que lo requieran
+        // Si estamos en un dispositivo móvil, solicitamos permisos si es necesario
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission()
                 .then(permissionState => {
                     if (permissionState === 'granted') {
+                        // Si se otorga el permiso, activamos el evento
                         window.addEventListener('deviceorientation', handleOrientation);
                     } else {
                         directionIndicator.textContent = 'Permiso denegado para acceder a los sensores.';
@@ -387,27 +443,31 @@ function createCompassApp(content) {
                     directionIndicator.textContent = 'Error al solicitar el permiso.';
                 });
         } else {
-            // Para dispositivos que no requieren solicitud de permiso
+            // En dispositivos móviles que no necesitan permisos explícitos, solo usamos la API
             window.addEventListener('deviceorientation', handleOrientation);
         }
     } else {
-        directionIndicator.textContent = 'Tu dispositivo no admite la API de orientación.';
+        // Si no hay soporte para la API de orientación (es decir, en una PC o navegador no compatible)
+        directionIndicator.textContent = 'Tu dispositivo no tiene sensores de orientación disponibles.';
     }
 
     // Función para manejar el evento de orientación
     function handleOrientation(event) {
+        // Verificar si el valor 'alpha' (dirección) está disponible
         if (event.alpha !== null) {
             const alpha = event.alpha; // Dirección en grados
             directionIndicator.textContent = `Dirección: ${Math.round(alpha)}°`;
             arrow.style.transform = `rotate(${alpha}deg)`;
         } else {
-            directionIndicator.textContent = 'No se puede obtener la dirección.';
+            directionIndicator.textContent = 'No se puede obtener la dirección, intenta en un dispositivo móvil.';
         }
     }
 
     // Mostrar el contenedor en el contenido de la app
     content.appendChild(compassContainer);
 }
+
+
 
 
 
