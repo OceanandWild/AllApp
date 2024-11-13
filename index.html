@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllApp</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; }
+        
+        /* Contenedor principal */
+        #appContainer { 
+            display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; padding: 20px;
+            width: 900px; min-height: 450px; border: 2px solid #ff0000; border-radius: 8px;
+        }
+
+        /* Botón Lion Store */
+        #openStoreBtn { margin-top: 10px; padding: 10px 20px; background-color: #FFB900; 
+            border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        
+        /* Modal Lion Store */
+        .modal {
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.7); 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 1000; 
+        }
+
+        .modal-content { 
+            background-color: #fff; 
+            padding: 25px; 
+            width: 350px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 15px; 
+        }
+
+        button {
+            padding: 10px 20px; 
+            background-color: #6200ea; 
+            color: #fff; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+            transition: background-color 0.3s, transform 0.3s; 
+        }
+
+        button:hover {
+            background-color: #3700b3; 
+            transform: scale(1.05); 
+        }
+
+        button:focus {
+            outline: none; 
+            box-shadow: 0 0 0 4px rgba(98, 0, 234, 0.5); 
+        }
+
+        /* Estilo de los elementos de la aplicación */
+        .app-item {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: rgba(255, 255, 255, 0.8); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+            transition: background-color 0.3s, transform 0.3s; 
+        }
+
+        .app-item:hover {
+            background-color: rgba(255, 255, 255, 1); 
+            transform: scale(1.02); 
+        }
+
+        /* Estilos de los íconos de la aplicación */
+        .app-icon {
+            cursor: pointer;
+            width: 60px; 
+            height: 60px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #4CAF50; 
+            border-radius: 15px; 
+            font-size: 24px; 
+            background-color: #f9f9f9; 
+            transition: background-color 0.3s, transform 0.3s, border-color 0.3s; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); 
+        }
+
+        .app-icon:hover {
+            background-color: #e8f5e9; 
+            border-color: #388E3C; 
+            transform: scale(1.1); 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        }
+
+        .closeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px; 
+            background-color: #f44336; 
+            color: #fff; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            transition: background-color 0.3s, transform 0.3s; 
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón para abrir la tienda -->
+    <button id="openStoreBtn">Lion Store</button>
+
+    <!-- Contenedor de apps instaladas -->
+    <div id="appContainer"></div>
+
+    <!-- Modal de la tienda de apps -->
+    <div id="appStoreModal" class="modal">
+        <div class="modal-content">
+            <h2>Lion Store</h2>
+            <div class="app-item">
+                <span>Calculadora</span>
+                <button onclick="installApp('Calculadora')">Instalar</button>
+            </div>
+            <div class="app-item">
+                <span>Reloj</span>
+                <button onclick="installApp('Reloj')">Instalar</button>
+            </div>
+            <div class="app-item">
+                <span>Notas</span>
+                <button onclick="installApp('Notas')">Instalar</button>
+            </div>
+            <div class="app-item">
+                <span>Animal AI</span>
+                <button onclick="installApp('Animal AI View')">Instalar</button>
+            </div>
+            <div class="app-item">
+                <span>Checkmate</span>
+                <button onclick="installApp('CheckMate')">Instalar</button>
+            </div>
+            <div class="app-item">
+                <span>Updates</span>
+                <button onclick="installApp('Updates')">Instalar</button>
+            </div>
+            <div class="app-item">
+                <span>Calendario</span>
+                <button onclick="installApp('Calendario')">Instalar</button>
+            </div>
+            <div class="app-item">
+                <span>RNG</span>
+                <button onclick="installApp('RNG')">Instalar</button>
+            </div>
+            <button onclick="closeModal()">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
