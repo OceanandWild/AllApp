@@ -43,7 +43,7 @@ const apps = [
     { name: 'Juego de Gatos: The Rat', installed: false, isNew: true, isImproved: false }, // Nuevo comando
 ];
 
-// Función para abrir la tienda
+// Botón para abrir la tienda
 openStoreBtn.addEventListener('click', () => {
     // Muestra el modal
     appStoreModal.style.display = 'flex';
@@ -52,7 +52,7 @@ openStoreBtn.addEventListener('click', () => {
     // Verifica si el botón de cerrar ya existe
     let closeButton = appStoreModal.querySelector('.custom-button');
 
-    // Si no existe, crea un nuevo botón
+    // Si no existe, crea un nuevo botón "Cerrar"
     if (!closeButton) {
         closeButton = document.createElement('button');
         closeButton.textContent = 'Cerrar'; // Texto del botón
@@ -61,22 +61,28 @@ openStoreBtn.addEventListener('click', () => {
         // Agrega el evento para el botón de cerrar
         closeButton.addEventListener('click', () => {
             appStoreModal.style.display = 'none';
+            document.removeEventListener('keydown', closeOnEsc); // Remueve el evento de tecla "Esc" al cerrar
         });
 
-        appStoreModal.appendChild(closeButton); // Añade el botón al final del contenido del modal
+        appStoreModal.appendChild(closeButton);
     }
 
-    // Función para cerrar el modal cuando se presiona la tecla Esc
+    // Añade el evento de escuchar la tecla "Esc"
     const closeOnEsc = (event) => {
         if (event.key === 'Escape') { // Verifica si la tecla presionada es "Esc"
             appStoreModal.style.display = 'none'; // Cierra el modal
-            document.removeEventListener('keydown', closeOnEsc); // Elimina el evento después de usarlo
+            document.removeEventListener('keydown', closeOnEsc); // Remueve el evento de tecla "Esc" al cerrar
         }
     };
 
-    // Añade el evento de escuchar la tecla "Esc"
+    // Agrega el evento de tecla "Esc" al documento
     document.addEventListener('keydown', closeOnEsc);
+
+    // Renderiza la tienda inicial (la primera página)
+    renderAppStore(1);
 });
+
+
 
 
 
@@ -241,7 +247,10 @@ function renderAppStore(page = 1) {
     const end = start + appsPerPage;
     const appsToShow = apps.slice(start, end);
 
-    appStoreModal.innerHTML = "";
+    // Limpia el contenido de la tienda, pero no el botón "Cerrar"
+    const closeButton = appStoreModal.querySelector('.custom-button');
+    appStoreModal.innerHTML = ""; // Limpia todo
+    if (closeButton) appStoreModal.appendChild(closeButton); // Reagrega el botón "Cerrar"
 
     appsToShow.forEach(app => {
         const appButton = document.createElement('button');
@@ -264,7 +273,6 @@ function renderAppStore(page = 1) {
             appButton.appendChild(newIcon);
         }
 
-        // Agregar el ícono "Mejorada!" si la app ha sido mejorada
         if (app.isImproved) {
             const improvedIcon = document.createElement('span');
             improvedIcon.textContent = " (Mejorada!)";
@@ -298,7 +306,6 @@ function renderAppStore(page = 1) {
         appStoreModal.appendChild(paginationContainer);
     }
 }
-
 
 // Inicializar el modal de la App Store en la página 1
 renderAppStore();
@@ -560,39 +567,56 @@ function createUpdateAndBalanceChangesApp(content) {
     const title = document.createElement('h2');
     title.textContent = 'Actualizaciones y Cambios de Balance';
     appContainer.appendChild(title);
-
-    // Lista de actualizaciones organizadas por categorías
-    const updates = [
-        {
-            version: '14/11/2024',
-            categories: {
-                'Correcciones de Errores': [
-                    'Se corrigió un problema por el cual el icono de nuevo no aparecía en la app correctamente',
-                    'Se corrigio un problema que hacia que el calendario al poner la celda vacia (del proximo mes) te dijiese como si el mes tuviese un dia mas en vez de decirte "1 de (tanto mes"',
-                    'Se corrigio un problema en la cual al poner una celda de un dia te decia que pongas una nota de otro dia menos el que elejiste.'
-                ],
-                'Mejoras': [
-                    'Ahora si una aplicacion es nueva, en la tienda aparecera un texto "Nuevo!" y en el contenedor de las aplicaciones aparecera un icono de nuevo',
-                    'Ahora si una aplicacion ha sido mejorada, en la tienda aparecera un texto "Mejorada!" y en el contenedor de las aplicaciones aparecera un icono de Mejorada',
-                    'Ahora, la tienda tiene un boton para cerrar.',
-                    'Los botones de la tienda ahora tienen un marco multicolor (arcoiris) y un fondo oceanico',
-                    'La tienda ahora tiene un fondo de jungla para rematar con todo lo de la tienda.'
-                ],
-                'Optimizaciones': [
-                    'Se optimizo la ventana de la aplicacion, ahora es mas grande, optimizado mas para usuarios de PC.',
-                    'Se optimizo el renderizado de los botones',
-                    'Se optimizo la tienda cambiando la posicion en la que estan los botones: Antes: Horizontal | Ahora: Vertical',
-                ],
-                'Apps': [
-                    'Nueva App: Actualizaciones y Cambios de Balance',
-                    'Se mejoró la app "Calendario" permitiéndote ahora tomar notas para un día en específico y que se marque en rojo el día de hoy.',
-                    'Se agrego mas ingredientes y combinaciones a la app "Mixer"',
-                    'La app "RNG" fue renovada a "RNG de Auras"',
-                    'La app "Updates" ha sido removida y reemplazada por "Actualizaciones y Cambios de Balance"',
-                ]
-            }
+// Lista de actualizaciones organizadas por categorías
+const updates = [
+    {
+        version: '14/11/2024',
+        categories: {
+            'Correcciones de Errores': [
+                'Se corrigió un problema por el cual el icono de nuevo no aparecía en la app correctamente',
+                'Se corrigió un problema que hacía que el calendario al poner la celda vacía (del próximo mes) mostrara como si el mes tuviera un día más en vez de decirte "1 de (tal mes)"',
+                'Se corrigió un problema en el que, al seleccionar una celda de un día, indicaba que debías poner una nota de otro día menos el que elegiste.'
+            ],
+            'Mejoras': [
+                'Ahora, si una aplicación es nueva, en la tienda aparecerá un texto "Nuevo!" y en el contenedor de las aplicaciones aparecerá un icono de nuevo',
+                'Ahora, si una aplicación ha sido mejorada, en la tienda aparecerá un texto "Mejorada!" y en el contenedor de las aplicaciones aparecerá un icono de mejorada',
+                'La tienda ahora tiene un botón para cerrar.',
+                'Los botones de la tienda ahora tienen un marco multicolor (arco iris) y un fondo oceánico',
+                'La tienda ahora tiene un fondo de jungla para completar el diseño.'
+            ],
+            'Optimizaciones': [
+                'Se optimizó la ventana de la aplicación, ahora es más grande, optimizada para usuarios de PC.',
+                'Se optimizó el renderizado de los botones',
+                'Se optimizó la tienda cambiando la posición de los botones: Antes: Horizontal | Ahora: Vertical',
+            ],
+            'Apps': [
+                'Nueva App: Actualizaciones y Cambios de Balance',
+                'Se mejoró la app "Calendario", permitiendo ahora tomar notas para un día específico y marcar en rojo el día de hoy.',
+                'Se agregaron más ingredientes y combinaciones a la app "Mixer"',
+                'La app "RNG" fue renovada a "RNG de Auras"',
+                'La app "Updates" ha sido removida y reemplazada por "Actualizaciones y Cambios de Balance"',
+            ]
         }
-    ];
+    },
+    {
+        version: '15/11/2024',
+        categories: {
+            'Correcciones de Errores': [
+                'Se corrigió un problema con el boton Cerrar que hacia que cuando vayas a usar el boton Anterior o Siguiente el boton Cerrar desaparecia, esto especialmente afectaba usuarios de Movil ya que no usan las teclas.'
+            ],
+            'Mejoras': [
+                'Ahora puedes usar la Tecla Esc para poder cerrar la tienda. (Solo usuarios de PC)'
+            ],
+            'Optimizaciones': [
+                // Agrega las optimizaciones aquí
+            ],
+            'Apps': [
+                // Agrega las apps aquí
+            ]
+        }
+    }
+];
+
 
     // Crear un menú desplegable para seleccionar la versión
     const versionSelect = document.createElement('select');
