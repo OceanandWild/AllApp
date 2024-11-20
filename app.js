@@ -18,29 +18,31 @@ let installedApps = [];
 
 // Lista de aplicaciones con las nuevas apps marcadas
 const apps = [
-    { name: 'Calculadora', installed: false, isNew: false, isImproved: false },
-    { name: 'Reloj', installed: false, isNew: false, isImproved: false },
-    { name: 'Notas', installed: false, isNew: false, isImproved: false },
-    { name: 'Animal AI View', installed: false, isNew: false, isImproved: false },
-    { name: 'CheckMate', installed: false, isNew: false, isImproved: false },
-    { name: 'Calendario', installed: false, isNew: false, isImproved: true },
-    { name: 'Mixer', installed: false, isNew: false, isImproved: true },
-    { name: 'RNG', installed: false, isNew: false, isImproved: true },
-    { name: 'Enciclopedia Animales Extintos', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Sugerir App', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Prompt de AllApp', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Reproductor de Música', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Crear Proyectos', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Clima', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Editor de Código', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Clicker Indefinido', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Brújula', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Detector de Movimiento', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Estado del Sistema', installed: false, isNew: false, isImproved: false }, // Nueva app
-    { name: 'Horóscopo', installed: false, isNew: false, isImproved: false }, // Nuevo comando
-    { name: 'Calculadora de Tiempo', installed: false, isNew: false, isImproved: false }, // Nuevo comando
-    { name: 'Actualizaciones y Cambios de Balance', installed: false, isNew: true, isImproved: false }, // Nuevo comando
-    { name: 'Juego de Gatos: The Rat', installed: false, isNew: true, isImproved: false }, // Nuevo comando
+    { name: 'Calculadora', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
+    { name: 'Reloj', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
+    { name: 'Notas', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
+    { name: 'Animal AI View', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
+    { name: 'CheckMate', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
+    { name: 'Calendario', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
+    { name: 'Mixer', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
+    { name: 'RNG', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
+    { name: 'Enciclopedia Animales Extintos', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
+    { name: 'Sugerir App', installed: false, isNew: false, isImproved: true, inMaintenance: false  }, // Nueva app
+    { name: 'Prompt de AllApp', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
+    { name: 'Reproductor de Música', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
+    { name: 'Crear Proyectos', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
+    { name: 'Clima', installed: false, isNew: false, isImproved: false, inMaintenance: false }, // Nueva app
+    { name: 'Editor de Código', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
+    { name: 'Clicker Indefinido', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
+    { name: 'Brújula', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
+    { name: 'Detector de Movimiento', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
+    { name: 'Estado del Sistema', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
+    { name: 'Horóscopo', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Calculadora de Tiempo', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Actualizaciones y Cambios de Balance', installed: false, isNew: true, isImproved: false, inMaintenance: false }, // Nuevo comando
+    { name: 'Juego de Gatos: The Rat', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Sneak Peeks de Apps', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Unlock Link', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
 ];
 
 // Botón para abrir la tienda
@@ -105,6 +107,62 @@ function installApp(appName) {
         return;
     }
 
+    if (app.inMaintenance) {
+        const appWindow = document.createElement('div');
+        appWindow.style = `
+            position: fixed; top: 50%; left: 50%; width: 500px; height: 500px;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: #fff; border: 2px solid #333; border-radius: 8px;
+            display: flex; flex-direction: column; align-items: center;
+            font-size: 18px; transition: transform 0.3s ease; overflow: hidden;
+        `;
+    
+        // Contenedor para el contenido
+        const content = document.createElement('div');
+        content.style = 'width: 100%; height: calc(40% - 50px); overflow-y: auto;';
+        appWindow.appendChild(content);
+    
+        // Título de la notificación
+        const title = document.createElement('h2');
+        title.textContent = '🚧 Mantenimiento 🚧';
+        title.style = 'margin-bottom: 10px; color: #f0a500;';
+        appWindow.appendChild(title);
+    
+        // Mensaje de la notificación
+        const message = document.createElement('p');
+        message.textContent = `La aplicación ${appName} está en mantenimiento y no se puede instalar en este momento.`;
+        message.style = 'margin-bottom: 20px; color: #333;';
+        appWindow.appendChild(message);
+    
+        // Botón de cerrar
+        const closeButton = document.createElement('button');
+        closeButton.textContent = 'Cerrar';
+        closeButton.style = `
+            padding: 10px 20px;
+            background-color: #f0a500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        `;
+        closeButton.addEventListener('click', () => {
+            appWindow.style.display = 'none';
+        });
+        appWindow.appendChild(closeButton);
+    
+        // **Add this line to append the appWindow to the body**
+        document.body.appendChild(appWindow);
+    
+        // Set the transform property to make the window appear (optional)
+        setTimeout(() => {
+            appWindow.style.transform = 'translate(-50%, -50%) scale(1)';
+        }, 10);
+    
+        return;
+    }
+    
+    
+
     app.installed = true;
     installedApps.push({ ...app });
 
@@ -121,9 +179,9 @@ function installApp(appName) {
         installButton.style.margin = "10px 0"; // Espaciado entre botones
         installButton.style.padding = "12px 24px"; // Tamaño del botón para que sea más cómodo de ver
         installButton.style.fontSize = "16px"; // Tamaño de fuente
-        installButton.style.color = "#fff"; // Color de texto blanco
-        installButton.style.backgroundColor = "#3a8e3f"; // Fondo verde suave
-        installButton.style.border = "2px solid #2b6d2f"; // Borde verde oscuro
+        installButton.style.color = "#FFFFFF"; // Color de texto blanco
+        installButton.style.backgroundColor = "#FF073A"; // Fondo rojo fluorescente
+        installButton.style.border = "2px solid #B2002D"; // Borde rojo oscuro
         installButton.style.borderRadius = "8px"; // Bordes redondeados
         installButton.style.textTransform = "capitalize"; // Para que el texto sea con la primera letra en mayúscula
         installButton.style.transition = "all 0.3s ease"; // Transición suave para efectos
@@ -131,11 +189,11 @@ function installApp(appName) {
     
         // Efecto hover (aunque estará deshabilitado, en caso de que el usuario pase el ratón)
         installButton.addEventListener('mouseenter', () => {
-            installButton.style.backgroundColor = "#4b9e56"; // Cambio de color al pasar el ratón
+            installButton.style.backgroundColor = "#FF4567"; // Cambio de color al pasar el ratón
         });
     
         installButton.addEventListener('mouseleave', () => {
-            installButton.style.backgroundColor = "#3a8e3f"; // Vuelve al color original cuando el ratón sale
+            installButton.style.backgroundColor = "#FF073A"; // Vuelve al color original cuando el ratón sale
         });
     }
     
@@ -227,6 +285,8 @@ function installApp(appName) {
     appContainer.appendChild(appIconContainer);
     appStoreModal.style.display = 'none';
 
+
+
     // Eventos para abrir la app y animar el icono
     appIconContainer.addEventListener('click', () => {
         openApp(app);
@@ -309,7 +369,6 @@ function renderAppStore(page = 1) {
 
 // Inicializar el modal de la App Store en la página 1
 renderAppStore();
-
 
 
 
@@ -442,20 +501,148 @@ function openApp(app) {
                     case 'Juego de Gatos: The Rat':
                     createCatGameApp(content);
                     break;
+                    case 'Sneak Peeks de Apps':
+                        createSneakPeeksApp(content);
+                        break;
+                        case 'Unlock Link':
+                        createUnlockLinkApp(content);
+                        break;
             default:
                 content.innerHTML = `<p>Aplicación no disponible.</p>`;
         }
     }, 500);
 }
 
+function createPresentationSection(novedad, descripcion, imagenUrl, botonTexto, botonAccion) {
+    // Crear el contenedor del modal (fondo oscuro)
+    const modalBackground = document.createElement('div');
+    modalBackground.style = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    `;
+
+    // Crear el contenedor principal del modal
+    const modalContainer = document.createElement('div');
+    modalContainer.style = `
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px;
+        background-color: #fff;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+    `;
+
+    // Título pequeño "Novedad del Momento"
+    const smallTitle = document.createElement('h3');
+    smallTitle.textContent = 'NOVEDAD';
+    smallTitle.style = `
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 10px;
+    `;
+    modalContainer.appendChild(smallTitle);
+
+    // Imagen ilustrativa
+    const image = document.createElement('img');
+    image.src = imagenUrl;
+    image.alt = `Imagen de ${novedad}`;
+    image.style = `
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin-bottom: 15px;
+    `;
+    modalContainer.appendChild(image);
+
+    // Título principal "Presentamos (novedad)"
+    const mainTitle = document.createElement('h2');
+    mainTitle.textContent = `Presentamos:  ${novedad}`;
+    mainTitle.style = `
+        font-size: 20px;
+        color: #333;
+        margin-bottom: 10px;
+    `;
+    modalContainer.appendChild(mainTitle);
+
+    // Descripción breve
+    const briefDescription = document.createElement('p');
+    briefDescription.textContent = descripcion;
+    briefDescription.style = `
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 20px;
+    `;
+    modalContainer.appendChild(briefDescription);
+
+    // Botón con acción personalizada
+    const actionButton = document.createElement('button');
+    actionButton.textContent = botonTexto;
+    actionButton.style = `
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s;
+    `;
+
+    // Efecto de hover en el botón
+    actionButton.addEventListener('mouseover', () => {
+        actionButton.style.backgroundColor = '#0056b3';
+    });
+    actionButton.addEventListener('mouseout', () => {
+        actionButton.style.backgroundColor = '#007BFF';
+    });
+
+    // Acción personalizada al hacer clic en el botón
+    actionButton.addEventListener('click', () => {
+        botonAccion();
+        closeModal(); // Cerrar el modal después de la acción
+    });
+    modalContainer.appendChild(actionButton);
+
+    // Función para cerrar el modal
+    function closeModal() {
+        modalBackground.remove(); // Eliminar el fondo oscuro y el modal
+    }
+
+    // Añadir el contenedor del modal al fondo oscuro
+    modalBackground.appendChild(modalContainer);
+    // Añadir el fondo oscuro al cuerpo del documento
+    document.body.appendChild(modalBackground);
+}
+
+// Ejemplo de uso de la función
+createPresentationSection(
+    '', // Título de la novedad
+    '', // Descripción breve
+    'https://i.pinimg.com/736x/92/fb/cb/92fbcb109fd9d153c6a8871a8f75f7bd.jpg', // URL de la imagen ilustrativa
+    'Continuar', // Texto del botón
+    () => console.log("")
+);
+
+
+
 // Función para crear el botón de cierre
 function createCloseButton(appWindow) {
     const closeButton = document.createElement('button');
     closeButton.textContent = 'Cerrar';
     closeButton.style.cssText = `
-        position: absolute;
-top: 10px;
-right: 10px;
+        position: down;
+top: 15px;
+right: 15px;
 padding: 2px 4px; /* Padding reducido */
 background-color: #f44336; 
 color: #fff; 
@@ -488,6 +675,135 @@ transition: background-color 0.3s, transform 0.3s;
     return closeButton;
 }
 
+function createUnlockLinkApp(content) {
+    // Crear el contenedor de la app
+    const appContainer = document.createElement('div');
+    appContainer.style = 'padding: 20px; text-align: center; position: fixed; width: 100%; height auto; border: 1px solid #ccc; border-radius: 8px;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Desbloquear Enlace';
+    appContainer.appendChild(title);
+
+    // Sección para mostrar acciones
+    const actionsContainer = document.createElement('div');
+    actionsContainer.style = 'margin-bottom: 20px;';
+    appContainer.appendChild(actionsContainer);
+
+    // Enlace a desbloquear proporcionado por el desarrollador
+    const unlockableLink = 'https://oceanandwild.github.io/AllApp/'; // Aquí defines tu enlace
+
+    // Botón de desbloqueo
+    const unlockButton = document.createElement('button');
+    unlockButton.textContent = 'Desbloquear Enlace';
+    unlockButton.disabled = true; // Inicialmente deshabilitado
+    appContainer.appendChild(unlockButton);
+
+    // Crear botón de acción manualmente
+    function createActionButton(container, url) {
+        const actionButton = document.createElement('button');
+        actionButton.textContent = 'Visitar URL';
+        actionButton.style = 'margin-right: 10px;';
+
+        // Evento al hacer clic en el botón de acción
+        actionButton.addEventListener('click', () => {
+            window.open(url, '_blank'); // Abrir la URL en una nueva pestaña
+            actionButton.textContent = 'Verificando...';
+            actionButton.classList.add('button');
+            actionButton.disabled = true;
+
+            // Simular verificación de 5 segundos
+            setTimeout(() => {
+                actionButton.textContent = 'Verificado ✅';
+                actionButton.classList.add('button-verified'); // Agregar clase para cambiar el color
+                unlockButton.disabled = false; // Habilitar el botón de desbloqueo
+            }, 5000);
+        });
+
+        container.appendChild(actionButton);
+    }
+
+    // Crear el botón de acción con el enlace proporcionado
+    createActionButton(actionsContainer, unlockableLink);
+
+    // Evento al hacer clic en el botón de desbloqueo
+    unlockButton.addEventListener('click', () => {
+        // Crear un Blob con el enlace para desbloquear
+        const blobContent = `Visita este enlace: ${unlockableLink}`;
+        const blob = new Blob([blobContent], { type: 'text/plain' });
+
+        // Crear un enlace URL usando el Blob
+        const blobUrl = URL.createObjectURL(blob);
+
+        // Abrir el enlace Blob en una nueva pestaña
+        window.open(blobUrl, '_blank');
+    });
+
+    // Añadir el contenedor al contenido de la app
+    content.appendChild(appContainer);
+}
+
+
+
+
+
+function createSneakPeeksApp(content) {
+    // Crear el contenedor de la app
+    const appContainer = document.createElement('div');
+    appContainer.style = 'padding: 20px; text-align: center; position: relative; width: 100%; height: 400px; border: 1px solid #ccc; overflow: hidden;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Sneak Peeks de Apps';
+    appContainer.appendChild(title);
+
+    // Información de la próxima aplicación
+    const appName = document.createElement('h3');
+    appName.textContent = 'Próxima App: Enciclopedia Animal'; // Cambia el nombre según lo que desees
+    appName.style = 'margin-bottom: 10px;';
+    appContainer.appendChild(appName);
+
+    // Ícono de la próxima aplicación
+    const appIcon = document.createElement('img');
+    appIcon.src = 'https://i.pinimg.com/736x/ca/43/b4/ca43b45ff704e682c5768b5cea58f864.jpg'; // Reemplaza con el ícono real
+    appIcon.alt = 'Ícono de la App';
+    appIcon.style = 'width: 100px; height: auto; margin-bottom: 20px;';
+    appContainer.appendChild(appIcon);
+
+    // Contenedor de la cuenta regresiva
+    const countdownContainer = document.createElement('div');
+    countdownContainer.style = 'font-size: 24px; color: #333;';
+    appContainer.appendChild(countdownContainer);
+
+    // Fecha de lanzamiento de la aplicación
+    const releaseDate = new Date('2024-11-15T21:00:00'); // Ajusta la fecha y hora del lanzamiento
+
+    // Función para actualizar la cuenta regresiva
+    function updateCountdown() {
+        const now = new Date();
+        const timeRemaining = releaseDate - now;
+
+        if (timeRemaining > 0) {
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            countdownContainer.textContent = `Lanzamiento en: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        } else {
+            countdownContainer.textContent = '¡La aplicación ya está disponible!';
+        }
+    }
+
+    // Actualizar la cuenta regresiva cada segundo
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Llamar la función inicialmente
+
+    // Añadir el contenedor al contenido de la app
+    content.appendChild(appContainer);
+}
+
+
 function createCatGameApp(content) {
     // Crear el contenedor de la app
     const appContainer = document.createElement('div');
@@ -498,13 +814,11 @@ function createCatGameApp(content) {
     title.textContent = 'Juego para Gatos: Atrapa a la Rata';
     appContainer.appendChild(title);
 
-    // Título de la app
-const title2 = document.createElement('h3');
-title2.textContent = 'DIFICIL!';
-title2.style.color = 'red'; // Se aplica el color rojo al texto
-appContainer.appendChild(title2);
-
-
+    // Subtítulo de la dificultad
+    const title2 = document.createElement('h3');
+    title2.textContent = 'DIFICIL!';
+    title2.style.color = 'red'; // Se aplica el color rojo al texto
+    appContainer.appendChild(title2);
 
     // Contador de puntos
     let points = 0;
@@ -519,28 +833,16 @@ appContainer.appendChild(title2);
     ratImage.style = 'width: 50px; height: auto; position: absolute; cursor: pointer;';
     appContainer.appendChild(ratImage);
 
-    // Variables para el movimiento automático
-    let posX = 0;
-    let posY = 0;
-    let speedX = 4; // Velocidad horizontal
-    let speedY = 4; // Velocidad vertical
-
-    // Función para mover la rata y rebotar en los bordes
-    function animateRat() {
+    // Función para mover la rata a una posición aleatoria
+    function moveRatRandomly() {
         const maxX = appContainer.clientWidth - ratImage.clientWidth;
         const maxY = appContainer.clientHeight - ratImage.clientHeight;
 
-        posX += speedX;
-        posY += speedY;
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
 
-        // Rebotar en los bordes
-        if (posX <= 0 || posX >= maxX) speedX = -speedX;
-        if (posY <= 0 || posY >= maxY) speedY = -speedY;
-
-        ratImage.style.left = `${posX}px`;
-        ratImage.style.top = `${posY}px`;
-
-        requestAnimationFrame(animateRat);
+        ratImage.style.left = `${randomX}px`;
+        ratImage.style.top = `${randomY}px`;
     }
 
     // Evento al hacer clic en la rata
@@ -549,12 +851,13 @@ appContainer.appendChild(title2);
         pointsContainer.textContent = `Puntos: ${points}`;
     });
 
-    // Iniciar la animación
-    requestAnimationFrame(animateRat);
+    // Mover la rata aleatoriamente cada 800 ms
+    setInterval(moveRatRandomly, 800);
 
     // Añadir el contenedor al contenido de la app
     content.appendChild(appContainer);
 }
+
 
 
 
@@ -567,64 +870,85 @@ function createUpdateAndBalanceChangesApp(content) {
     const title = document.createElement('h2');
     title.textContent = 'Actualizaciones y Cambios de Balance';
     appContainer.appendChild(title);
-// Lista de actualizaciones organizadas por categorías
-const updates = [
-    {
-        version: '14/11/2024',
-        categories: {
-            'Correcciones de Errores': [
-                'Se corrigió un problema por el cual el icono de nuevo no aparecía en la app correctamente',
-                'Se corrigió un problema que hacía que el calendario al poner la celda vacía (del próximo mes) mostrara como si el mes tuviera un día más en vez de decirte "1 de (tal mes)"',
-                'Se corrigió un problema en el que, al seleccionar una celda de un día, indicaba que debías poner una nota de otro día menos el que elegiste.'
-            ],
-            'Mejoras': [
-                'Ahora, si una aplicación es nueva, en la tienda aparecerá un texto "Nuevo!" y en el contenedor de las aplicaciones aparecerá un icono de nuevo',
-                'Ahora, si una aplicación ha sido mejorada, en la tienda aparecerá un texto "Mejorada!" y en el contenedor de las aplicaciones aparecerá un icono de mejorada',
-                'La tienda ahora tiene un botón para cerrar.',
-                'Los botones de la tienda ahora tienen un marco multicolor (arco iris) y un fondo oceánico',
-                'La tienda ahora tiene un fondo de jungla para completar el diseño.'
-            ],
-            'Optimizaciones': [
-                'Se optimizó la ventana de la aplicación, ahora es más grande, optimizada para usuarios de PC.',
-                'Se optimizó el renderizado de los botones',
-                'Se optimizó la tienda cambiando la posición de los botones: Antes: Horizontal | Ahora: Vertical',
-            ],
-            'Apps': [
-                'Nueva App: Actualizaciones y Cambios de Balance',
-                'Se mejoró la app "Calendario", permitiendo ahora tomar notas para un día específico y marcar en rojo el día de hoy.',
-                'Se agregaron más ingredientes y combinaciones a la app "Mixer"',
-                'La app "RNG" fue renovada a "RNG de Auras"',
-                'La app "Updates" ha sido removida y reemplazada por "Actualizaciones y Cambios de Balance"',
-            ]
-        }
-    },
-    {
-        version: '15/11/2024',
-        categories: {
-            'Correcciones de Errores': [
-                'Se corrigió un problema con el boton Cerrar que hacia que cuando vayas a usar el boton Anterior o Siguiente el boton Cerrar desaparecia, esto especialmente afectaba usuarios de Movil ya que no usan las teclas.'
-            ],
-            'Mejoras': [
-                'Ahora puedes usar la Tecla Esc para poder cerrar la tienda. (Solo usuarios de PC)'
-            ],
-            'Optimizaciones': [
-                // Agrega las optimizaciones aquí
-            ],
-            'Apps': [
-                // Agrega las apps aquí
-            ]
-        }
-    }
-];
 
+    // Lista de actualizaciones organizadas por categorías
+    const updates = [
+        {
+            version: '14/11/2024',
+            categories: {
+                'Correcciones de Errores': [
+                    'Se corrigió un problema por el cual el icono de nuevo no aparecía en la app correctamente',
+                    'Se corrigió un problema que hacía que el calendario al poner la celda vacía (del próximo mes) mostrara como si el mes tuviera un día más en vez de decirte "1 de (tal mes)"',
+                    'Se corrigió un problema en el que, al seleccionar una celda de un día, indicaba que debías poner una nota de otro día menos el que elegiste.'
+                ],
+                'Mejoras': [
+                    'Ahora, si una aplicación es nueva, en la tienda aparecerá un texto "Nuevo!" y en el contenedor de las aplicaciones aparecerá un icono de nuevo',
+                    'Ahora, si una aplicación ha sido mejorada, en la tienda aparecerá un texto "Mejorada!" y en el contenedor de las aplicaciones aparecerá un icono de mejorada',
+                    'La tienda ahora tiene un botón para cerrar.',
+                    'Los botones de la tienda ahora tienen un marco multicolor (arco iris) y un fondo oceánico',
+                    'La tienda ahora tiene un fondo de jungla para completar el diseño.'
+                ],
+                'Optimizaciones': [
+                    'Se optimizó la ventana de la aplicación, ahora es más grande, optimizada para usuarios de PC.',
+                    'Se optimizó el renderizado de los botones',
+                    'Se optimizó la tienda cambiando la posición de los botones: Antes: Horizontal | Ahora: Vertical',
+                ],
+                'Apps': [
+                    'Nueva App: Actualizaciones y Cambios de Balance',
+                    'Se mejoró la app "Calendario", permitiendo ahora tomar notas para un día específico y marcar en rojo el día de hoy.',
+                    'Se agregaron más ingredientes y combinaciones a la app "Mixer"',
+                    'La app "RNG" fue renovada a "RNG de Auras"',
+                    'La app "Updates" ha sido removida y reemplazada por "Actualizaciones y Cambios de Balance"',
+                ]
+            }
+        },
+        {
+            version: '15/11/2024',
+            categories: {
+                'Correcciones de Errores': [
+                    'Se corrigió un problema con el boton Cerrar que hacía que cuando vayas a usar el botón Anterior o Siguiente, el botón Cerrar desaparecía, esto especialmente afectaba usuarios de Móvil ya que no usan las teclas.',
+                    'Se corrigió un problema en la cual no te mostraba las versiones mas recientes de la aplicacion en la app "Actualizaciones y Cambios de Balance"'
+                ],
+                'Mejoras': [
+                    'Ahora puedes usar la Tecla Esc para poder cerrar la tienda. (Solo usuarios de PC)',
+                    'Ahora si es que la app esta en Mantenimiento, la app no se podra instalar hasta que este salga de tal mantenimiento.'
+                ],
+                'Optimizaciones': [
+                    // Agrega las optimizaciones aquí
+                ],
+                'Apps': [
+                    'Nueva App: Juego de Gatos: The Rat',
+                    'La app "Sugerir App" ha sido mejorada y ahora al dar una sugerencia de app te redireccionara a Whatsapp para que tu app sea aceptada o rechazada, incluida o no.',
+                    'Nueva App: Sneak Peeks de Apps',
+                ]
+            }
+        },
+        {
+            version: '16/11/2024',
+            categories: {
+                'Correcciones de Errores': [
+                    
+                ],
+                'Mejoras': [
+                   
+                ],
+                'Optimizaciones': [
+                    'Se optimizo el boton Cerrar en las aplicaciones para que sea adaptable y funcione correctamente, especialmente en usuarios de Movil.'
+                ],
+                'Apps': [
+                 'Nueva App: Unlock Link'
+                ]
+            }
+        }
+    ];
 
     // Crear un menú desplegable para seleccionar la versión
     const versionSelect = document.createElement('select');
     versionSelect.style = 'margin: 10px; padding: 5px;';
     updates.forEach((update, index) => {
         const option = document.createElement('option');
-        option.value = index;
-        option.textContent = update.version;
+        option.value = index;  // El valor es el índice
+        option.textContent = update.version;  // Muestra la versión
         versionSelect.appendChild(option);
     });
     appContainer.appendChild(versionSelect);
@@ -670,7 +994,8 @@ const updates = [
 
     // Mostrar cambios de la versión seleccionada al cargar
     versionSelect.addEventListener('change', () => {
-        displayChanges(versionSelect.value);
+        const selectedIndex = parseInt(versionSelect.value);  // Asegurarse de que el valor sea un número entero
+        displayChanges(selectedIndex);
     });
     displayChanges(0); // Mostrar cambios de la primera versión por defecto
 
@@ -1267,7 +1592,6 @@ function createPromptAllApp(content) {
     });
 }
 
-
 function createSuggestApp(content) {
     // Crear el formulario para sugerir una nueva app
     const form = document.createElement('form');
@@ -1276,14 +1600,14 @@ function createSuggestApp(content) {
     // Input para el nombre de la app
     const appNameInput = document.createElement('input');
     appNameInput.type = 'text';
-    appNameInput.placeholder = 'Nombre de la nueva app';
+    appNameInput.placeholder = 'Nombre de la App';
     appNameInput.required = true;
     appNameInput.style = 'padding: 10px; margin-bottom: 10px; width: 80%; border-radius: 4px; border: 1px solid #ccc;';
     form.appendChild(appNameInput);
 
     // Input para la descripción de la app
     const appDescriptionInput = document.createElement('textarea');
-    appDescriptionInput.placeholder = 'Descripción breve de la app';
+    appDescriptionInput.placeholder = 'Aqui debe de ir que hara principlamente la App';
     appDescriptionInput.required = true;
     appDescriptionInput.style = 'padding: 10px; margin-bottom: 10px; width: 80%; border-radius: 4px; border: 1px solid #ccc;';
     form.appendChild(appDescriptionInput);
@@ -1302,12 +1626,18 @@ function createSuggestApp(content) {
         event.preventDefault();
 
         // Obtener los datos del formulario
-        const appName = appNameInput.value.trim();
-        const appDescription = appDescriptionInput.value.trim();
+        const appName = encodeURIComponent(appNameInput.value.trim());
+        const appDescription = encodeURIComponent(appDescriptionInput.value.trim());
 
-        // Confirmación de que la sugerencia fue recibida
+        // URL de WhatsApp con los datos de la sugerencia
+        const whatsappUrl = `https://wa.me/598099685536?text=Nombre%20de%20la%20App:%20${appName}%0ADescripción:%20${appDescription}`;
+
+        // Redirigir a WhatsApp
+        window.open(whatsappUrl, '_blank');
+
+        // Confirmación de que la sugerencia fue enviada
         const confirmationMessage = document.createElement('p');
-        confirmationMessage.textContent = `Gracias por sugerir "${appName}". ¡Tu sugerencia ha sido enviada!`;
+        confirmationMessage.textContent = `Gracias por sugerir "${appNameInput.value}". ¡Tu sugerencia ha sido enviada a WhatsApp!`;
         confirmationMessage.style = 'margin-top: 20px; color: green; text-align: center;';
         content.appendChild(confirmationMessage);
 
@@ -1316,6 +1646,7 @@ function createSuggestApp(content) {
         appDescriptionInput.value = '';
     });
 }
+
 
 
 function createExtinctAnimalsEncyclopedia(content) {
