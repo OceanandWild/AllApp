@@ -21,8 +21,7 @@ const apps = [
     { name: 'Calculadora', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
     { name: 'Reloj', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
     { name: 'Notas', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
-    { name: 'Animal AI View', installed: false, isNew: false, isImproved: false, inMaintenance: true  },
-    { name: 'CheckMate', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
+    { name: 'CheckMate', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
     { name: 'Calendario', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
     { name: 'Mixer', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
     { name: 'RNG', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
@@ -40,11 +39,11 @@ const apps = [
     { name: 'Horóscopo', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
     { name: 'Calculadora de Tiempo', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
     { name: 'Actualizaciones y Cambios de Balance', installed: false, isNew: false, isImproved: false, inMaintenance: false }, // Nuevo comando
-    { name: 'Juego de Gatos: The Rat', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
-    { name: 'Sneak Peeks de Apps', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Juego de Gatos: The Rat', installed: false, isNew: false, isImproved: true, inMaintenance: false  }, // Nuevo comando
     { name: 'Unlock Link', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
     { name: 'Escape Police', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
     { name: 'Quiz de Artes Marciales', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Enciclopedia Animal', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
 ];
 
 // Botón para abrir la tienda
@@ -232,8 +231,8 @@ function installApp(appName) {
     iconImage.src = getAppIcon(appName);
     iconImage.alt = appName;
     iconImage.style = `
-        width: 40px;
-        height: 40px;
+        width: 70px;
+        height: 70px;
         border-radius: 5px;
     `;
     appIcon.appendChild(iconImage);
@@ -384,7 +383,9 @@ function getAppIcon(appName) {
         'CheckMate': 'https://i.pinimg.com/564x/eb/64/83/eb6483224dbfd351bf5ec53621a320ff.jpg',
         'Updates': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
         'Calendario': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
-        'Quiz de Artes Marciales': 'https://i.pinimg.com/736x/a8/4b/0a/a84b0afc36467910d7c350dc64dd8f3c.jpg'
+        'Quiz de Artes Marciales': 'https://i.pinimg.com/736x/a8/4b/0a/a84b0afc36467910d7c350dc64dd8f3c.jpg',
+        'Enciclopedia Animal': 'https://i.pinimg.com/736x/11/7b/ae/117baedaef6757575687e5fa382de38c.jpg',
+        'Juego de Gatos: The Rat': 'https://i.pinimg.com/736x/b3/73/fb/b373fb7ff19418378c5b547a247b84c7.jpg'
     };
     return icons[appName] || 'https://i.pinimg.com/564x/36/9b/3b/369b3b5c246ba187037e47afc8e26b1c.jpg'; // Ícono por defecto
 }
@@ -429,24 +430,9 @@ function openApp(app) {
             case 'Notas':
                 createNoteApp(content);
                 break;
-                case 'Animal AI View':
-                    const confirmationMessage = document.createElement('div');
-                    confirmationMessage.innerHTML = `
-                        <p>Esta app necesita redireccionarte para continuar, a un servicio nuestro y no de terceros, ¿deseas continuar?</p>
-                        <button id="confirmYes">Sí</button>
-                        <button id="confirmNo">No</button>
-                    `;
-                    content.appendChild(confirmationMessage);
-            
-                    document.getElementById('confirmYes').addEventListener('click', () => {
-                        window.location.href = 'https://oceanandwild.github.io/AnimalAI/';
-                    });
-            
-                    document.getElementById('confirmNo').addEventListener('click', () => {
-                        appWindow.style.transform = 'translate(-50%, -50%) scale(0)';
-                        setTimeout(() => document.body.removeChild(appWindow), 300);
-                    });
-                    break;
+                    case 'CheckMate':
+                createCheckMateApp(content);
+                break;
             case 'Updates':
                 createUpdateSystem(content);
                 break;
@@ -516,6 +502,9 @@ function openApp(app) {
                         case 'Quiz de Artes Marciales':
                         createMartialArtsQuizApp(content);
                         break;
+                        case 'Enciclopedia Animal':
+                        createAnimalEncyclopediaApp(content);
+                        break;
             default:
                 content.innerHTML = `<p>Aplicación no disponible.</p>`;
         }
@@ -564,6 +553,182 @@ transition: background-color 0.3s, transform 0.3s;
 
     return closeButton;
 }
+
+function createCheckMateApp(content) {
+    const appContainer = document.createElement('div');
+    appContainer.style = 'padding: 20px; text-align: center; width: 100%; height: 100%; background-color: #f4f4f4;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'CheckMate: ¡Juega al Ajedrez!';
+    title.style.color = 'black';
+    appContainer.appendChild(title);
+
+    // Crear el tablero de ajedrez (8x8)
+    const chessBoard = document.createElement('div');
+    chessBoard.style = 'display: grid; grid-template-columns: repeat(8, 50px); grid-template-rows: repeat(8, 50px); gap: 0;';
+    appContainer.appendChild(chessBoard);
+
+    // Título de la app
+    const result = document.createElement('h2');
+    result.textContent = '';
+    result.style.color = 'green';
+    appContainer.appendChild(result);
+
+
+    // Representación del tablero con las piezas en sus posiciones iniciales
+    const initialBoard = [
+        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+        ['.', '.', '.', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '.', '.', '.', '.'],
+        ['.', '.', '.', '.', '.', '.', '.', '.'],
+        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+        ['T', 'A', 'C', 'D', 'R', 'C', 'A', 'R']
+    ];
+
+    // Función para crear el tablero visual
+    function drawBoard(board) {
+        chessBoard.innerHTML = ''; // Limpiar el tablero antes de redibujarlo
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+                const square = document.createElement('div');
+                square.style = 'width: 50px; height: 50px; display: flex; justify-content: center; align-items: center;';
+                square.style.backgroundColor = (row + col) % 2 === 0 ? '#f0d9b5' : '#b58863';
+                square.dataset.row = row;
+                square.dataset.col = col;
+                square.textContent = board[row][col] === '.' ? '' : board[row][col].toUpperCase();
+                square.style.cursor = 'pointer';
+                square.addEventListener('click', handleSquareClick);
+                chessBoard.appendChild(square);
+            }
+        }
+    }
+
+    let selectedPiece = null;
+
+    // Función para manejar el clic en las casillas del tablero
+    function handleSquareClick(event) {
+        const row = parseInt(event.target.dataset.row);
+        const col = parseInt(event.target.dataset.col);
+        const clickedPiece = initialBoard[row][col];
+
+        if (selectedPiece) {
+            // Si hay una pieza seleccionada, intentamos moverla
+            if (clickedPiece === '.') {
+                initialBoard[row][col] = selectedPiece;
+                initialBoard[selectedPiece.row][selectedPiece.col] = '.';
+                selectedPiece = null;
+                drawBoard(initialBoard);
+                checkForCheckMate(); // Comprobamos si hay Jaque Mate
+            } else {
+                // Si la casilla tiene otra pieza, seleccionamos esa pieza
+                selectedPiece = { row, col };
+            }
+        } else {
+            // Seleccionamos una pieza
+            if (clickedPiece !== '.') {
+                selectedPiece = { piece: clickedPiece, row, col };
+            }
+        }
+    }
+
+    // Función para comprobar si hay Jaque Mate (simplificada)
+    function checkForCheckMate() {
+        // Verifica si el rey está en jaque mate. Para simplificar, se podría verificar con condiciones básicas.
+        const isCheckMate = false; // Esta función sería más compleja en un juego real, pero es un lugar para la lógica
+        if (isCheckMate) {
+            result.textContent = '¡CheckMate! Has ganado!';
+        }
+    }
+
+    // Función de IA para mover piezas aleatorias (solo para ejemplo)
+    function aiMove() {
+        // Movimiento aleatorio de una pieza, para simplificar la IA
+        const randomRow = Math.floor(Math.random() * 8);
+        const randomCol = Math.floor(Math.random() * 8);
+        const piece = initialBoard[randomRow][randomCol];
+        if (piece !== '.') {
+            initialBoard[randomRow][randomCol] = '.';
+            drawBoard(initialBoard);
+            checkForCheckMate();
+        }
+    }
+
+    // Dibujar el tablero inicial
+    drawBoard(initialBoard);
+
+    // Añadir un botón para que la IA haga su movimiento
+    const aiButton = document.createElement('button');
+    aiButton.textContent = 'Hacer Movimiento de la IA';
+    aiButton.addEventListener('click', aiMove);
+    appContainer.appendChild(aiButton);
+
+    // Añadir el contenedor al contenido de la app
+    content.appendChild(appContainer);
+}
+
+
+function createAnimalEncyclopediaApp(content) {
+    // Crear el contenedor de la app
+    const appContainer = document.createElement('div');
+    appContainer.style = 'padding: 20px; text-align: center; width: 100%; height: 100%; background-color: #f4f4f4;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Enciclopedia Animal';
+    title.style.color = 'green';
+    appContainer.appendChild(title);
+
+    // Lista de animales
+    const animals = [
+        { name: 'León', description: 'El león es un mamífero carnívoro de la familia Felidae, conocido como el rey de la selva.' },
+        { name: 'Elefante', description: 'El elefante es el mamífero terrestre más grande, conocido por sus grandes orejas y trompa.' },
+        { name: 'Tigre', description: 'El tigre es un gran felino caracterizado por su pelaje rayado y su habilidad como cazador.' },
+        { name: 'Águila', description: 'El águila es un ave rapaz con una visión excepcional y gran habilidad para cazar.' },
+        { name: 'Delfín', description: 'El delfín es un mamífero marino conocido por su inteligencia y habilidades sociales.' },
+        { name: 'Cebra', description: 'La cebra es un mamífero herbívoro, conocida por su distintivo pelaje blanco y negro.' }
+    ];
+
+    // Contenedor de los animales
+    const animalsContainer = document.createElement('div');
+    animalsContainer.style = 'margin-bottom: 30px;';
+
+    // Función para mostrar los animales en la lista
+    animals.forEach(animal => {
+        const animalItem = document.createElement('div');
+        animalItem.textContent = animal.name;
+        animalItem.style = 'cursor: pointer; font-size: 20px; color: #333; margin: 5px 0;';
+        animalItem.addEventListener('click', () => showAnimalDescription(animal));
+        animalsContainer.appendChild(animalItem);
+    });
+
+    // Crear el contenedor de la descripción
+    const descriptionContainer = document.createElement('div');
+    descriptionContainer.style = 'margin-top: 20px; padding: 10px; background-color: #fff; border: 1px solid #ccc; width: 60%; margin-left: auto; margin-right: auto; text-align: left; display: none;';
+
+    const descriptionTitle = document.createElement('h3');
+    descriptionTitle.textContent = 'Descripción:';
+    descriptionContainer.appendChild(descriptionTitle);
+
+    const descriptionText = document.createElement('p');
+    descriptionContainer.appendChild(descriptionText);
+
+    // Función para mostrar la descripción de un animal
+    function showAnimalDescription(animal) {
+        descriptionText.textContent = animal.description;
+        descriptionContainer.style.display = 'block';
+    }
+
+    // Añadir la lista de animales y la descripción al contenedor principal
+    appContainer.appendChild(animalsContainer);
+    appContainer.appendChild(descriptionContainer);
+
+    // Añadir el contenedor al contenido de la app
+    content.appendChild(appContainer);
+}
+
 
 function createMartialArtsQuizApp(content) {
     // Crear el contenedor principal
@@ -964,114 +1129,109 @@ function createSneakPeeksApp(content) {
 
 
 function createCatGameApp(content) {
-    // Crear el contenedor de la app
-    const appContainer = document.createElement('div');
-    appContainer.style = 'padding: 20px; text-align: center; position: relative; width: 100%; height: 400px; border: 1px solid #ccc; overflow: hidden;';
+    
+        // Crear el contenedor de la app
+        const appContainer = document.createElement('div');
+        appContainer.style = `
+            padding: 20px; text-align: center; position: relative; 
+            width: 100%; height: 400px; border: 1px solid #ccc; overflow: hidden;
+        `;
 
-    // Título de la app
-    const title = document.createElement('h2');
-    title.textContent = 'Juego para Gatos: Atrapa a la Rata';
-    appContainer.appendChild(title);
+        // Título de la app
+        const title = document.createElement('h2');
+        title.textContent = 'Juego para Gatos: Atrapa a la Rata';
+        appContainer.appendChild(title);
 
-    // Subtítulo de la dificultad
-    const title2 = document.createElement('h3');
-    title2.textContent = 'DIFICIL!';
-    title2.style.color = 'red'; // Se aplica el color rojo al texto
-    appContainer.appendChild(title2);
+        // Subtítulo de la dificultad
+        const title2 = document.createElement('h3');
+        title2.textContent = '¡DIFÍCIL!';
+        title2.style.color = 'red'; // Se aplica el color rojo al texto
+        appContainer.appendChild(title2);
 
-    // Subtítulo de la dificultad
-    const title3 = document.createElement('h3');
-    title3.textContent = '';
-    title3.style.color = 'blue'; // Se aplica el color rojo al texto
-    appContainer.appendChild(title3);
+        const title3 = document.createElement('h3');
+        title3.textContent = '';
+        title3.style.color = 'blue'; // Subtítulo dinámico
+        appContainer.appendChild(title3);
 
-    // Contador de puntos
-    let points = 0;
-    const pointsContainer = document.createElement('div');
-    pointsContainer.textContent = `Puntos: ${points}`;
-    pointsContainer.style = 'margin-bottom: 20px; font-size: 18px;';
-    appContainer.appendChild(pointsContainer);
-
-    // Crear la imagen de la rata
-    const ratImage = document.createElement('img');
-    ratImage.src = 'https://i.pinimg.com/736x/7c/53/37/7c5337122b7191e1f09b060318f83bdd.jpg'; // Reemplaza con una imagen de rata válida
-    ratImage.style = 'width: 50px; height: auto; position: absolute; cursor: pointer;';
-    appContainer.appendChild(ratImage);
-
-    // Crear el audio de burla
-    const laughAudio = new Audio('https://ia600605.us.archive.org/19/items/muajajajh_202411/Muajajajh.mp3'); // Enlace a un audio de burla divertido
-
-    // Lista de mensajes de burla
-    const ratTaunts = [
-        '¡Muy lento! 🐭',
-        '¿Entrenaste el dedo?, a pero si estas en PC olvidate 😂',
-        '¡Intenta cuando seas mas rapido! 😜',
-        '¡MEJORA TU VELOCIDAD! 😆',
-        'MUY NOOB🤣'
-    ];
-
-    // Lista de mensajes de burla según los puntos
-    const ratTauntsByPoints = [
-        { threshold: 0, message: '¿Ni un punto? ¡Vamos, que mal que juegas! 😂' },
-        { threshold: 5, message: '¿Solo 5 puntos? ¡Esfuérzate más! 😜' },
-        { threshold: 10, message: '¡10 puntos y nada más! ¡Te estoy ganando! 😆' },
-        { threshold: 20, message: '¡20 puntos! Te reto, ni en 3 años llegaras a 30.🤣' },
-        { threshold: 30, message: '¡Wow, 30 puntos! Pero sigo siendo más rápido. 🐭💨' },
-    ];
-
-    // Función para mover la rata a una posición aleatoria
-    function moveRatRandomly() {
-        const maxX = appContainer.clientWidth - ratImage.clientWidth;
-        const maxY = appContainer.clientHeight - ratImage.clientHeight;
-
-        const randomX = Math.floor(Math.random() * maxX);
-        const randomY = Math.floor(Math.random() * maxY);
-
-        ratImage.style.left = `${randomX}px`;
-        ratImage.style.top = `${randomY}px`;
-    }
-
-    // Función para mostrar un mensaje de burla basado en los puntos
-    function ratLaughByPoints() {
-        const taunt = ratTauntsByPoints.find((t) => points >= t.threshold);
-        if (taunt) {
-            title3.textContent = `Rata: ${taunt.message}`;
-        }
-    }
-
-    // Evento al hacer clic en la rata
-    ratImage.addEventListener('click', (event) => {
-        event.stopPropagation(); // Evitar que el evento de clic del contenedor se dispare
-        points += 1;
+        // Contador de puntos
+        let points = 0;
+        const pointsContainer = document.createElement('div');
         pointsContainer.textContent = `Puntos: ${points}`;
-        ratLaughByPoints(); // Actualizar mensaje de burla según los puntos
-    });
+        pointsContainer.style = 'margin-bottom: 20px; font-size: 18px;';
+        appContainer.appendChild(pointsContainer);
 
-    // Evento al hacer clic dentro del contenedor pero fuera de la rata
-    appContainer.addEventListener('click', (event) => {
-        const clickedElement = event.target;
-        if (clickedElement !== ratImage) {
-            laughAudio.currentTime = 0; // Reinicia el audio para que se pueda reproducir en clics consecutivos
-            laughAudio.play(); // Reproduce el audio de burla
-            
-            
+        // Crear la imagen de la rata
+        const ratImage = document.createElement('img');
+        ratImage.src = 'https://i.pinimg.com/736x/7c/53/37/7c5337122b7191e1f09b060318f83bdd.jpg';
+        ratImage.style = 'width: 50px; height: auto; position: absolute; cursor: pointer;';
+        appContainer.appendChild(ratImage);
+
+        // Crear el audio de burla
+        const laughAudio = new Audio('https://ia600605.us.archive.org/19/items/muajajajh_202411/Muajajajh.mp3');
+
+        // Lista de mensajes de burla y de burla por puntos
+        const ratTaunts = [
+            '¡Muy lento! 🐭', '¿Entrenaste el dedo? 😂', '¡Intenta cuando seas más rápido! 😜',
+            '¡MEJORA TU VELOCIDAD! 😆', 'MUY NOOB 🤣', 'EZ!!🤣🤣👎', 'NAH I´D WIN 🗿'
+        ];
+        const ratTauntsByPoints = [
+            { threshold: 0, message: '¿Ni un punto? ¡Vamos, que mal que juegas! 😂' },
+            { threshold: 5, message: '¿Solo 5 puntos? ¡Esfuérzate más! 😜' },
+            { threshold: 10, message: '¡10 puntos y nada más! ¡Te estoy ganando! 😆' },
+            { threshold: 20, message: '¡20 puntos! Te reto, ni en 3 años llegarás a 30. 🤣' },
+            { threshold: 30, message: '¡Wow, 30 puntos! Pero sigo siendo más rápido. 🐭💨' },
+        ];
+
+        // Mover la rata a una posición aleatoria
+        function moveRatRandomly() {
+            const maxX = appContainer.clientWidth - ratImage.clientWidth;
+            const maxY = appContainer.clientHeight - ratImage.clientHeight;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            ratImage.style.left = `${randomX}px`;
+            ratImage.style.top = `${randomY}px`;
         }
-    });
 
-      // Función para mostrar un mensaje de burla aleatorio
-    function ratLaugh() {
-        const randomMessage = ratTaunts[Math.floor(Math.random() * ratTaunts.length)];
-        title2.textContent = `Rata: ${randomMessage}`;
+        // Mostrar mensaje de burla basado en puntos
+        function ratLaughByPoints() {
+            const taunt = ratTauntsByPoints.find((t) => points >= t.threshold);
+            if (taunt) {
+                title3.textContent = `Rata: ${taunt.message}`;
+            }
+        }
+
+        // Evento clic en la rata
+        ratImage.addEventListener('click', () => {
+            points += 1;
+            pointsContainer.textContent = `Puntos: ${points}`;
+            ratLaughByPoints();
+        });
+
+        // Evento clic en el contenedor
+        appContainer.addEventListener('click', (event) => {
+            if (event.target !== ratImage) {
+                laughAudio.currentTime = 0;
+                laughAudio.play();
+            }
+        });
+
+        // Mostrar mensajes de burla aleatorios
+        function ratLaugh() {
+            const randomMessage = ratTaunts[Math.floor(Math.random() * ratTaunts.length)];
+            title2.textContent = `Rata: ${randomMessage}`;
+        }
+
+        // Intervalos para mover la rata y burlarse
+        setInterval(moveRatRandomly, 800);
+        setInterval(ratLaugh, 5000);
+
+        // Agregar el contenedor de la app
+        content.appendChild(appContainer);
     }
-   
-    // Mover la rata aleatoriamente cada 800 ms
-    setInterval(moveRatRandomly, 800);
-    // Hacer que la rata diga mensajes de burla cada 3 segundos
-    setInterval(ratLaugh, 5000);
 
-    // Añadir el contenedor al contenido de la app
-    content.appendChild(appContainer);
-}
+
 
 
 
@@ -1208,7 +1368,10 @@ function createUpdateAndBalanceChangesApp(content) {
                 ],
                 'Apps': [
                  'Se mejoro la app "Juego de Gatos: Atrapa la rata, ahora la rata se puede burlar si no le atinas.',
-                 'Nueva App: Quiz de Artes Marciales'
+                 'Nueva App: Quiz de Artes Marciales',
+                 'Nueva App: Enciclopedia Animal.  Perdon por la tardanza',
+                 'La app "Sneak Peeks de Apps" ha sido removida',
+                 'La app "CheckMate" ya es funcional y ha sido reworkeada',
                 ]
             }
         },
@@ -2306,32 +2469,7 @@ window.addEventListener('click', (event) => {
     });
 });
 
-// Función para crear la app CheckMate
-function createCheckMateApp(content) {
-    content.innerHTML += `<h3>CheckMate</h3>`;
-    
-    const taskInput = document.createElement('input');
-    taskInput.placeholder = 'Nueva tarea';
-    taskInput.style = 'width: 90%; padding: 5px; margin-bottom: 10px;';
-    content.appendChild(taskInput);
 
-    const addTaskBtn = document.createElement('button');
-    addTaskBtn.textContent = 'Agregar Tarea';
-    addTaskBtn.style = 'width: 90%; padding: 5px; margin-bottom: 10px;';
-    content.appendChild(addTaskBtn);
-
-    const taskList = document.createElement('ul');
-    content.appendChild(taskList);
-
-    addTaskBtn.addEventListener('click', () => {
-        if (taskInput.value.trim() !== '') {
-            const taskItem = document.createElement('li');
-            taskItem.textContent = taskInput.value.trim();
-            taskList.appendChild(taskItem);
-            taskInput.value = '';
-        }
-    });
-}
 
 // Función para crear una calculadora funcional
 function createCalculator(content) {
