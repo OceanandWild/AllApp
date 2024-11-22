@@ -979,6 +979,12 @@ function createCatGameApp(content) {
     title2.style.color = 'red'; // Se aplica el color rojo al texto
     appContainer.appendChild(title2);
 
+    // Subtítulo de la dificultad
+    const title3 = document.createElement('h3');
+    title3.textContent = '';
+    title3.style.color = 'blue'; // Se aplica el color rojo al texto
+    appContainer.appendChild(title3);
+
     // Contador de puntos
     let points = 0;
     const pointsContainer = document.createElement('div');
@@ -995,6 +1001,24 @@ function createCatGameApp(content) {
     // Crear el audio de burla
     const laughAudio = new Audio('https://ia600605.us.archive.org/19/items/muajajajh_202411/Muajajajh.mp3'); // Enlace a un audio de burla divertido
 
+    // Lista de mensajes de burla
+    const ratTaunts = [
+        '¡Muy lento! 🐭',
+        '¿Entrenaste el dedo?, a pero si estas en PC olvidate 😂',
+        '¡Intenta cuando seas mas rapido! 😜',
+        '¡MEJORA TU VELOCIDAD! 😆',
+        'MUY NOOB🤣'
+    ];
+
+    // Lista de mensajes de burla según los puntos
+    const ratTauntsByPoints = [
+        { threshold: 0, message: '¿Ni un punto? ¡Vamos, que mal que juegas! 😂' },
+        { threshold: 5, message: '¿Solo 5 puntos? ¡Esfuérzate más! 😜' },
+        { threshold: 10, message: '¡10 puntos y nada más! ¡Te estoy ganando! 😆' },
+        { threshold: 20, message: '¡20 puntos! Te reto, ni en 3 años llegaras a 30.🤣' },
+        { threshold: 30, message: '¡Wow, 30 puntos! Pero sigo siendo más rápido. 🐭💨' },
+    ];
+
     // Función para mover la rata a una posición aleatoria
     function moveRatRandomly() {
         const maxX = appContainer.clientWidth - ratImage.clientWidth;
@@ -1007,26 +1031,48 @@ function createCatGameApp(content) {
         ratImage.style.top = `${randomY}px`;
     }
 
+    // Función para mostrar un mensaje de burla basado en los puntos
+    function ratLaughByPoints() {
+        const taunt = ratTauntsByPoints.find((t) => points >= t.threshold);
+        if (taunt) {
+            title3.textContent = `Rata: ${taunt.message}`;
+        }
+    }
+
     // Evento al hacer clic en la rata
     ratImage.addEventListener('click', (event) => {
         event.stopPropagation(); // Evitar que el evento de clic del contenedor se dispare
         points += 1;
         pointsContainer.textContent = `Puntos: ${points}`;
+        ratLaughByPoints(); // Actualizar mensaje de burla según los puntos
     });
 
-    // Evento al hacer clic fuera de la rata
+    // Evento al hacer clic dentro del contenedor pero fuera de la rata
     appContainer.addEventListener('click', (event) => {
-        if (!event.target.contains(ratImage)) {
+        const clickedElement = event.target;
+        if (clickedElement !== ratImage) {
+            laughAudio.currentTime = 0; // Reinicia el audio para que se pueda reproducir en clics consecutivos
             laughAudio.play(); // Reproduce el audio de burla
+            
+            
         }
     });
 
+      // Función para mostrar un mensaje de burla aleatorio
+    function ratLaugh() {
+        const randomMessage = ratTaunts[Math.floor(Math.random() * ratTaunts.length)];
+        title2.textContent = `Rata: ${randomMessage}`;
+    }
+   
     // Mover la rata aleatoriamente cada 800 ms
     setInterval(moveRatRandomly, 800);
+    // Hacer que la rata diga mensajes de burla cada 3 segundos
+    setInterval(ratLaugh, 5000);
 
     // Añadir el contenedor al contenido de la app
     content.appendChild(appContainer);
 }
+
 
 
 
