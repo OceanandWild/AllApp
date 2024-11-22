@@ -20,8 +20,8 @@ let installedApps = [];
 const apps = [
     { name: 'Calculadora', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
     { name: 'Reloj', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
-    { name: 'Notas', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
-    { name: 'Animal AI View', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
+    { name: 'Notas', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
+    { name: 'Animal AI View', installed: false, isNew: false, isImproved: false, inMaintenance: true  },
     { name: 'CheckMate', installed: false, isNew: false, isImproved: false, inMaintenance: false  },
     { name: 'Calendario', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
     { name: 'Mixer', installed: false, isNew: false, isImproved: true, inMaintenance: false  },
@@ -39,10 +39,12 @@ const apps = [
     { name: 'Estado del Sistema', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
     { name: 'Horóscopo', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
     { name: 'Calculadora de Tiempo', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
-    { name: 'Actualizaciones y Cambios de Balance', installed: false, isNew: true, isImproved: false, inMaintenance: false }, // Nuevo comando
-    { name: 'Juego de Gatos: The Rat', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
-    { name: 'Sneak Peeks de Apps', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
-    { name: 'Unlock Link', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Actualizaciones y Cambios de Balance', installed: false, isNew: false, isImproved: false, inMaintenance: false }, // Nuevo comando
+    { name: 'Juego de Gatos: The Rat', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Sneak Peeks de Apps', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Unlock Link', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Escape Police', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Quiz de Artes Marciales', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
 ];
 
 // Botón para abrir la tienda
@@ -257,7 +259,7 @@ function installApp(appName) {
     // Añadir la cinta "Mejorada!" si la app ha sido mejorada
     if (app.isImproved) {
         const improvedRibbon = document.createElement('div');
-        improvedRibbon.textContent = "¡Mejorada!";
+        improvedRibbon.textContent = "¡Actualizada!";
         improvedRibbon.style = `
             position: absolute;
             top: 0;
@@ -335,7 +337,7 @@ function renderAppStore(page = 1) {
 
         if (app.isImproved) {
             const improvedIcon = document.createElement('span');
-            improvedIcon.textContent = " (Mejorada!)";
+            improvedIcon.textContent = " (ACTUALIZADA!)";
             improvedIcon.style.color = "yellow";
             appButton.appendChild(improvedIcon);
         }
@@ -507,131 +509,18 @@ function openApp(app) {
                         case 'Unlock Link':
                         createUnlockLinkApp(content);
                         break;
+                        case 'Escape Police':
+                        createSubwaySurfersApp(content);
+                        break;
+                        case 'Quiz de Artes Marciales':
+                        createMartialArtsQuizApp(content);
+                        break;
             default:
                 content.innerHTML = `<p>Aplicación no disponible.</p>`;
         }
     }, 500);
 }
 
-function createPresentationSection(novedad, descripcion, imagenUrl, botonTexto, botonAccion) {
-    // Crear el contenedor del modal (fondo oscuro)
-    const modalBackground = document.createElement('div');
-    modalBackground.style = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    `;
-
-    // Crear el contenedor principal del modal
-    const modalContainer = document.createElement('div');
-    modalContainer.style = `
-        padding: 20px;
-        text-align: center;
-        border-radius: 8px;
-        background-color: #fff;
-        max-width: 400px;
-        width: 100%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        position: relative;
-    `;
-
-    // Título pequeño "Novedad del Momento"
-    const smallTitle = document.createElement('h3');
-    smallTitle.textContent = 'NOVEDAD';
-    smallTitle.style = `
-        font-size: 16px;
-        color: #666;
-        margin-bottom: 10px;
-    `;
-    modalContainer.appendChild(smallTitle);
-
-    // Imagen ilustrativa
-    const image = document.createElement('img');
-    image.src = imagenUrl;
-    image.alt = `Imagen de ${novedad}`;
-    image.style = `
-        width: 100%;
-        height: auto;
-        border-radius: 4px;
-        margin-bottom: 15px;
-    `;
-    modalContainer.appendChild(image);
-
-    // Título principal "Presentamos (novedad)"
-    const mainTitle = document.createElement('h2');
-    mainTitle.textContent = `Presentamos:  ${novedad}`;
-    mainTitle.style = `
-        font-size: 20px;
-        color: #333;
-        margin-bottom: 10px;
-    `;
-    modalContainer.appendChild(mainTitle);
-
-    // Descripción breve
-    const briefDescription = document.createElement('p');
-    briefDescription.textContent = descripcion;
-    briefDescription.style = `
-        font-size: 14px;
-        color: #555;
-        margin-bottom: 20px;
-    `;
-    modalContainer.appendChild(briefDescription);
-
-    // Botón con acción personalizada
-    const actionButton = document.createElement('button');
-    actionButton.textContent = botonTexto;
-    actionButton.style = `
-        padding: 10px 20px;
-        background-color: #007BFF;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.3s;
-    `;
-
-    // Efecto de hover en el botón
-    actionButton.addEventListener('mouseover', () => {
-        actionButton.style.backgroundColor = '#0056b3';
-    });
-    actionButton.addEventListener('mouseout', () => {
-        actionButton.style.backgroundColor = '#007BFF';
-    });
-
-    // Acción personalizada al hacer clic en el botón
-    actionButton.addEventListener('click', () => {
-        botonAccion();
-        closeModal(); // Cerrar el modal después de la acción
-    });
-    modalContainer.appendChild(actionButton);
-
-    // Función para cerrar el modal
-    function closeModal() {
-        modalBackground.remove(); // Eliminar el fondo oscuro y el modal
-    }
-
-    // Añadir el contenedor del modal al fondo oscuro
-    modalBackground.appendChild(modalContainer);
-    // Añadir el fondo oscuro al cuerpo del documento
-    document.body.appendChild(modalBackground);
-}
-
-// Ejemplo de uso de la función
-createPresentationSection(
-    '', // Título de la novedad
-    '', // Descripción breve
-    'https://i.pinimg.com/736x/92/fb/cb/92fbcb109fd9d153c6a8871a8f75f7bd.jpg', // URL de la imagen ilustrativa
-    'Continuar', // Texto del botón
-    () => console.log("")
-);
 
 
 
@@ -673,6 +562,275 @@ transition: background-color 0.3s, transform 0.3s;
     });
 
     return closeButton;
+}
+
+function createMartialArtsQuizApp(content) {
+    // Crear el contenedor principal
+    const appContainer = document.createElement('div');
+    appContainer.style = 'padding: 20px; text-align: center; width: 100%; max-width: 600px; margin: auto;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Quiz de Artes Marciales';
+    appContainer.appendChild(title);
+
+    // Crear una lista de artes marciales
+    const martialArts = [
+        'Karate',
+        'Judo',
+        'Taekwondo',
+        'Kung Fu',
+        'Aikido',
+        'Capoeira',
+        'Muay Thai',
+        'Boxeo', // Nuevo arte marcial añadido
+    ];
+
+    // Contenedor de botones para seleccionar un arte marcial
+    const martialArtsContainer = document.createElement('div');
+    martialArtsContainer.style = 'margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;';
+    appContainer.appendChild(martialArtsContainer);
+
+    martialArts.forEach((art) => {
+        const button = document.createElement('button');
+        button.textContent = art;
+        button.style = 'padding: 10px 15px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;';
+        button.addEventListener('click', () => startQuiz(art));
+        martialArtsContainer.appendChild(button);
+    });
+
+    // Contenedor para el quiz
+    const quizContainer = document.createElement('div');
+    quizContainer.style = 'margin-top: 20px;';
+    appContainer.appendChild(quizContainer);
+
+    // Iniciar el quiz
+    function startQuiz(art) {
+        quizContainer.innerHTML = ''; // Limpiar el contenedor del quiz
+        const questions = generateQuestions(art); // Generar preguntas específicas del arte marcial seleccionado
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+
+        // Mostrar una pregunta
+        function showQuestion() {
+            quizContainer.innerHTML = '';
+            const question = questions[currentQuestion];
+
+            const questionText = document.createElement('h3');
+            questionText.textContent = question.text;
+            quizContainer.appendChild(questionText);
+
+            question.options.forEach((option, index) => {
+                const optionButton = document.createElement('button');
+                optionButton.textContent = option;
+                optionButton.style = 'display: block; margin: 10px auto; padding: 10px 15px; background-color: #28a745; color: #fff; border: none; border-radius: 5px; cursor: pointer;';
+                optionButton.addEventListener('click', () => {
+                    if (index === question.correctIndex) correctAnswers++;
+                    currentQuestion++;
+                    if (currentQuestion < questions.length) {
+                        showQuestion();
+                    } else {
+                        showResults();
+                    }
+                });
+                quizContainer.appendChild(optionButton);
+            });
+        }
+
+        // Mostrar los resultados
+        function showResults() {
+            quizContainer.innerHTML = '';
+            const score = Math.round((correctAnswers / questions.length) * 100);
+
+            const resultsText = document.createElement('h3');
+            resultsText.textContent = `¡Quiz finalizado! Tu puntaje: ${correctAnswers}/${questions.length} (${score}%)`;
+            quizContainer.appendChild(resultsText);
+
+            const retryButton = document.createElement('button');
+            retryButton.textContent = 'Volver a la lista';
+            retryButton.style = 'margin-top: 15px; padding: 10px 15px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;';
+            retryButton.addEventListener('click', () => {
+                quizContainer.innerHTML = '';
+                martialArtsContainer.style.display = 'flex';
+            });
+            quizContainer.appendChild(retryButton);
+
+            martialArtsContainer.style.display = 'none';
+        }
+
+        showQuestion(); // Iniciar con la primera pregunta
+    }
+
+    // Generar preguntas específicas por arte marcial
+    function generateQuestions(art) {
+        const questionsBase = {
+            Karate: [
+                { text: '¿Cuál es el significado de Karate?', options: ['Mano Vacía', 'Arte de la Espada', 'Defensa Personal', 'Combate'], correctIndex: 0 },
+                { text: '¿Dónde se originó el Karate?', options: ['Japón', 'China', 'Corea', 'Tailandia'], correctIndex: 0 },
+            ],
+            Boxeo: [ // Preguntas específicas de Boxeo
+                { text: '¿En qué país se originó el boxeo moderno?', options: ['Reino Unido', 'Estados Unidos', 'Grecia', 'México'], correctIndex: 0 },
+                { text: '¿Qué es un "jab"?', options: ['Un golpe recto rápido', 'Un golpe curvo', 'Una posición defensiva', 'Un movimiento de piernas'], correctIndex: 0 },
+                { text: '¿Cuántos rounds tiene una pelea profesional estándar?', options: ['12', '10', '15', '8'], correctIndex: 0 },
+                { text: '¿Qué significa "KO" en boxeo?', options: ['Knock Out', 'King of Ring', 'Knock On', 'Knee On'], correctIndex: 0 },
+                { text: '¿Qué equipo es obligatorio usar en el boxeo?', options: ['Guantes', 'Cascos', 'Botas', 'Todas las anteriores'], correctIndex: 0 },
+                { text: '¿Qué técnica se utiliza para esquivar golpes?', options: ['Bob and Weave', 'Hook', 'Cross', 'Jab'], correctIndex: 0 },
+                { text: '¿Cómo se llama el área donde se lleva a cabo una pelea?', options: ['El ring', 'El dojo', 'El tatami', 'La jaula'], correctIndex: 0 },
+            ],
+        };
+
+        const generalQuestions = [
+            { text: '¿Qué es un dojo?', options: ['Lugar de entrenamiento', 'Maestro', 'Tipo de técnica', 'Estilo'], correctIndex: 0 },
+            { text: '¿Qué representa el cinturón negro?', options: ['Maestría', 'Principiante', 'Intermedio', 'Ninguna'], correctIndex: 0 },
+            { text: '¿Qué es un kata?', options: ['Forma', 'Pelea', 'Meditación', 'Saludo'], correctIndex: 0 },
+        ];
+
+        return [...(questionsBase[art] || []), ...generalQuestions].slice(0, 7);
+    }
+
+    // Añadir el contenedor al contenido de la app
+    content.appendChild(appContainer);
+}
+
+function createSubwaySurfersApp(content) {
+    // Crear el contenedor principal de la app
+    const appContainer = document.createElement('div');
+    appContainer.style = 'position: relative; width: 800px; height: 600px; border: 2px solid #333; overflow: hidden; margin: 0 auto;';
+
+    // Crear el jugador (ratón)
+    const player = document.createElement('div');
+    player.style = `
+        width: 50px; 
+        height: 50px; 
+        background-color: orange; 
+        border-radius: 50%; 
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%);
+    `;
+    appContainer.appendChild(player);
+
+    // Crear el enemigo (policía)
+    const police = document.createElement('img');
+    police.src = 'https://i.pinimg.com/736x/81/9c/25/819c2584e5c7208de8be7308c76dfc91.jpg'; // Cambia esta URL por una imagen de policía
+    police.style = `
+        width: 70px; 
+        height: 70px; 
+        position: absolute; 
+        top: 10px; 
+        left: 10px; 
+        transition: top 0.5s, left 0.5s;
+    `;
+    appContainer.appendChild(police);
+
+    // Contenedor del puntaje
+    const scoreContainer = document.createElement('div');
+    scoreContainer.textContent = 'Puntaje: 0';
+    scoreContainer.style = `
+        position: absolute; 
+        top: 10px; 
+        right: 10px; 
+        padding: 10px; 
+        background: rgba(0, 0, 0, 0.7); 
+        color: white; 
+        border-radius: 5px;
+    `;
+    appContainer.appendChild(scoreContainer);
+
+    // Añadir el contenedor principal al contenido
+    content.appendChild(appContainer);
+
+    // Variables del juego
+    let score = 0;
+    let gameOver = false;
+
+    // Función para mover al jugador con el ratón
+    document.addEventListener('mousemove', (e) => {
+        if (gameOver) return;
+        const rect = appContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+            player.style.left = `${x - player.offsetWidth / 2}px`;
+            player.style.top = `${y - player.offsetHeight / 2}px`;
+        }
+    });
+
+    // Función para mover al policía hacia el jugador
+function movePolice() {
+    if (gameOver) return;
+
+    const playerRect = player.getBoundingClientRect();
+    const policeRect = police.getBoundingClientRect();
+    const appRect = appContainer.getBoundingClientRect(); // Obtener límites del contenedor
+
+    // Distancias entre policía y jugador
+    const dx = playerRect.left - policeRect.left;
+    const dy = playerRect.top - policeRect.top;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    const step = 20; // Tamaño del paso
+    let newLeft = policeRect.left + (dx / distance) * step;
+    let newTop = policeRect.top + (dy / distance) * step;
+
+    // Verificar que los nuevos valores están dentro del área del contenedor
+    if (newLeft < appRect.left) newLeft = appRect.left;
+    if (newLeft + police.offsetWidth > appRect.right) newLeft = appRect.right - police.offsetWidth;
+    if (newTop < appRect.top) newTop = appRect.top;
+    if (newTop + police.offsetHeight > appRect.bottom) newTop = appRect.bottom - police.offsetHeight;
+
+    // Si la distancia es pequeña, ataque rápido
+    if (distance < 100) {
+        police.style.transition = 'top 0.2s, left 0.2s';
+        police.style.left = `${playerRect.left - appRect.left}px`;
+        police.style.top = `${playerRect.top - appRect.top}px`;
+    } else {
+        // Movimiento gradual hacia el jugador
+        police.style.transition = 'top 0.5s, left 0.5s';
+        police.style.left = `${newLeft - appRect.left}px`;
+        police.style.top = `${newTop - appRect.top}px`;
+    }
+}
+
+
+    // Función para detectar colisiones
+    function checkCollision() {
+        const playerRect = player.getBoundingClientRect();
+        const policeRect = police.getBoundingClientRect();
+
+        if (
+            playerRect.left < policeRect.right &&
+            playerRect.right > policeRect.left &&
+            playerRect.top < policeRect.bottom &&
+            playerRect.bottom > policeRect.top
+        ) {
+            endGame();
+        }
+    }
+
+    // Función para finalizar el juego
+    function endGame() {
+        gameOver = true;
+        alert(`¡Has sido atrapado! Puntaje final: ${score}`);
+        clearInterval(policeInterval);
+        clearInterval(scoreInterval);
+    }
+
+    // Intervalo para mover al policía y verificar colisiones
+    const policeInterval = setInterval(() => {
+        movePolice();
+        checkCollision();
+    }, 500);
+
+    // Intervalo para sumar puntos cada 15 segundos
+    const scoreInterval = setInterval(() => {
+        if (!gameOver) {
+            score++;
+            scoreContainer.textContent = `Puntaje: ${score}`;
+        }
+    }, 15000);
 }
 
 function createUnlockLinkApp(content) {
@@ -920,6 +1078,7 @@ function createUpdateAndBalanceChangesApp(content) {
                     'Nueva App: Juego de Gatos: The Rat',
                     'La app "Sugerir App" ha sido mejorada y ahora al dar una sugerencia de app te redireccionara a Whatsapp para que tu app sea aceptada o rechazada, incluida o no.',
                     'Nueva App: Sneak Peeks de Apps',
+                    'Nueva App: Escape Police. Una app de un intento similar a Subway Surfers.'
                 ]
             }
         },
@@ -937,6 +1096,42 @@ function createUpdateAndBalanceChangesApp(content) {
                 ],
                 'Apps': [
                  'Nueva App: Unlock Link'
+                ]
+            }
+        },
+        {
+            version: '20/11/2024',
+            categories: {
+                'Correcciones de Errores': [
+                    
+                ],
+                'Mejoras': [
+                   
+                ],
+                'Optimizaciones': [
+                    
+                ],
+                'Apps': [
+                 'Se mejoro la app de Notas',
+                ]
+            }
+        },
+        {
+            version: '21/11/2024',
+            categories: {
+                'Correcciones de Errores': [
+                    
+                ],
+                'Mejoras': [
+                   
+                ],
+                'Optimizaciones': [
+                    'Se optimizo la aplicacion de Juego de Gatos: Atrapa la rata para que sea menos dificil atraparla aunque sigue siendo un desafio.'
+                ],
+                'Apps': [
+                 'Se mejoro la app de Mixer: Con esta mejora, esta app contiene un ingrediente y combinaciones para asegurar que no se pierda el interes en la app.',
+                 'Se mejoro la app de RNG: Ahora contiene mas auras, es mas dificil de su obtencion y se corrigieron algunos problemas con su sistema.',
+                 'Nueva App: Escape Police.    Una app que es similar a "Subway Surfers" tecnicamente, una recreacion'
                 ]
             }
         }
@@ -1682,26 +1877,31 @@ function createExtinctAnimalsEncyclopedia(content) {
 }
 
 
-// Definir las auras y sus probabilidades
+// Definir las auras y su rareza (1 entre X)
 const auras = [
-    { name: 'Aura de Luz', probability: 10 },  // 10% de probabilidad
-    { name: 'Aura de Oscuridad', probability: 20 }, // 20% de probabilidad
-    { name: 'Aura de Fuego', probability: 30 }, // 30% de probabilidad
-    { name: 'Aura de Agua', probability: 40 }, // 40% de probabilidad
+    { name: 'Aura de Luz', rarity: 10 },            // 1 entre 10
+    { name: 'Aura de Oscuridad', rarity: 20 },      // 1 entre 50
+    { name: 'Aura de Fuego', rarity: 30 },         // 1 entre 100
+    { name: 'Aura de Agua', rarity: 50 },          // 1 entre 500
+    { name: 'Aura de Tierra', rarity: 100 },      // 1 entre 1,000
+    { name: 'Aura de Viento', rarity: 150 },     // 1 entre 10,000
+    { name: 'Aura Cósmica', rarity: 300 },      // 1 entre 100,000
+    { name: 'Aura de Eternidad', rarity: 500 } // 1 entre 1,000,000
 ];
 
-// Función para rodar y obtener un aura basada en las probabilidades
+// Función para rodar y obtener un aura basada en la rareza
 function rollAura() {
-    const randomValue = Math.random() * 100; // Generar un número aleatorio entre 0 y 100
-    let cumulativeProbability = 0;
+    const totalWeight = auras.reduce((acc, aura) => acc + 1 / aura.rarity, 0); // Calcular el peso total
+    const randomValue = Math.random() * totalWeight; // Generar un número aleatorio entre 0 y totalWeight
+    let cumulativeWeight = 0;
 
     for (const aura of auras) {
-        cumulativeProbability += aura.probability;
-        if (randomValue < cumulativeProbability) {
-            return aura; // Retornar el objeto del aura correspondiente
+        cumulativeWeight += 1 / aura.rarity; // Incrementar el peso acumulativo
+        if (randomValue <= cumulativeWeight) {
+            return aura; // Retornar el aura correspondiente
         }
     }
-    return null; // En caso de que no se encuentre un aura (teóricamente no debería suceder)
+    return auras[auras.length - 1]; // Retornar la última aura como respaldo
 }
 
 function startRngApp(content) {
@@ -1735,8 +1935,7 @@ function startRngApp(content) {
     // Función para rodar y mostrar un aura
     rollBtn.addEventListener('click', () => {
         const aura = rollAura(); // Obtener un aura
-        const inverseProbability = (100 / aura.probability).toFixed(0); // Calcular "1 entre X"
-        resultDisplay.textContent = `Aura obtenida: ${aura.name} (1 entre ${inverseProbability})`;
+        resultDisplay.textContent = `Aura obtenida: ${aura.name} (1 entre ${aura.rarity})`;
     });
 
     // Agregar el contenedor de la app RNG al contenido
@@ -1747,107 +1946,116 @@ function startRngApp(content) {
 
 
 
+
 // Función para crear la aplicación de mezcla de ingredientes
 function createMixerApp(content) {
-// Diccionario de combinaciones
-const combinations = {
-    "Agua+Agua": "Tsunami",
-    "Fuego+Agua": "Vapor",
-    "Tierra+Agua": "Lodo",
-    "Fuego+Tierra": "Lava",
-    "Aire+Agua": "Tormenta",
-    "Fuego+Fuego": "Incendio",
-    "Tierra+Tierra": "Montaña",
-    "Aire+Fuego": "Explosión",
-    "Aire+Tierra": "Arena",
-    "Aire+Aire": "Huracán",
-    "Agua+Tierra": "Pantano",
-    "Fuego+Aire": "Fuego Salvaje",
-    "Tierra+Aire": "Tornado de Polvo",
-    "Fuego+Metal": "Hierro Fundido",
-    "Agua+Metal": "Óxido",
-    "Tierra+Metal": "Caverna de Minerales",
-    "Aire+Metal": "Sonido de Eco",
-    "Metal+Metal": "Aleación",
-    // Nuevas combinaciones:
-    "Agua+Fuego": "Géiser",
-    "Tierra+Fuego": "Volcán",
-    "Aire+Agua": "Niebla",
-    "Agua+Aire": "Lluvia",
-    "Tierra+Aire": "Erosión",
-    "Aire+Tierra": "Polvo",
-    "Fuego+Metal": "Forja",
-    "Metal+Fuego": "Escudo Térmico",
-    "Agua+Metal": "Corrosión",
-    "Metal+Agua": "Condensación",
-    "Tierra+Metal": "Mineralización",
-    "Metal+Tierra": "Yacimiento",
-    "Aire+Metal": "Viento Cortante",
-    "Metal+Aire": "Pararrayos",
-    "Agua+Madera": "Árbol en Crecimiento",
-    "Madera+Agua": "Raíz Podrida",
-    "Fuego+Madera": "Ceniza",
-    "Madera+Fuego": "Carbón",
-    "Tierra+Madera": "Bosque",
-    "Madera+Tierra": "Fertilizante",
-    "Aire+Madera": "Semilla Voladora",
-    "Madera+Aire": "Rama Rota",
-    "Metal+Madera": "Hacha", 
-    "Madera+Metal": "Savia Metálica",
-    // Combinaciones con nuevos ingredientes:
-    "Electricidad+Agua": "Electrocución",
-    "Electricidad+Fuego": "Rayo",
-    "Electricidad+Tierra": "Cristal",
-    "Electricidad+Aire": "Relámpago",
-    "Electricidad+Metal": "Magnetismo",
-    "Electricidad+Madera": "Árbol Petrificado",
-    "Electricidad+Electricidad": "Sobrecarga",
-    "Luz+Oscuridad": "Equilibrio",
-    "Luz+Agua": "Arcoíris",
-    "Luz+Fuego": "Llama Brillante",
-    "Luz+Tierra": "Desierto",
-    "Luz+Aire": "Aurora Boreal",
-    "Luz+Metal": "Brillo Metálico",
-    "Luz+Madera": "Fotosíntesis",
-    "Oscuridad+Agua": "Profundidad Marina",
-    "Oscuridad+Fuego": "Fuego Fatuo",
-    "Oscuridad+Tierra": "Caverna",
-    "Oscuridad+Aire": "Noche Estrellada",
-    "Oscuridad+Metal": "Obsidiana",
-    "Oscuridad+Madera": "Madera Petrificada"
-};
+    // Diccionario de combinaciones
+    const combinations = {
+        "Agua+Agua": "Tsunami",
+        "Fuego+Agua": "Vapor",
+        "Tierra+Agua": "Lodo",
+        "Fuego+Tierra": "Lava",
+        "Aire+Agua": "Tormenta",
+        "Fuego+Fuego": "Incendio",
+        "Tierra+Tierra": "Montaña",
+        "Aire+Fuego": "Explosión",
+        "Aire+Tierra": "Arena",
+        "Aire+Aire": "Huracán",
+        "Agua+Tierra": "Pantano",
+        "Fuego+Aire": "Fuego Salvaje",
+        "Tierra+Aire": "Tornado de Polvo",
+        "Fuego+Metal": "Hierro Fundido",
+        "Agua+Metal": "Óxido",
+        "Tierra+Metal": "Caverna de Minerales",
+        "Aire+Metal": "Sonido de Eco",
+        "Metal+Metal": "Aleación",
+        "Agua+Fuego": "Géiser",
+        "Tierra+Fuego": "Volcán",
+        "Aire+Agua": "Niebla",
+        "Agua+Aire": "Lluvia",
+        "Tierra+Aire": "Erosión",
+        "Aire+Tierra": "Polvo",
+        "Fuego+Metal": "Forja",
+        "Metal+Fuego": "Escudo Térmico",
+        "Agua+Metal": "Corrosión",
+        "Metal+Agua": "Condensación",
+        "Tierra+Metal": "Mineralización",
+        "Metal+Tierra": "Yacimiento",
+        "Aire+Metal": "Viento Cortante",
+        "Metal+Aire": "Pararrayos",
+        "Agua+Madera": "Árbol en Crecimiento",
+        "Madera+Agua": "Raíz Podrida",
+        "Fuego+Madera": "Ceniza",
+        "Madera+Fuego": "Carbón",
+        "Tierra+Madera": "Bosque",
+        "Madera+Tierra": "Fertilizante",
+        "Aire+Madera": "Semilla Voladora",
+        "Madera+Aire": "Rama Rota",
+        "Metal+Madera": "Hacha", 
+        "Madera+Metal": "Savia Metálica",
+        "Electricidad+Agua": "Electrocución",
+        "Electricidad+Fuego": "Rayo",
+        "Electricidad+Tierra": "Cristal",
+        "Electricidad+Aire": "Relámpago",
+        "Electricidad+Metal": "Magnetismo",
+        "Electricidad+Madera": "Árbol Petrificado",
+        "Electricidad+Electricidad": "Sobrecarga",
+        "Luz+Oscuridad": "Equilibrio",
+        "Luz+Agua": "Arcoíris",
+        "Luz+Fuego": "Llama Brillante",
+        "Luz+Tierra": "Desierto",
+        "Luz+Aire": "Aurora Boreal",
+        "Luz+Metal": "Brillo Metálico",
+        "Luz+Madera": "Fotosíntesis",
+        "Oscuridad+Agua": "Profundidad Marina",
+        "Oscuridad+Fuego": "Fuego Fatuo",
+        "Oscuridad+Tierra": "Caverna",
+        "Oscuridad+Aire": "Noche Estrellada",
+        "Oscuridad+Metal": "Obsidiana",
+        "Oscuridad+Madera": "Madera Petrificada",
+        "Agua+Cristal": "Hielo Puro",
+        "Fuego+Cristal": "Llama Clara",
+        "Tierra+Cristal": "Esmeralda",
+        "Aire+Cristal": "Viento Transparente",
+        "Metal+Cristal": "Acero Cristalizado",
+        "Luz+Cristal": "Prisma Brillante",
+        "Oscuridad+Cristal": "Sombra Reflejada"
+    };
 
-// Contenedor de ingredientes y resultado
-content.innerHTML = `
-    <h2>Mixer</h2>
-    <div style="margin-bottom: 15px;">
-        <select id="ingredient1">
-            <option value="Agua">Agua</option>
-            <option value="Fuego">Fuego</option>
-            <option value="Tierra">Tierra</option>
-            <option value="Aire">Aire</option>
-            <option value="Metal">Metal</option>
-            <option value="Madera">Madera</option>
-            <option value="Electricidad">Electricidad</option> 
-            <option value="Luz">Luz</option>
-            <option value="Oscuridad">Oscuridad</option>
+    // Contenedor de ingredientes y resultado
+    content.innerHTML = `
+        <h2>Mixer</h2>
+        <div style="margin-bottom: 15px;">
+            <select id="ingredient1">
+                <option value="Agua">Agua</option>
+                <option value="Fuego">Fuego</option>
+                <option value="Tierra">Tierra</option>
+                <option value="Aire">Aire</option>
+                <option value="Metal">Metal</option>
+                <option value="Madera">Madera</option>
+                <option value="Electricidad">Electricidad</option> 
+                <option value="Luz">Luz</option>
+                <option value="Oscuridad">Oscuridad</option>
+                <option value="Cristal">Cristal</option>
             </select>
-        +
-        <select id="ingredient2">
-            <option value="Agua">Agua</option>
-            <option value="Fuego">Fuego</option>
-            <option value="Tierra">Tierra</option>
-            <option value="Aire">Aire</option>
-            <option value="Metal">Metal</option>
-            <option value="Madera">Madera</option>
-            <option value="Electricidad">Electricidad</option> 
-            <option value="Luz">Luz</option>
-            <option value="Oscuridad">Oscuridad</option>
+            +
+            <select id="ingredient2">
+                <option value="Agua">Agua</option>
+                <option value="Fuego">Fuego</option>
+                <option value="Tierra">Tierra</option>
+                <option value="Aire">Aire</option>
+                <option value="Metal">Metal</option>
+                <option value="Madera">Madera</option>
+                <option value="Electricidad">Electricidad</option> 
+                <option value="Luz">Luz</option>
+                <option value="Oscuridad">Oscuridad</option>
+                <option value="Cristal">Cristal</option>
             </select>
-    </div>
-    <button id="mixButton">Mezclar Ingredientes</button>
-    <div id="result" style="margin-top: 20px; font-size: 18px; color: #333;"></div>
-`;
+        </div>
+        <button id="mixButton">Mezclar Ingredientes</button>
+        <div id="result" style="margin-top: 20px; font-size: 18px; color: #333;"></div>
+    `;
+
     // Selecciona los elementos del DOM
     const ingredient1 = content.querySelector("#ingredient1");
     const ingredient2 = content.querySelector("#ingredient2");
@@ -2098,14 +2306,27 @@ function showClock(content) {
     }, 1000);
 }
 
-// Función para crear la app de notas
 function createNoteApp(content) {
     content.innerHTML += `<h3>Notas</h3>`;
+  
     const noteArea = document.createElement('textarea');
     noteArea.id = 'noteArea';
     noteArea.style = 'width: 90%; height: 80px; padding: 5px; resize: none; box-sizing: border-box;';
     content.appendChild(noteArea);
-}
+  
+    // Botón para guardar la nota
+    const saveButton = document.createElement('button');
+    saveButton.textContent = 'Guardar nota';
+    saveButton.addEventListener('click', () => {
+      const noteContent = noteArea.value;
+      const noteName = prompt('Nombre de la nota:');
+      if (noteName) {
+        localStorage.setItem(noteName, noteContent);
+        alert('Nota guardada!');
+      }
+    });
+    content.appendChild(saveButton);
+  }
 
 function createProjectApp(content) {
     // Contenedor para el formulario de creación de proyectos
