@@ -384,6 +384,7 @@ function getAppIcon(appName) {
         'CheckMate': 'https://i.pinimg.com/564x/eb/64/83/eb6483224dbfd351bf5ec53621a320ff.jpg',
         'Updates': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
         'Calendario': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
+        'Quiz de Artes Marciales': 'https://i.pinimg.com/736x/a8/4b/0a/a84b0afc36467910d7c350dc64dd8f3c.jpg'
     };
     return icons[appName] || 'https://i.pinimg.com/564x/36/9b/3b/369b3b5c246ba187037e47afc8e26b1c.jpg'; // Ícono por defecto
 }
@@ -991,6 +992,9 @@ function createCatGameApp(content) {
     ratImage.style = 'width: 50px; height: auto; position: absolute; cursor: pointer;';
     appContainer.appendChild(ratImage);
 
+    // Crear el audio de burla
+    const laughAudio = new Audio('https://ia600605.us.archive.org/19/items/muajajajh_202411/Muajajajh.mp3'); // Enlace a un audio de burla divertido
+
     // Función para mover la rata a una posición aleatoria
     function moveRatRandomly() {
         const maxX = appContainer.clientWidth - ratImage.clientWidth;
@@ -1004,9 +1008,17 @@ function createCatGameApp(content) {
     }
 
     // Evento al hacer clic en la rata
-    ratImage.addEventListener('click', () => {
+    ratImage.addEventListener('click', (event) => {
+        event.stopPropagation(); // Evitar que el evento de clic del contenedor se dispare
         points += 1;
         pointsContainer.textContent = `Puntos: ${points}`;
+    });
+
+    // Evento al hacer clic fuera de la rata
+    appContainer.addEventListener('click', (event) => {
+        if (!event.target.contains(ratImage)) {
+            laughAudio.play(); // Reproduce el audio de burla
+        }
     });
 
     // Mover la rata aleatoriamente cada 800 ms
@@ -1015,6 +1027,7 @@ function createCatGameApp(content) {
     // Añadir el contenedor al contenido de la app
     content.appendChild(appContainer);
 }
+
 
 
 
@@ -1134,7 +1147,25 @@ function createUpdateAndBalanceChangesApp(content) {
                  'Nueva App: Escape Police.    Una app que es similar a "Subway Surfers" tecnicamente, una recreacion'
                 ]
             }
-        }
+        },
+        {
+            version: '22/11/2024',
+            categories: {
+                'Correcciones de Errores': [
+                    
+                ],
+                'Mejoras': [
+                   
+                ],
+                'Optimizaciones': [
+                    
+                ],
+                'Apps': [
+                 'Se mejoro la app "Juego de Gatos: Atrapa la rata, ahora la rata se puede burlar si no le atinas.',
+                 'Nueva App: Quiz de Artes Marciales'
+                ]
+            }
+        },
     ];
 
     // Crear un menú desplegable para seleccionar la versión
