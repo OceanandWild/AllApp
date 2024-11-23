@@ -44,6 +44,7 @@ const apps = [
     { name: 'Escape Police', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
     { name: 'Quiz de Artes Marciales', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
     { name: 'Enciclopedia Animal', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
+    { name: 'Galeria de Gatitos', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
 ];
 
 // Botón para abrir la tienda
@@ -301,9 +302,11 @@ function installApp(appName) {
 }
 
 
+// Agregar una configuración global para apps por página
+let appsPerPage = 7; // Valor predeterminado
+
 // Función para renderizar la tienda
 function renderAppStore(page = 1) {
-    const appsPerPage = 6;
     const start = (page - 1) * appsPerPage;
     const end = start + appsPerPage;
     const appsToShow = apps.slice(start, end);
@@ -313,6 +316,36 @@ function renderAppStore(page = 1) {
     appStoreModal.innerHTML = ""; // Limpia todo
     if (closeButton) appStoreModal.appendChild(closeButton); // Reagrega el botón "Cerrar"
 
+    // Agregar la opción de configuración de "Apps por página"
+    const configContainer = document.createElement('div');
+    configContainer.style = 'margin-bottom: 15px; text-align: center;';
+
+    const label = document.createElement('label');
+    label.textContent = "Apps por página: ";
+    label.style.marginRight = "5px";
+
+    const input = document.createElement('input');
+    input.type = "number";
+    input.value = appsPerPage;
+    input.min = 1;
+    input.max = apps.length;
+    input.style.width = "50px";
+
+    input.addEventListener('change', () => {
+        const newAppsPerPage = parseInt(input.value, 10);
+        if (newAppsPerPage > 0 && newAppsPerPage <= apps.length) {
+            appsPerPage = newAppsPerPage; // Actualiza la cantidad
+            renderAppStore(1); // Recarga la tienda desde la primera página
+        } else {
+            alert(`Por favor, elige un valor entre 1 y ${apps.length}.`);
+        }
+    });
+
+    configContainer.appendChild(label);
+    configContainer.appendChild(input);
+    appStoreModal.appendChild(configContainer);
+
+    // Mostrar las apps de la página actual
     appsToShow.forEach(app => {
         const appButton = document.createElement('button');
         appButton.textContent = app.name;
@@ -345,6 +378,7 @@ function renderAppStore(page = 1) {
         appStoreModal.appendChild(appButton);
     });
 
+    // Mostrar botones de paginación
     if (apps.length > appsPerPage) {
         const paginationContainer = document.createElement('div');
         paginationContainer.style.textAlign = 'center';
@@ -373,6 +407,7 @@ renderAppStore();
 
 
 
+
 // Función para obtener el ícono de la app
 function getAppIcon(appName) {
     const icons = {
@@ -385,7 +420,9 @@ function getAppIcon(appName) {
         'Calendario': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
         'Quiz de Artes Marciales': 'https://i.pinimg.com/736x/a8/4b/0a/a84b0afc36467910d7c350dc64dd8f3c.jpg',
         'Enciclopedia Animal': 'https://i.pinimg.com/736x/11/7b/ae/117baedaef6757575687e5fa382de38c.jpg',
-        'Juego de Gatos: The Rat': 'https://i.pinimg.com/736x/b3/73/fb/b373fb7ff19418378c5b547a247b84c7.jpg'
+        'Juego de Gatos: The Rat': 'https://i.pinimg.com/736x/b3/73/fb/b373fb7ff19418378c5b547a247b84c7.jpg',
+        'Galeria de Gatitos': 'https://i.pinimg.com/736x/8b/59/7a/8b597aa05cc905e0fb4c32886b378fd7.jpg',
+        'Actualizaciones y Cambios de Balance': 'https://i.pinimg.com/736x/8b/5d/21/8b5d2171151a753d80b76215f7647ed8.jpg',
     };
     return icons[appName] || 'https://i.pinimg.com/564x/36/9b/3b/369b3b5c246ba187037e47afc8e26b1c.jpg'; // Ícono por defecto
 }
@@ -505,6 +542,9 @@ function openApp(app) {
                         case 'Enciclopedia Animal':
                         createAnimalEncyclopediaApp(content);
                         break;
+                        case 'Galeria de Gatitos':
+                        createKittenGalleryApp(content);
+                        break;
             default:
                 content.innerHTML = `<p>Aplicación no disponible.</p>`;
         }
@@ -553,6 +593,57 @@ transition: background-color 0.3s, transform 0.3s;
 
     return closeButton;
 }
+
+function createKittenGalleryApp(content) {
+    // Contenedor principal de la app
+    const appContainer = document.createElement('div');
+    appContainer.style = 'padding: 20px; text-align: center; width: 100%; height: 100%; background-color: #fdf6e3;';
+
+    // Título de la app
+    const title = document.createElement('h2');
+    title.textContent = 'Galería de Gatitos 🐱';
+    title.style = 'color: #2a4d69; margin-bottom: 20px;';
+    appContainer.appendChild(title);
+
+    // Contenedor para la imagen del gatito
+    const kittenImage = document.createElement('img');
+    kittenImage.style = 'width: 300px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
+    appContainer.appendChild(kittenImage);
+
+    // Pie de texto que indica el número de la imagen
+    const caption = document.createElement('p');
+    caption.style = 'color: #4a4a4a; font-size: 18px; margin-top: 10px;';
+    appContainer.appendChild(caption);
+
+    // Lista de URLs de imágenes de gatitos
+    const kittenImages = [
+        'https://placekitten.com/400/300',
+        'https://placekitten.com/300/400',
+        'https://placekitten.com/350/350',
+        'https://placekitten.com/450/350',
+        'https://placekitten.com/350/450',
+        'https://placekitten.com/400/400'
+    ];
+
+    let currentKittenIndex = 0;
+
+    // Función para cambiar la imagen del gatito
+    function showNextKitten() {
+        kittenImage.src = kittenImages[currentKittenIndex];
+        caption.textContent = `Gatito #${currentKittenIndex + 1}`;
+        currentKittenIndex = (currentKittenIndex + 1) % kittenImages.length;
+    }
+
+    // Mostrar el primer gatito al cargar la app
+    showNextKitten();
+
+    // Cambiar la imagen cada 3 segundos
+    setInterval(showNextKitten, 3000);
+
+    // Añadir el contenedor al contenido de la app
+    content.appendChild(appContainer);
+}
+
 
 function createCheckMateApp(content) {
     const appContainer = document.createElement('div');
@@ -1175,7 +1266,7 @@ function createCatGameApp(content) {
             '¡MEJORA TU VELOCIDAD! 😆', 'MUY NOOB 🤣', 'EZ!!🤣🤣👎', 'NAH I´D WIN 🗿'
         ];
         const ratTauntsByPoints = [
-            { threshold: 0, message: '¿Ni un punto? ¡Vamos, que mal que juegas! 😂' },
+            { threshold: 0, message: '¿Solo uno? ¡Vamos, que mal que juegas! 😂' },
             { threshold: 5, message: '¿Solo 5 puntos? ¡Esfuérzate más! 😜' },
             { threshold: 10, message: '¡10 puntos y nada más! ¡Te estoy ganando! 😆' },
             { threshold: 20, message: '¡20 puntos! Te reto, ni en 3 años llegarás a 30. 🤣' },
@@ -1361,10 +1452,10 @@ function createUpdateAndBalanceChangesApp(content) {
                     
                 ],
                 'Mejoras': [
-                   
+                   'Ahora en vez de que el icono de la app deje una parte en verde cuando se ve el icono de la app en vista de instalado, a partir de ahora el icono/imagen acaparara todo sin dejar ningun espacio para mejorar la personalizacion moderna.'
                 ],
                 'Optimizaciones': [
-                    
+                    'Ahora la tienda esta optimizada para que puedas adaptar la cantidad de apps por pagina, por defecto es 7 pero puedes cambiarlo a tu gusto con esta nueva configuracion'
                 ],
                 'Apps': [
                  'Se mejoro la app "Juego de Gatos: Atrapa la rata, ahora la rata se puede burlar si no le atinas.',
@@ -1372,6 +1463,8 @@ function createUpdateAndBalanceChangesApp(content) {
                  'Nueva App: Enciclopedia Animal.  Perdon por la tardanza',
                  'La app "Sneak Peeks de Apps" ha sido removida',
                  'La app "CheckMate" ya es funcional y ha sido reworkeada',
+                 'Nueva App: Galeria de Gatitos',
+                 'Se agregaron a varias apps sus imagenes correspondientes, seguiremos agregando a las demas pronto.'
                 ]
             }
         },
