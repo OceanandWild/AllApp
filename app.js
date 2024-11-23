@@ -106,6 +106,8 @@ function installApp(appName) {
 
     if (installedApps.some(installedApp => installedApp.name === appName)) {
         console.log(`${appName} ya está instalada.`);
+        // Añadir app automáticamente al contenedor de apps instaladas
+        installedApps.push({ ...app });
         return;
     }
 
@@ -1330,9 +1332,9 @@ function createCatGameApp(content) {
 
 
 function createUpdateAndBalanceChangesApp(content) {
-    // Crear el contenedor de la app
-    const appContainer = document.createElement('div');
-    appContainer.style = 'padding: 20px; text-align: center;';
+     // Crear el contenedor de la app
+     const appContainer = document.createElement('div');
+     appContainer.classList.add('update-app-container'); 
 
     // Título de la app
     const title = document.createElement('h2');
@@ -1388,7 +1390,6 @@ function createUpdateAndBalanceChangesApp(content) {
                     'Nueva App: Juego de Gatos: The Rat',
                     'La app "Sugerir App" ha sido mejorada y ahora al dar una sugerencia de app te redireccionara a Whatsapp para que tu app sea aceptada o rechazada, incluida o no.',
                     'Nueva App: Sneak Peeks de Apps',
-                    'Nueva App: Escape Police. Una app de un intento similar a Subway Surfers.'
                 ]
             }
         },
@@ -1452,10 +1453,12 @@ function createUpdateAndBalanceChangesApp(content) {
                     
                 ],
                 'Mejoras': [
-                   'Ahora en vez de que el icono de la app deje una parte en verde cuando se ve el icono de la app en vista de instalado, a partir de ahora el icono/imagen acaparara todo sin dejar ningun espacio para mejorar la personalizacion moderna.'
+                   'Ahora en vez de que el icono de la app deje una parte en verde cuando se ve el icono de la app en vista de instalado, a partir de ahora el icono/imagen acaparara todo sin dejar ningun espacio para mejorar la personalizacion moderna.',
+                   'Ahora la app dira "Actualizada!" en vez de mejorada, en las etiquetas de Lion Store y del contenedor de Apps Instaladas.'
                 ],
                 'Optimizaciones': [
-                    'Ahora la tienda esta optimizada para que puedas adaptar la cantidad de apps por pagina, por defecto es 7 pero puedes cambiarlo a tu gusto con esta nueva configuracion'
+                    'Ahora la tienda esta optimizada para que puedas adaptar la cantidad de apps por pagina, por defecto es 7 pero puedes cambiarlo a tu gusto con esta nueva configuracion',
+                    'Se optimizo la app "Actualizaciones y Cambios de Balance".'
                 ],
                 'Apps': [
                  'Se mejoro la app "Juego de Gatos: Atrapa la rata, ahora la rata se puede burlar si no le atinas.',
@@ -1470,66 +1473,57 @@ function createUpdateAndBalanceChangesApp(content) {
         },
     ];
 
-    // Crear un menú desplegable para seleccionar la versión
-    const versionSelect = document.createElement('select');
-    versionSelect.style = 'margin: 10px; padding: 5px;';
-    updates.forEach((update, index) => {
-        const option = document.createElement('option');
-        option.value = index;  // El valor es el índice
-        option.textContent = update.version;  // Muestra la versión
-        versionSelect.appendChild(option);
-    });
-    appContainer.appendChild(versionSelect);
-
-    // Contenedor para mostrar los cambios de la versión seleccionada
-    const changesContainer = document.createElement('div');
-    changesContainer.style = 'margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;';
-    appContainer.appendChild(changesContainer);
-
-    // Función para mostrar los cambios de la versión seleccionada
-    function displayChanges(index) {
-        const update = updates[index];
-        changesContainer.innerHTML = ''; // Limpiar contenido previo
-
-        const versionHeading = document.createElement('h3');
-        versionHeading.textContent = `Versión: ${update.version}`;
-        changesContainer.appendChild(versionHeading);
-
-        // Mostrar las categorías y sus cambios
-        Object.keys(update.categories).forEach(category => {
-            const categoryHeading = document.createElement('h4');
-            categoryHeading.textContent = category;
-            changesContainer.appendChild(categoryHeading);
-
-            const changesList = document.createElement('ul');
-            const changes = update.categories[category];
-
-            if (changes.length > 0) {
-                changes.forEach(change => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = change;
-                    changesList.appendChild(listItem);
-                });
-            } else {
-                const emptyItem = document.createElement('li');
-                emptyItem.textContent = 'No hay cambios';
-                changesList.appendChild(emptyItem);
-            }
-
-            changesContainer.appendChild(changesList);
-        });
-    }
-
-    // Mostrar cambios de la versión seleccionada al cargar
-    versionSelect.addEventListener('change', () => {
-        const selectedIndex = parseInt(versionSelect.value);  // Asegurarse de que el valor sea un número entero
-        displayChanges(selectedIndex);
-    });
-    displayChanges(0); // Mostrar cambios de la primera versión por defecto
-
-    // Añadir el contenedor al contenido de la app
-    content.appendChild(appContainer);
-}
+      // Crear un menú desplegable para seleccionar la versión
+      const versionSelect = document.createElement('select');
+      versionSelect.classList.add('version-select');
+      updates.forEach((update, index) => {
+          const option = document.createElement('option');
+          option.value = index; // Índice de la versión
+          option.textContent = update.version;
+          versionSelect.appendChild(option);
+      });
+      appContainer.appendChild(versionSelect);
+  
+      // Contenedor para los cambios
+      const changesContainer = document.createElement('div');
+      changesContainer.classList.add('changes-container');
+      appContainer.appendChild(changesContainer);
+  
+      // Función para mostrar cambios de una versión
+      function displayChanges(index) {
+          const update = updates[index];
+          changesContainer.innerHTML = ''; // Limpiar cambios previos
+  
+          const versionTitle = document.createElement('h3');
+          versionTitle.textContent = `Versión: ${update.version}`;
+          changesContainer.appendChild(versionTitle);
+  
+          Object.entries(update.categories).forEach(([category, changes]) => {
+              const categoryTitle = document.createElement('h4');
+              categoryTitle.textContent = category;
+              changesContainer.appendChild(categoryTitle);
+  
+              const changeList = document.createElement('ul');
+              changes.forEach(change => {
+                  const listItem = document.createElement('li');
+                  listItem.textContent = change;
+                  changeList.appendChild(listItem);
+              });
+              changesContainer.appendChild(changeList);
+          });
+      }
+  
+      // Evento para cambiar de versión
+      versionSelect.addEventListener('change', () => {
+          displayChanges(parseInt(versionSelect.value));
+      });
+  
+      // Mostrar la primera versión por defecto
+      displayChanges(0);
+  
+      // Añadir el contenedor de la app al contenido
+      content.appendChild(appContainer);
+  }
 
 
 

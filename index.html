@@ -203,7 +203,118 @@
         }
 
 
+        .update-app-container {
+  padding: 30px 40px; /* Aumenta el padding */
+  text-align: center;
+  background: #f9f9f9;
+  border-radius: 15px; /* Bordes más redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Para posicionar el elemento decorativo */
+  overflow: hidden; /* Para contener el degradado */
+}
 
+.update-app-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  z-index: -1; /* Coloca el degradado detrás del contenido */
+  background: linear-gradient(135deg, #f0fff0, #e0ffff, #f5f5dc); /* Degradado de colores suaves */
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite; /* Anima el degradado */
+  border-radius: 20px; /* Bordes redondeados para el degradado */
+  filter: blur(8px); /* Desenfoca el degradado */
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.version-select {
+  margin: 20px auto; /* Aumenta el margen superior e inferior */
+  padding: 10px 15px; /* Aumenta el padding */
+  font-size: 18px; /* Aumenta el tamaño de la fuente */
+  border: none; /* Elimina el borde */
+  border-radius: 8px; /* Bordes redondeados */
+  background-color: #f5f5f5; /* Color de fondo suave */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interior sutil */
+  appearance: none; /* Elimina la apariencia por defecto del select */
+  -webkit-appearance: none; /* Para navegadores WebKit */
+  -moz-appearance: none; /* Para navegadores Mozilla */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); /* Agrega una flecha personalizada */
+  background-repeat: no-repeat;
+  background-position: right 10px center; /* Posiciona la flecha */
+  padding-right: 30px; /* Ajusta el padding para la flecha */
+}
+
+.changes-container {
+  margin-top: 30px; /* Aumenta el margen superior */
+  text-align: left;
+  padding: 20px; /* Aumenta el padding */
+  background: #fff;
+  border: none; /* Elimina el borde */
+  border-radius: 10px; /* Bordes más redondeados */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Agrega una sombra sutil */
+}
+
+.changes-container h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: transparent; /* Hacemos el color del texto transparente */
+  margin-bottom: 10px;
+  background-clip: text; /* Recortamos el fondo al texto */
+  -webkit-background-clip: text; /* Para navegadores WebKit */
+  background-image: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff); /* Degradado de arcoiris */
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite; /* Animamos el degradado */
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: transparent; /* Hacemos el color del texto transparente */
+  margin-bottom: 20px; 
+  background-clip: text; /* Recortamos el fondo al texto */
+  -webkit-background-clip: text; /* Para navegadores WebKit */
+  background-image: linear-gradient(to right, #ff0000, #8f00ff, #ffff00, #00ff00, #0000ff, #4b0082, #ff7f00 ); /* Degradado de arcoiris */
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite; /* Animamos el degradado */
+}
+
+.changes-container ul {
+  list-style: none; 
+  padding: 0;
+  color: transparent; /* Hacemos el color del texto transparente */
+  background-clip: text; /* Recortamos el fondo al texto */
+  -webkit-background-clip: text; /* Para navegadores WebKit */
+  background-image: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff); /* Degradado de arcoiris */
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite; /* Animamos el degradado */
+}
+
+.changes-container li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+  color: #555;
+  position: relative; /* Para posicionar el pseudo-elemento */
+}
+
+.changes-container li::before {
+  content: "•"; /* Agrega un punto como viñeta */
+  position: absolute;
+  left: -15px;
+  color: #007bff; /* Color de la viñeta */
+}
 
 /* Estilo base del botón */
 button {
