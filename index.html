@@ -4,383 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AllApp</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Contenedor principal */
-        #appContainer { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 10px; 
-            margin-top: 20px; 
-            padding: 20px;
-            width: 900px; 
-            min-height: 450px; 
-            border: 2px solid #ff0000; 
-            border-radius: 8px;
-        }
-
-        /* Botón Lion Store */
-        #openStoreBtn { 
-            margin-top: 10px; 
-            padding: 10px 20px; 
-            background-color: #FFB900; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            font-size: 16px; 
-        }
-
-        /* Modal container */
-       /* General styles for the modal */
-#appStoreModal {
-    display: none; /* Initially hidden */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #18743e; /* Color verde azulado más suave */
-    border-radius: 16px; /* Bordes redondeados más suaves */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra más difusa y profunda */
-    padding: 30px;
-    max-width: 90%;
-    max-height: 90%;
-    overflow-y: auto;
-    z-index: 1000;
-    animation: modalFadeIn 0.5s ease-out; /* Animación de aparición */
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Transición más suave */
-    background-image: url('https://i.pinimg.com/736x/bf/d1/82/bfd18223e331919953068322e9eae65c.jpg'); /* Agregar textura natural de fondo */
-    background-size: cover; /* Hace que la textura cubra todo el fondo */
-    background-position: center;
-    flex-direction: column;
-    align-items: center; /* Center the buttons horizontally */
-}
-
-.install-btn {
-    display: block; /* Make each button a block element */
-    width: 100%; /* Ensure buttons take up full width of the container */
-    margin: 10px 0; /* Add space between buttons */
-    padding: 12px 24px; /* Adjust button size */
-    font-size: 16px; /* Button text size */
-    background-color: #4CAF50; /* Green background */
-    color: rgb(115, 255, 0);
-    border-radius: 8px; /* Rounded corners */
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: 5px solid transparent; /* Borde transparente inicial para bordes de arcoíris */
-    border-radius: 12px; /* Bordes redondeados más orgánicos */
-    border-image: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red); /* Arcoíris en el borde */
-    border-image-slice: 1; /* Aplica el arcoíris al borde */
-}
-
-.install-btn:disabled {
-    background-color: #9b1b1b;
-    cursor: not-allowed;
-}
-
-/* Animation for modal fade-in */
-@keyframes modalFadeIn {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.9); /* Hace que aparezca más pequeño al principio */
-    }
-    100% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1); /* Escala normal cuando aparece */
-    }
-}
-
-/* Modal close button */
-#appStoreModal .close-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background-color: rgba(255, 255, 255, 0.6); /* Fondo blanco sutil */
-    border: none;
-    border-radius: 50%;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    color: #003cff; /* Mismo color que el fondo */
-    transition: background-color 0.3s ease;
-}
-
-#appStoreModal .close-button:hover {
-    background-color: rgba(255, 255, 255, 0.8); /* Cambio suave al pasar el ratón */
-    color: #fff; /* Color blanco para el icono cuando el botón está activo */
-}
-
-/* Modal content */
-#appStoreModal .content {
-    font-size: 18px;
-    color: #fff;
-    line-height: 1.6;
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    padding: 15px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    #appStoreModal {
-        max-width: 95%; /* Ajusta el modal para pantallas pequeñas */
-        max-height: 85%;
-    }
-}
-
-
-        /* Modal content */
-        .modal-content {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Close button style */
-        .closeButton {
-            align-self: flex-end;
-            background-color: #f44336;
-            color: #fff;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .closeButton:hover {
-            background-color: #d32f2f;
-        }
-
-        /* Estilo de los elementos de la aplicación */
-        .app-item {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            align-items: center;
-            padding: 10px;
-            margin: 5px 0;
-            background-color: rgba(255, 255, 255, 0.8); 
-            border-radius: 12px; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-            transition: background-color 0.3s, transform 0.3s; 
-        }
-
-        .app-item:hover {
-            background-color: rgba(255, 255, 255, 1); 
-            transform: scale(1.02); 
-        }
-
-        /* Estilo de los botones de instalación */
-        .modal-content button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .modal-content button:hover {
-            background-color: #0056b3;
-        }
-
-
-        .update-app-container {
-  padding: 30px 40px; /* Aumenta el padding */
-  text-align: center;
-  background: #f9f9f9;
-  border-radius: 15px; /* Bordes más redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative; /* Para posicionar el elemento decorativo */
-  overflow: hidden; /* Para contener el degradado */
-}
-
-.update-app-container::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  z-index: -1; /* Coloca el degradado detrás del contenido */
-  background: linear-gradient(135deg, #f0fff0, #e0ffff, #f5f5dc); /* Degradado de colores suaves */
-  background-size: 200% 200%;
-  animation: gradient 15s ease infinite; /* Anima el degradado */
-  border-radius: 20px; /* Bordes redondeados para el degradado */
-  filter: blur(8px); /* Desenfoca el degradado */
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.version-select {
-  margin: 20px auto; /* Aumenta el margen superior e inferior */
-  padding: 10px 15px; /* Aumenta el padding */
-  font-size: 18px; /* Aumenta el tamaño de la fuente */
-  border: none; /* Elimina el borde */
-  border-radius: 8px; /* Bordes redondeados */
-  background-color: #f5f5f5; /* Color de fondo suave */
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interior sutil */
-  appearance: none; /* Elimina la apariencia por defecto del select */
-  -webkit-appearance: none; /* Para navegadores WebKit */
-  -moz-appearance: none; /* Para navegadores Mozilla */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); /* Agrega una flecha personalizada */
-  background-repeat: no-repeat;
-  background-position: right 10px center; /* Posiciona la flecha */
-  padding-right: 30px; /* Ajusta el padding para la flecha */
-}
-
-.changes-container {
-  margin-top: 30px; /* Aumenta el margen superior */
-  text-align: left;
-  padding: 20px; /* Aumenta el padding */
-  background: #fff;
-  border: none; /* Elimina el borde */
-  border-radius: 10px; /* Bordes más redondeados */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Agrega una sombra sutil */
-}
-
-.changes-container h3 {
-  font-size: 20px;
-  font-weight: bold;
-  color: transparent; /* Hacemos el color del texto transparente */
-  margin-bottom: 10px;
-  background-clip: text; /* Recortamos el fondo al texto */
-  -webkit-background-clip: text; /* Para navegadores WebKit */
-  background-image: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff); /* Degradado de arcoiris */
-  background-size: 400% 400%;
-  animation: gradient 10s ease infinite; /* Animamos el degradado */
-}
-
-h2 {
-  font-size: 24px;
-  font-weight: bold;
-  color: transparent; /* Hacemos el color del texto transparente */
-  margin-bottom: 20px; 
-  background-clip: text; /* Recortamos el fondo al texto */
-  -webkit-background-clip: text; /* Para navegadores WebKit */
-  background-image: linear-gradient(to right, #ff0000, #8f00ff, #ffff00, #00ff00, #0000ff, #4b0082, #ff7f00 ); /* Degradado de arcoiris */
-  background-size: 400% 400%;
-  animation: gradient 10s ease infinite; /* Animamos el degradado */
-}
-
-.changes-container ul {
-  list-style: none; 
-  padding: 0;
-  color: transparent; /* Hacemos el color del texto transparente */
-  background-clip: text; /* Recortamos el fondo al texto */
-  -webkit-background-clip: text; /* Para navegadores WebKit */
-  background-image: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff); /* Degradado de arcoiris */
-  background-size: 400% 400%;
-  animation: gradient 10s ease infinite; /* Animamos el degradado */
-}
-
-.changes-container li {
-  margin-bottom: 8px;
-  line-height: 1.5;
-  color: #555;
-  position: relative; /* Para posicionar el pseudo-elemento */
-}
-
-.changes-container li::before {
-  content: "•"; /* Agrega un punto como viñeta */
-  position: absolute;
-  left: -15px;
-  color: #007bff; /* Color de la viñeta */
-}
-
-/* Estilo base del botón */
-button {
-    font-size: 16px;
-    color: #fff;
-    background-color: #3a8e3f; /* Verde suave (inspirado en la naturaleza) */
-    border: 5px solid transparent; /* Borde transparente inicial para bordes de arcoíris */
-    border-radius: 12px; /* Bordes redondeados más orgánicos */
-    padding: 12px 24px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra suave */
-    font-family: 'Arial', sans-serif;
-    text-transform: capitalize;
-    background-image: url('https://i.pinimg.com/736x/49/94/99/4994992011869e893fb5f0d669368c37.jpg'); /* Cambia esta ruta por la de tu imagen */
-    background-size: cover; /* Asegura que la imagen ocupe todo el botón */
-    background-position: center center; /* Centra la imagen de fondo */
-    border-image: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red); /* Arcoíris en el borde */
-    border-image-slice: 1; /* Aplica el arcoíris al borde */
-}
-
-/* Efecto hover - Fondo más claro y mueve la imagen */
-button:hover {
-    background-color: rgba(58, 142, 63, 0.7); /* Fondo verde semi-transparente para visibilidad */
-    transform: scale(1.05); /* Crece ligeramente el botón */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
-    background-position: 100% center; /* Mueve la imagen hacia la derecha */
-    transition: background-position 0.5s ease; /* Añadimos transición solo a background-position */
-}
-
-/* Efecto active - Fondo aún más intenso y efecto de presión */
-button:active {
-    background-color: #287b3b; /* Verde más profundo */
-    transform: scale(0.98); /* Hace que el botón se vea presionado */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Disminuye la sombra */
-    background-position: 0% center; /* Mueve la imagen hacia la izquierda al presionar */
-}
-
-
-/* Estilo para botones deshabilitados */
-button:disabled {
-    background-color: #b0e0a8; /* Verde claro */
-    color: #ff0000;
-    cursor: not-allowed;
-    opacity: 0.5;
-    border-color: #a8d0a5; /* Color de borde deshabilitado */
-}
-
-/* En tu archivo CSS */
-.button-verified {
-    background-color: #28a745;
-    color: #ffffff;
-}
-
-/* Estilo de texto en los botones */
-button span {
-    font-weight: bold;
-}
-
-
-
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <div id="appBuxViewer" class="app-bux-viewer"></div>
+    </header>
+    
     <!-- Botón para abrir la tienda -->
     <button id="openStoreBtn">Lion Store</button>
+
 
     <!-- Contenedor de apps instaladas -->
     <div id="appContainer"></div>
@@ -423,6 +56,33 @@ button span {
             </div>
         </div>
     </div>
+
+
+    <h2>Tienda</h2>
+    <hr>
+     <!-- Contenedor de la tienda -->
+ <div id="storeContainer"></div>
+
+<!-- Modal de compra -->
+<div id="shopModal" class="modal">
+    <div class="loading-circle" id="loadingCircle"></div>
+    <h2 id="windowMessage">Finaliza la compra</h2>
+    <p id="checkoutDetails"></p>
+    <button id="finalizePurchaseBtn" style="display: none;">Finalizar Compra</button>
+</div>
+<hr>
+<div id="appDropsContainer">
+  <h2>AppDrops</h2>
+  <div id="appDropsContent">
+      <!-- Los AppDrops estarán aquí -->
+  </div>
+</div>
+<hr>
+<h2>Comprar Monedas</h2>
+ <!-- Contenedor de la tienda -->
+ <div id="storeContainer2"></div>
+
+
 
     <script src="app.js"></script>
 </body>
