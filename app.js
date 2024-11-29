@@ -137,6 +137,7 @@ const apps = [
     { name: 'Eventos', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false  }, // Nuevo comando
     { name: 'Señal de Red', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false  }, // Nuevo comando
     { name: 'Comentarios: Fin de Año', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false  }, // Nuevo comando
+    { name: 'Mitos que nos creiamos', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: true  }, // Nuevo comando
 ];
 
 // Botón para abrir la tienda
@@ -518,7 +519,9 @@ const appBuxViewer = document.getElementById('appBuxViewer'); // Nuevo elemento 
 
 let appBux = 500; // Saldo inicial de AppBux
 
-// Lista de productos
+const blackFridayDate = new Date('2024-11-29T00:00:00');
+const blackFridayEnd = new Date('2024-11-29T23:59:59');
+
 const products = [
     { 
         name: 'Paquete Gatuno😺 (Acceso Anticipado)', 
@@ -526,45 +529,52 @@ const products = [
         icon: '', 
         requireBuy: true, 
         apps: ['Juego de Gatos: The Rat', 'Galeria de Gatitos'], 
-        releaseAt: new Date('2024-11-25T00:00:00'), 
-        expiresAt: new Date('2024-12-01T00:00:00')  
+        releaseAt: new Date('2024-11-25T00:00:00'),
+        expiresAt: new Date('2024-12-01T00:00:00'),
+        isBlackFriday: false // No aplica descuento
     },
-    { 
-        name: 'Super Pack Perro 🐶', 
-        cost: 500, 
-        icon: '', 
+    {
+        name: 'Paquete de Paseo de Fin de Año (Especial: Profesores y Estudiantes)',
+        cost: 125,
+        icon: '',
+        requireBuy: true,
+        apps: ['Comentarios: Fin de Año'],
+        releaseAt: new Date('2024-11-28T09:00:00'),
+        expiresAt: new Date('2024-12-17T13:00:00'),
+        isBlackFriday: false // No aplica descuento
+    },
+    {
+        name: 'Oferta Black Friday: Mega Combo de Apps', 
+        cost: 75, 
+        icon: '🔥', 
         requireBuy: true, 
-        apps: ['Juego de Perros: The Bone', 'Galeria de Perritos'], 
-        releaseAt: null, // Disponible inmediatamente
-        expiresAt: new Date('2024-12-05T00:00:00') 
-    },
+        apps: ['Mitos que nos creiamos', 'App 2', 'App 3', 'App 4'], 
+        releaseAt: new Date('2024-11-29T00:00:00'), 
+        expiresAt: new Date('2024-11-30T00:00:00'),
+        isBlackFriday: true // Aplica descuento
+    }
 ];
-
-// Día del Black Friday
-const blackFridayDate = new Date('2024-11-29T00:00:00');
-const blackFridayEndDate = new Date('2024-11-30T00:00:00');
 
 // Actualizar visor del saldo
 function updateAppBuxViewer() {
     appBuxViewer.textContent = `Saldo: ${appBux} AppBux`;
 }
 
-// Renderizar la tienda
 function renderStore() {
     storeContainer.innerHTML = ''; // Limpia el contenedor
-    const now = new Date();
-
     products.forEach(product => {
+        const now = new Date();
+
         const productDiv = document.createElement('div');
         productDiv.className = 'product';
 
         // Determinar si está bloqueado
         const isLocked = product.releaseAt && now < product.releaseAt;
 
-        // Determinar si hay descuento por Black Friday
-        let productCost = product.cost;
-        if (now >= blackFridayDate && now < blackFridayEndDate) {
-            productCost = Math.floor(product.cost * 0.5); // Aplicar 50% de descuento
+        // Calcular descuento de Black Friday
+        let finalCost = product.cost;
+        if (product.isBlackFriday && now >= blackFridayDate && now <= blackFridayEnd) {
+            finalCost = Math.ceil(product.cost * 0.5); // Descuento del 50%
         }
 
         // Icono del producto
@@ -578,17 +588,11 @@ function renderStore() {
         productDiv.appendChild(productName);
 
         // Costo del producto
-        const productCostDiv = document.createElement('span');
-        productCostDiv.textContent = `${productCost} AppBux`;
-        productDiv.appendChild(productCostDiv);
-
-        // Mostrar "Descuento Black Friday" si aplica
-        if (now >= blackFridayDate && now < blackFridayEndDate) {
-            const discountLabel = document.createElement('div');
-            discountLabel.textContent = '🔥 Black Friday - 50% Descuento!';
-            discountLabel.className = 'black-friday-discount';
-            productDiv.appendChild(discountLabel);
-        }
+        const productCost = document.createElement('span');
+        productCost.textContent = product.isBlackFriday && now >= blackFridayDate && now <= blackFridayEnd 
+            ? `${product.cost} AppBux ➔ ${finalCost} AppBux (Black Friday)` 
+            : `${finalCost} AppBux`;
+        productDiv.appendChild(productCost);
 
         // Listado de contenido del paquete/producto
         if (product.apps && product.apps.length > 0) {
@@ -610,7 +614,7 @@ function renderStore() {
         // Botón de compra
         const buyButton = document.createElement('button');
         buyButton.textContent = 'Comprar';
-        buyButton.disabled = isLocked || !product.requireBuy || appBux < productCost;
+        buyButton.disabled = isLocked || !product.requireBuy || appBux < finalCost;
         buyButton.onclick = () => purchaseProduct(product);
         productDiv.appendChild(buyButton);
 
@@ -629,7 +633,6 @@ function renderStore() {
     });
 }
 
-// Temporizador de productos
 function updateCountdown(timerDiv, releaseAt, expiresAt, buyButton) {
     const interval = setInterval(() => {
         const now = new Date();
@@ -653,8 +656,8 @@ function updateCountdown(timerDiv, releaseAt, expiresAt, buyButton) {
         } else {
             // Producto expirado
             timerDiv.textContent = 'Expirado';
-            buyButton.disabled = true; // Deshabilitar el botón
-            buyButton.textContent = 'El producto ha expirado'; // Cambiar texto del botón
+            buyButton.disabled = true;
+            buyButton.textContent = 'El producto ha expirado';
             clearInterval(interval);
         }
     }, 1000);
@@ -760,6 +763,12 @@ function showAppWindow(product) {
 
 
 function purchaseProduct(product) {
+    const now = new Date();
+
+    // Calcular costo final dinámico
+    const isBlackFriday = product.isBlackFriday && now >= blackFridayDate && now <= blackFridayEnd;
+    const finalCost = isBlackFriday ? Math.ceil(product.cost * 0.5) : product.cost;
+
     shopModal.style.display = 'flex';
     loadingCircle.style.display = 'block';
     windowMessage.textContent = 'Procesando compra...';
@@ -767,7 +776,7 @@ function purchaseProduct(product) {
     finalizePurchaseBtn.style.display = 'none';
 
     setTimeout(() => {
-        if (appBux < product.cost) {
+        if (appBux < finalCost) {
             alert('Saldo insuficiente para realizar la compra.');
             shopModal.style.display = 'none'; // Cambiar a shopModal
             return;
@@ -775,50 +784,45 @@ function purchaseProduct(product) {
 
         loadingCircle.style.display = 'none';
         windowMessage.textContent = 'Finaliza la compra';
-        checkoutDetails.textContent = `Costo: ${product.cost} AppBux\nSaldo restante: ${appBux - product.cost} AppBux`;
+        checkoutDetails.textContent = `Costo: ${finalCost} AppBux\nSaldo restante: ${appBux - finalCost} AppBux`;
         finalizePurchaseBtn.style.display = 'block';
 
-        finalizePurchaseBtn.onclick = () => finalizePurchase(product);
+        finalizePurchaseBtn.onclick = () => finalizePurchase(product, finalCost);
     }, 3000);
 }
 
-// Finalizar compra
-function finalizePurchase(product) {
-    if (appBux < product.cost) {
+function finalizePurchase(product, finalCost) {
+    if (appBux < finalCost) {
         alert('Algo salió mal: saldo insuficiente.');
         shopModal.style.display = 'none'; // Cambiar a shopModal
         return;
     }
 
-    appBux -= product.cost;
+    appBux -= finalCost; // Usar el costo final calculado
 
     // Marcar como comprado
     if (product.apps) {
-        // Si el producto es un combo, marcar cada app dentro del combo como comprada
         product.apps.forEach(appName => {
-            // Actualizar requireBuy en products
             const productApp = products.find(p => p.name === appName);
             if (productApp) productApp.requireBuy = false;
 
-            // Actualizar requireBuy en apps
             const app = apps.find(a => a.name === appName);
             if (app) app.requireBuy = false;
         });
     }
 
-    // Marcar el producto actual como comprado
     product.requireBuy = false;
 
-    // También buscar la app correspondiente en `apps` y actualizar `requireBuy`
     const app = apps.find(a => a.name === product.name);
     if (app) app.requireBuy = false;
 
     alert(`${product.name} comprado exitosamente.`);
-    shopModal.style.display = 'none'; // Cambiar a shopModal
+    shopModal.style.display = 'none';
 
     renderStore(); // Re-renderizar la tienda
     updateAppBuxViewer();
 }
+
 
 
 
@@ -1206,14 +1210,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Función para abrir la app con animación y botón de cierre
 function openApp(app) {
-    const appWindow = document.createElement('div');
-    appWindow.style = `
-        position: fixed; top: 50%; left: 50%; width: 700px; height: 500px;
-        transform: translate(-50%, -50%) scale(0);
-        background-color: #fff; border: 2px solid #333; border-radius: 8px;
-        display: flex; flex-direction: column; align-items: center;
-        font-size: 18px; transition: transform 0.3s ease; overflow: hidden;
-    `;
+    // Crear el contenedor de la ventana
+const appWindow = document.createElement('div');
+
+// Aplicar estilos avanzados directamente
+appWindow.style = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 90%; /* Ocupa el 90% del ancho de la pantalla */
+    height: 90%; /* Ocupa el 90% del alto de la pantalla */
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg, #ffffff, #f9f9f9);
+    border: 6px solid transparent;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    overflow: auto; /* Permite desplazar contenido si excede la ventana */
+    transition: transform 0.5s ease, border 1s linear;
+`;
+
+// Crear el efecto del marco arcoíris
+appWindow.style.borderImageSource = `
+    linear-gradient(135deg, 
+        red, orange, yellow, green, cyan, blue, violet, red
+    )
+`;
+appWindow.style.borderImageSlice = "1";
     document.body.appendChild(appWindow);
 
     // Botón de cierre
@@ -1334,6 +1362,9 @@ function openApp(app) {
                         case 'Comentarios: Fin de Año':
                         createFeedbackApp(content);
                         break;
+                        case 'Mitos que nos creiamos':
+                        createMythBusterApp(content);
+                        break;
             default:
                 content.innerHTML = `<p>Aplicación no disponible.</p>`;
         }
@@ -1382,6 +1413,77 @@ transition: background-color 0.3s, transform 0.3s;
 
     return closeButton;
 }
+
+function createMythBusterApp(content) {
+    // Crear contenedor principal
+    const appContainer = document.createElement('div');
+    appContainer.style = `
+        width: 800px; 
+        margin: 0 auto; 
+        padding: 20px; 
+        background-color: #f9f9f9; 
+        border: 1px solid #ccc; 
+        border-radius: 10px; 
+        font-family: Arial, sans-serif;
+    `;
+
+    // Título principal
+    const title = document.createElement('h1');
+    title.textContent = 'Te creíste todos estos mitos, ¿verdad?';
+    title.style = 'text-align: center; color: #333; margin-bottom: 20px;';
+    appContainer.appendChild(title);
+
+    // Lista de mitos
+    const myths = [
+        { text: 'Los camaleones cambian de color para camuflarse.', isTrue: false },
+        { text: 'Los murciélagos son ciegos.', isTrue: false },
+        { text: 'El cabello y las uñas siguen creciendo después de la muerte.', isTrue: false },
+        { text: 'Beber 8 vasos de agua al día es obligatorio.', isTrue: false },
+        { text: 'El Monte Everest es la montaña más alta del mundo.', isTrue: true },
+        { text: 'Los tiburones no pueden contraer cáncer.', isTrue: false },
+        { text: 'El espacio exterior es completamente silencioso.', isTrue: true },
+        { text: 'Los rayos no caen dos veces en el mismo lugar.', isTrue: false },
+    ];
+
+    // Contenedor de la lista de mitos
+    const mythList = document.createElement('ul');
+    mythList.style = 'list-style: none; padding: 0;';
+    appContainer.appendChild(mythList);
+
+    myths.forEach((myth) => {
+        const mythItem = document.createElement('li');
+        mythItem.style = `
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px; 
+            border-bottom: 1px solid #ddd;
+        `;
+
+        // Texto del mito
+        const mythText = document.createElement('span');
+        mythText.textContent = myth.text;
+        mythText.style = 'flex: 1; color: #333;';
+        mythItem.appendChild(mythText);
+
+        // Indicador de verdadero o falso
+        const status = document.createElement('span');
+        status.textContent = myth.isTrue ? 'Verdadero' : 'Falso';
+        status.style = `
+            font-weight: bold; 
+            color: ${myth.isTrue ? 'green' : 'red'}; 
+        `;
+        mythItem.appendChild(status);
+
+        // Añadir el elemento a la lista
+        mythList.appendChild(mythItem);
+    });
+
+    // Añadir el contenedor principal al contenido
+    content.appendChild(appContainer);
+}
+
+
 
 function createFeedbackApp(content) {
     // Crear contenedor principal
@@ -2824,7 +2926,7 @@ function createUpdateAndBalanceChangesApp(content) {
             }
         },
         {
-            version: '/11/2024',
+            version: '29/11/2024',
             categories: {
                 'Correcciones de Errores': [
                     
