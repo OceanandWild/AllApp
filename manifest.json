@@ -1,0 +1,8 @@
+{
+  "name": "AllApp",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "short_name": "all_app",
+  "id": "allapp1",
+  "description": "An useful app to install other apps that can do a action"
+}
