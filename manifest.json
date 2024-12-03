@@ -1,8 +1,22 @@
 {
-  "name": "AllApp",
-  "theme_color": "#000000",
-  "background_color": "#000000",
-  "short_name": "all_app",
-  "id": "allapp1",
-  "description": "An useful app to install other apps that can do a action"
+    "name": "AllApp",
+    "short_name": "AllApp",
+    "theme_color": "#000000",
+    "background_color": "#000000",
+    "description": "An useful app to install other apps that can do a action",
+    "id": "allapp1",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "./images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "./images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }
