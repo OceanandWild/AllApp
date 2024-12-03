@@ -1,0 +1,6 @@
+{
+    "appId": "AllApp",
+    "appName": "AllApp",
+    "bundledWebRuntime": false,
+    "npmClient": "npm"
+  }
