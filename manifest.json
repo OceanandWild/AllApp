@@ -1,22 +1,16 @@
 {
-    "name": "AllApp",
-    "short_name": "AllApp",
-    "theme_color": "#000000",
-    "background_color": "#000000",
-    "description": "An useful app to install other apps that can do a action",
-    "id": "allapp1",
-    "start_url": "./index.html",
-    "display": "standalone",
-    "icons": [
-        {
-            "src": "./images/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "./images/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
+  "name": "AllApp",
+  "theme_color": "#00ff04",
+  "background_color": "#ff0000",
+  "short_name": "AllApp",
+  "id": "AllApp",
+  "description": "An useful app to install other apps that can do a action",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://oceanandwild.github.io/EcoConsole",
+      "id": "EcoConsole"
+    }
+  ]
 }
