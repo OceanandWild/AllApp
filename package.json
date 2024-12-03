@@ -1,0 +1,15 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "AllApp can be an app or a game (you decide), this allows you to install apps or games and when installed and on click, will appear a window with the content. With the count of 30+ Apps now",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "AllApp"
+  },
+  "author": "Ocean and Wild",
+  "license": "ISC"
+}
