@@ -104,41 +104,38 @@ let installedApps = [];
 
 
 
-// Lista de aplicaciones con las nuevas apps marcadas
-const apps = [
-    { name: 'Calculadora', installed: false, isNew: false, isImproved: false, inMaintenance: false, cost: 50, requireBuy: true },
-    { name: 'Reloj', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true  },
-    { name: 'Notas', installed: false, isNew: false, isImproved: true, inMaintenance: false, requireBuy: true   },
-    { name: 'CheckMate', installed: false, isNew: false, isImproved: true, inMaintenance: false},
-    { name: 'Calendario', installed: false, isNew: false, isImproved: true, inMaintenance: false },
-    { name: 'Mixer', installed: false, isNew: false, isImproved: true, inMaintenance: false },
-    { name: 'RNG', installed: false, isNew: false, isImproved: true, inMaintenance: false },
-    { name: 'Enciclopedia Animales Extintos', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
-    { name: 'Sugerir App', installed: false, isNew: false, isImproved: true, inMaintenance: false  }, // Nueva app
-    { name: 'Prompt de AllApp', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
-    { name: 'Reproductor de Música', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
-    { name: 'Crear Proyectos', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
-    { name: 'Clima', installed: false, isNew: false, isImproved: false, inMaintenance: false }, // Nueva app
-    { name: 'Editor de Código', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
-    { name: 'Clicker Indefinido', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
-    { name: 'Brújula', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
-    { name: 'Detector de Movimiento', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
-    { name: 'Estado del Sistema', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nueva app
-    { name: 'Horóscopo', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
-    { name: 'Calculadora de Tiempo', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
-    { name: 'Actualizaciones y Cambios de Balance', installed: false, isNew: false, isImproved: false, inMaintenance: false }, // Nuevo comando
-    { name: 'Juego de Gatos: The Rat', installed: false, isNew: false, isImproved: true, inMaintenance: false, requireBuy: true  }, // Nuevo comando
-    { name: 'Unlock Link', installed: false, isNew: false, isImproved: false, inMaintenance: false  }, // Nuevo comando
-    { name: 'Escape Police', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
-    { name: 'Quiz de Artes Marciales', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
-    { name: 'Enciclopedia Animal', installed: false, isNew: true, isImproved: false, inMaintenance: false  }, // Nuevo comando
-    { name: 'Galeria de Gatitos', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: true  }, // Nuevo comando
-    { name: 'Leyes y Reglamentos', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false  }, // Nuevo comando
-    { name: 'Eventos', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false  }, // Nuevo comando
-    { name: 'Señal de Red', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false  }, // Nuevo comando
-    { name: 'Comentarios: Fin de Año', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false  }, // Nuevo comando
-    { name: 'Mitos que nos creiamos', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: true  }, // Nuevo comando
-];
+    const apps = [
+        { name: 'Calculadora', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: false, rareza: "Comun" },
+        { name: 'Reloj', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: false, rareza: "Comun" },
+        { name: 'Notas', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: false, rareza: "Comun" },
+        { name: 'CheckMate', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: false, rareza: "Raro" },
+        { name: 'Calendario', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: false, rareza: "Comun" },
+        { name: 'Mixer', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: false, costo: 50, stock: false, rareza: "PocoComun" },
+        { name: 'RNG', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: false, costo: 50, stock: false, rareza: "Legendario" },
+        { name: 'Enciclopedia Animales Extintos', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: false, rareza: "Raro" },
+        { name: 'Sugerir App', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 100, stock: true, rareza: "Mitico" },
+        { name: 'Reproductor de Música', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: true, rareza: "Comun" },
+        { name: 'Crear Proyectos', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 75, stock: true, rareza: "Raro" },
+        { name: 'Clima', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: true, rareza: "Comun" },
+        { name: 'Editor de Código', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 100, stock: true, rareza: "PocoComun" },
+        { name: 'Clicker Indefinido', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 200, stock: true, rareza: "Legendario" },
+        { name: 'Brújula', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: true, rareza: "Comun" },
+        { name: 'Detector de Movimiento', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 80, stock: true, rareza: "Raro" },
+        { name: 'Estado del Sistema', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 75, stock: true, rareza: "PocoComun" },
+        { name: 'Horóscopo', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 120, stock: true, rareza: "Mitico" },
+        { name: 'Calculadora de Tiempo', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 150, stock: true, rareza: "Legendario" },
+        { name: 'Actualizaciones y Cambios de Balance', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: false, costo: 0, stock: true, rareza: "Raro" },
+        { name: 'Juego de Gatos: The Rat', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 70, stock: true, rareza: "Comun" },
+        { name: 'Escape Police', installed: false, isNew: false, isImproved: false, inMaintenance: false, requireBuy: true, costo: 90, stock: true, rareza: "PocoComun" },
+        { name: 'Quiz de Artes Marciales', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false, costo: 175, stock: true, rareza: "Legendario" },
+        { name: 'Enciclopedia Animal', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: true, costo: 100, stock: true, rareza: "Raro" },
+        { name: 'Galeria de Gatitos', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: true, rareza: "Comun" },
+        { name: 'Eventos', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false, costo: 0, stock: true, rareza: "Mitico" },
+        { name: 'Señal de Red', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false, costo: 0, stock: true, rareza: "Legendario" },
+        { name: 'Comentarios: Fin de Año', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: false, costo: 0, stock: true, rareza: "Raro" },
+        { name: 'Mitos que nos creiamos', installed: false, isNew: true, isImproved: false, inMaintenance: false, requireBuy: true, costo: 50, stock: true, rareza: "Comun" },
+    ];
+    
 
 // Botón para abrir la tienda
 openStoreBtn.addEventListener('click', () => {
@@ -329,6 +326,9 @@ if (app.requireBuy) {
         position: relative;
     `;
 
+
+
+
     const iconImage = document.createElement('img');
     iconImage.src = getAppIcon(appName);
     iconImage.alt = appName;
@@ -402,109 +402,202 @@ if (app.requireBuy) {
     });
 }
 
-
-// Agregar una configuración global para apps por página
-let appsPerPage = 7; // Valor predeterminado
-
-// Función para renderizar la tienda
-function renderAppStore(page = 1) {
-    const start = (page - 1) * appsPerPage;
-    const end = start + appsPerPage;
-    const appsToShow = apps.slice(start, end);
-
-    // Limpia el contenido de la tienda, pero no el botón "Cerrar"
-    const closeButton = appStoreModal.querySelector('.custom-button');
-    appStoreModal.innerHTML = ""; // Limpia todo
-    if (closeButton) appStoreModal.appendChild(closeButton); // Reagrega el botón "Cerrar"
-
-    // Agregar la opción de configuración de "Apps por página"
-    const configContainer = document.createElement('div');
-    configContainer.style = 'margin-bottom: 15px; text-align: center;';
-
-    const label = document.createElement('label');
-    label.textContent = "Apps por página: ";
-    label.style.marginRight = "5px";
-
-    const input = document.createElement('input');
-    input.type = "number";
-    input.value = appsPerPage;
-    input.min = 1;
-    input.max = apps.length;
-    input.style.width = "50px";
-
-    input.addEventListener('change', () => {
-        const newAppsPerPage = parseInt(input.value, 10);
-        if (newAppsPerPage > 0 && newAppsPerPage <= apps.length) {
-            appsPerPage = newAppsPerPage; // Actualiza la cantidad
-            renderAppStore(1); // Recarga la tienda desde la primera página
-        } else {
-            alert(`Por favor, elige un valor entre 1 y ${apps.length}.`);
-        }
-    });
-
-    configContainer.appendChild(label);
-    configContainer.appendChild(input);
-    appStoreModal.appendChild(configContainer);
-
-    // Mostrar las apps de la página actual
-    appsToShow.forEach(app => {
-        const appButton = document.createElement('button');
-        appButton.textContent = app.name;
-        appButton.id = `install-btn-${app.name}`;
-        appButton.classList.add('install-btn');
-        appButton.setAttribute('data-app-name', app.name);
-
-        if (app.installed) {
-            appButton.disabled = true;
-            appButton.textContent = "Instalada";
-            appButton.style.cursor = "not-allowed";
-            appButton.style.opacity = "0.6";
-        }
-
-        if (app.isNew) {
-            const newIcon = document.createElement('span');
-            newIcon.textContent = " (NUEVO!)";
-            newIcon.style.color = "#39ff14";
-            appButton.appendChild(newIcon);
-        }
-
-        if (app.isImproved) {
-            const improvedIcon = document.createElement('span');
-            improvedIcon.textContent = " (ACTUALIZADA!)";
-            improvedIcon.style.color = "yellow";
-            appButton.appendChild(improvedIcon);
-        }
-
-        appButton.addEventListener('click', () => installApp(app.name));
-        appStoreModal.appendChild(appButton);
-    });
-
-    // Mostrar botones de paginación
-    if (apps.length > appsPerPage) {
-        const paginationContainer = document.createElement('div');
-        paginationContainer.style.textAlign = 'center';
-        paginationContainer.style.marginTop = '10px';
-
-        if (page > 1) {
-            const prevButton = document.createElement('button');
-            prevButton.textContent = "Anterior";
-            prevButton.addEventListener('click', () => renderAppStore(page - 1));
-            paginationContainer.appendChild(prevButton);
-        }
-
-        if (end < apps.length) {
-            const nextButton = document.createElement('button');
-            nextButton.textContent = "Siguiente";
-            nextButton.addEventListener('click', () => renderAppStore(page + 1));
-            paginationContainer.appendChild(nextButton);
-        }
-
-        appStoreModal.appendChild(paginationContainer);
-    }
+// Función para obtener el ícono de la app
+function getAppIcon(appName) {
+    const icons = {
+        'Calculadora': 'https://i.pinimg.com/564x/89/2c/48/892c486a9a60c758e55b747da91aa671.jpg',
+        'Reloj': 'https://i.pinimg.com/564x/f7/c6/c7/f7c6c74dc920669a42c9d9f7ee575c34.jpg',
+        'Notas': 'https://i.pinimg.com/564x/f2/21/54/f221546ec773641d3e03b0509b7b4d39.jpg',
+        'Animal AI View': 'https://i.pinimg.com/736x/11/f3/88/11f388876b53afc25615f3a980d8f25e.jpg',
+        'CheckMate': 'https://i.pinimg.com/564x/eb/64/83/eb6483224dbfd351bf5ec53621a320ff.jpg',
+        'Updates': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
+        'Calendario': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
+        'Quiz de Artes Marciales': 'https://i.pinimg.com/736x/a8/4b/0a/a84b0afc36467910d7c350dc64dd8f3c.jpg',
+        'Enciclopedia Animal': 'https://i.pinimg.com/736x/11/7b/ae/117baedaef6757575687e5fa382de38c.jpg',
+        'Juego de Gatos: The Rat': 'https://i.pinimg.com/736x/b3/73/fb/b373fb7ff19418378c5b547a247b84c7.jpg',
+        'Galeria de Gatitos': 'https://i.pinimg.com/736x/8b/59/7a/8b597aa05cc905e0fb4c32886b378fd7.jpg',
+        'Actualizaciones y Cambios de Balance': 'https://i.pinimg.com/736x/8b/5d/21/8b5d2171151a753d80b76215f7647ed8.jpg',
+        'Eventos': 'https://i.pinimg.com/736x/92/da/90/92da90566a570a9ca4e1c8df1a5791eb.jpg',
+        'RNG': 'https://i.pinimg.com/736x/54/58/5d/54585d5839579428cc7b04631a670012.jpg',
+        'Mixer': 'https://i.pinimg.com/736x/a3/e2/30/a3e230276960d1d1e43efe318f5da47e.jpg',
+        'Clicker Indefinido': 'https://i.pinimg.com/736x/40/f0/10/40f0100247ea7b427438aac3c6f2b651.jpg',
+        'Sugerir App': 'https://example.com/sugerir-app-icon.jpg', // Placeholder for the icon
+        'Prompt de AllApp': 'https://example.com/prompt-allapp-icon.jpg', // Placeholder for the icon
+        'Reproductor de Música': 'https://example.com/reproductor-musica-icon.jpg', // Placeholder for the icon
+        'Crear Proyectos': 'https://example.com/crear-proyectos-icon.jpg', // Placeholder for the icon
+        'Clima': 'https://example.com/clima-icon.jpg', // Placeholder for the icon
+        'Editor de Código': 'https://example.com/editor-codigo-icon.jpg', // Placeholder for the icon
+        'Brújula': 'https://example.com/brujula-icon.jpg', // Placeholder for the icon
+        'Detector de Movimiento': 'https://example.com/detector-movimiento-icon.jpg', // Placeholder for the icon
+        'Estado del Sistema': 'https://example.com/estado-sistema-icon.jpg', // Placeholder for the icon
+        'Horóscopo': 'https://example.com/horoscopo-icon.jpg', // Placeholder for the icon
+        'Calculadora de Tiempo': 'https://example.com/calculadora-tiempo-icon.jpg', // Placeholder for the icon
+        'Escape Police': 'https://example.com/escape-police-icon.jpg', // Placeholder for the icon
+        'Señal de Red': 'https://example.com/senal-red-icon.jpg', // Placeholder for the icon
+        'Comentarios: Fin de Año': 'https://example.com/comentarios-fin-ano-icon.jpg', // Placeholder for the icon
+        'Mitos que nos creiamos': 'https://example.com/mitos-icon.jpg' // Placeholder for the icon
+    };
+    return icons[appName] || 'https://i.pinimg.com/564x/36/9b/3b/369b3b5c246ba187037e47afc8e26b1c.jpg'; // Ícono por defecto
 }
 
-// Inicializar el modal de la App Store en la página 1
-renderAppStore();
+ // Selección de elementos relevantes
+ const storeModal = document.getElementById('appStoreModal');
+ const appsPerPageInput = document.getElementById('appsPerPageInput');
+ const paginationContainer = document.getElementById('pagination');
+ 
+ // Configuración global
+ let currentPage = 1;
+ let appsPerPage = 7;
+ let filteredApps = []; // Para almacenar el resultado de la búsqueda
+
+ // Crear buscador
+function initializeSearchBar() {
+    const searchContainer = document.createElement('div');
+    searchContainer.className = 'search-container';
+
+    const searchInput = document.createElement('input');
+searchInput.type = 'text';
+searchInput.placeholder = 'Buscar aplicaciones...';
+searchInput.className = 'search-input'; // Clase principal
+
+// Agregar estilos adicionales en línea
+searchInput.style.width = '80%';
+searchInput.style.padding = '10px';
+searchInput.style.fontSize = '16px';
+searchInput.style.border = '1px solid #ccc';
+searchInput.style.borderRadius = '8px';
+searchInput.style.outline = 'none';
+
+// Agregar clases adicionales si es necesario
+searchInput.classList.add('custom-search', 'highlight-focus');
+searchContainer.classList.add('search-container');
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        filteredApps = apps.filter(app => app.name.toLowerCase().includes(query));
+        currentPage = 1; // Reiniciar a la primera página
+        renderAppStore();
+    });
+
+    searchContainer.appendChild(searchInput);
+    storeModal.prepend(searchContainer);
+}
+
+ 
+ function renderAppStore() {
+     const storeContainer = storeModal.querySelector('#StoreApps');
+     storeContainer.innerHTML = ''; // Limpiar contenido existente
+ 
+     // Obtener apps para mostrar
+     const appsToDisplay = getAppsForCurrentPage();
+ 
+     // Renderizar aplicaciones
+     appsToDisplay.forEach(renderAppCard);
+ 
+     // Renderizar controles de paginación
+     renderPaginationControls();
+     initializeLionStoreTitle(); // Título solo se inicializa una vez
+ }
+ 
+// Obtener apps para la página actual
+function getAppsForCurrentPage() {
+    const appsToRender = filteredApps.length ? filteredApps : apps;
+    const startIndex = (currentPage - 1) * appsPerPage;
+    return appsToRender.slice(startIndex, startIndex + appsPerPage);
+}
+ 
+ function renderAppCard(app) {
+     const storeContainer = storeModal.querySelector('#StoreApps');
+ 
+     // Crear tarjeta de aplicación
+     const appCard = document.createElement('div');
+     appCard.className = 'app-card';
+ 
+     // Ícono
+     const appIcon = document.createElement('div');
+     appIcon.className = 'app-icon';
+     appIcon.style.backgroundImage = `url(${getAppIcon(app.name)})`;
+     appCard.appendChild(appIcon);
+ 
+     // Nombre
+     const appName = document.createElement('div');
+     appName.className = 'app-name';
+     appName.textContent = app.name;
+     appCard.appendChild(appName);
+
+     const appRarity = document.createElement('div');
+     appRarity.className = 'app-rarity';
+     appRarity.textContent = app.rareza;
+     appCard.appendChild(appRarity);
+ 
+     // Etiquetas
+     if (app.isNew || app.isImproved) {
+         const appTag = document.createElement('div');
+         appTag.className = 'app-tag';
+         appTag.textContent = app.isNew ? '🌟 Nueva' : '✨ Mejorada';
+         appCard.appendChild(appTag);
+     }
+ 
+     // Botón de instalación
+     const installButton = createInstallButton(app);
+     appCard.appendChild(installButton);
+ 
+     storeContainer.appendChild(appCard);
+ }
+ 
+ function createInstallButton(app) {
+     const installButton = document.createElement('button');
+     installButton.className = 'install-button';
+     installButton.textContent = app.installed ? 'Instalada' : 'Instalar';
+     installButton.disabled = app.installed;
+     installButton.addEventListener('click', () => installApp(app.name));
+     return installButton;
+ }
+ 
+// Renderizar los controles de paginación
+function renderPaginationControls() {
+    paginationContainer.innerHTML = ''; // Limpiar paginación existente
+
+    const totalPages = Math.ceil((filteredApps.length || apps.length) / appsPerPage);
+    for (let i = 1; i <= totalPages; i++) {
+        const pageButton = createPageButton(i);
+        paginationContainer.appendChild(pageButton);
+    }
+}
+ 
+ function createPageButton(pageNumber) {
+     const pageButton = document.createElement('button');
+     pageButton.className = 'page-button';
+     pageButton.textContent = pageNumber;
+     pageButton.disabled = pageNumber === currentPage;
+     pageButton.addEventListener('click', () => {
+         currentPage = pageNumber;
+         renderAppStore();
+     });
+     return pageButton;
+ }
+ 
+ // Cambiar cantidad de apps por página
+ appsPerPageInput.addEventListener('change', () => {
+     appsPerPage = parseInt(appsPerPageInput.value) || 7;
+     currentPage = 1; // Reiniciar a la primera página
+     renderAppStore();
+ });
+ 
+ // Insertar título decorativo de Lion Store una sola vez
+ function initializeLionStoreTitle() {
+     const appStoreContainer = document.querySelector('#appStoreModal'); // Contenedor principal
+     if (!appStoreContainer.querySelector('.lion-store-title')) { // Verificar si ya existe
+         const lionStoreTitle = document.createElement('div');
+         lionStoreTitle.className = 'lion-store-title';
+         lionStoreTitle.textContent = 'LION STORE';
+         appStoreContainer.prepend(lionStoreTitle); // Añadir al inicio del contenedor
+     }
+ }
+ 
+ // Inicializar el modal de la App Store en la página 1
+ renderAppStore();
+ initializeSearchBar();
 
 
 // Referencias de los elementos del DOM
@@ -543,20 +636,11 @@ const products = [
         expiresAt: new Date('2024-12-17T13:00:00'),
         isBlackFriday: false // No aplica descuento
     },
-    {
-        name: 'Oferta Black Friday: Mega Combo de Apps', 
-        cost: 75, 
-        icon: '🔥', 
-        requireBuy: true, 
-        apps: ['Mitos que nos creiamos', 'App 2', 'App 3', 'App 4'], 
-        releaseAt: new Date('2024-11-29T00:00:00'), 
-        expiresAt: new Date('2024-11-30T00:00:00'),
-        isBlackFriday: true // Aplica descuento
-    }
+    
 ];
 
-// Actualizar visor del saldo
 function updateAppBuxViewer() {
+    console.log('Actualizando vista de appBux, valor actual:', appBux);
     appBuxViewer.textContent = `Saldo: ${appBux} AppBux`;
 }
 
@@ -836,25 +920,7 @@ renderStore(); // Renderizar los productos en la tienda
 
 
 
-// Función para obtener el ícono de la app
-function getAppIcon(appName) {
-    const icons = {
-        'Calculadora': 'https://i.pinimg.com/564x/89/2c/48/892c486a9a60c758e55b747da91aa671.jpg',
-        'Reloj': 'https://i.pinimg.com/564x/f7/c6/c7/f7c6c74dc920669a42c9d9f7ee575c34.jpg',
-        'Notas': 'https://i.pinimg.com/564x/f2/21/54/f221546ec773641d3e03b0509b7b4d39.jpg',
-        'Animal AI View': 'https://i.pinimg.com/736x/11/f3/88/11f388876b53afc25615f3a980d8f25e.jpg',
-        'CheckMate': 'https://i.pinimg.com/564x/eb/64/83/eb6483224dbfd351bf5ec53621a320ff.jpg',
-        'Updates': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
-        'Calendario': 'https://i.pinimg.com/564x/ef/a8/7e/efa87ea299fa9dd25a5938a7cc3028ce.jpg',
-        'Quiz de Artes Marciales': 'https://i.pinimg.com/736x/a8/4b/0a/a84b0afc36467910d7c350dc64dd8f3c.jpg',
-        'Enciclopedia Animal': 'https://i.pinimg.com/736x/11/7b/ae/117baedaef6757575687e5fa382de38c.jpg',
-        'Juego de Gatos: The Rat': 'https://i.pinimg.com/736x/b3/73/fb/b373fb7ff19418378c5b547a247b84c7.jpg',
-        'Galeria de Gatitos': 'https://i.pinimg.com/736x/8b/59/7a/8b597aa05cc905e0fb4c32886b378fd7.jpg',
-        'Actualizaciones y Cambios de Balance': 'https://i.pinimg.com/736x/8b/5d/21/8b5d2171151a753d80b76215f7647ed8.jpg',
-        'Eventos': 'https://i.pinimg.com/736x/92/da/90/92da90566a570a9ca4e1c8df1a5791eb.jpg'
-    };
-    return icons[appName] || 'https://i.pinimg.com/564x/36/9b/3b/369b3b5c246ba187037e47afc8e26b1c.jpg'; // Ícono por defecto
-}
+
 
 // Variables globales
 let wildFragments = 0; // Fragmentos Salvajes iniciales
@@ -867,7 +933,7 @@ const appDrops = [
         cost: 100, 
         icon: '⚡', 
         description: 'Abre este AppDrop para obtener recompensas aleatorias.',
-        apps: ['Calculadora', 'App de Relámpago', 'App de Energía'],
+        apps: ['Calculadora'],
         fragmentsGuaranteed: 5 // Fragmentos Salvajes garantizados
     },
     { 
@@ -880,6 +946,12 @@ const appDrops = [
     }
 ];
 
+function areAllAppsUnlocked(drop) {
+    return drop.apps.every(appName => {
+        const app = apps.find(a => a.name === appName);
+        return app && (app.requireBuy === false || !('requireBuy' in app));
+    });
+}
 
 
 // Actualizar renderAppDrops para mostrar Fragmentos Salvajes garantizados
@@ -948,12 +1020,10 @@ function renderAppDrops() {
     });
 }
 
-
 // Función para completar la compra
 function completePurchaseAppDrop(drop) {
     appBux -= drop.cost;
     updateAppBuxViewer();
-    showAnimatedMessage(`Has comprado el AppDrop "${drop.name}" exitosamente.`, 'success');
     openAppDrop(drop);
 }
 
@@ -1003,7 +1073,7 @@ function purchaseAppDrop(drop) {
     // Activar el botón después de 7 segundos
     setTimeout(() => {
         confirmButton.disabled = false;
-    }, 7000);
+    }, 5000);
 
     // Botón de cancelar
     const cancelButton = document.createElement('button');
@@ -1029,18 +1099,26 @@ function purchaseAppDrop(drop) {
     document.body.appendChild(confirmationOverlay);
 }
 
-
-
 // Función para abrir el AppDrop
 function openAppDrop(drop) {
+    console.log(drop);
     const rewardChance = Math.random();
 
-    if (rewardChance <= 0.2) {
+    if (areAllAppsUnlocked(drop)) {
+        console.log("All apps unlocked for", drop.name);
+        const fragmentsEarned = drop.fragmentsGuaranteed;
+        wildFragments += fragmentsEarned;
+        showAnimatedMessage(`Has obtenido ${fragmentsEarned} Fragmentos Salvajes. Total: ${wildFragments}`, 'info');
+        return;
+    }
+
+    // Si no todas las apps están desbloqueadas, se realiza la lógica de abrir el AppDrop
+    if (rewardChance <= 0.3) {
         if (drop.apps && drop.apps.length > 0) {
             const randomIndex = Math.floor(Math.random() * drop.apps.length);
             const selectedAppName = drop.apps[randomIndex];
             const selectedApp = apps.find(app => app.name === selectedAppName);
-
+            console.log(selectedApp);  // Verifica si se encuentra la app correctamente
             if (selectedApp) {
                 selectedApp.requireBuy = false;
                 displayUnlockedApp(selectedApp);
@@ -1056,33 +1134,141 @@ function openAppDrop(drop) {
     }
 }
 
-// Función para mostrar la app desbloqueada
+
 function displayUnlockedApp(app) {
+    // Validar que el objeto `app` tenga las propiedades necesarias
+    if (!app || !app.name || !app.rareza) {
+        console.error('El objeto app no contiene las propiedades necesarias:', app);
+        return;
+    }
+
+    // Obtener el icono de la app usando la función getAppIcon
+    const appIconUrl = getAppIcon(app.name);
+
+    // Definir los colores de rareza
+    const rarityColors = {
+        comun: '#CCCCCC',        // Gris
+        PocoComun: 'green',
+        raro: '#007BFF',         // Azul
+        epico: '#8A2BE2',        // Púrpura
+        legendario: '#FFD700',   // Dorado
+        mitico: '#FF0000',       // Naranja brillante
+    };
+
+    // Determinar el color basado en la rareza
+    const rarityColor = rarityColors[app.rareza.toLowerCase()] || '#FFFFFF'; // Blanco por defecto
+
+    // Crear el contenedor principal
     const unlockContainer = document.createElement('div');
-    unlockContainer.className = 'unlock-animation';
+    unlockContainer.style.position = 'fixed';
+    unlockContainer.style.top = '50%';
+    unlockContainer.style.left = '50%';
+    unlockContainer.style.transform = 'translate(-50%, -50%)';
+    unlockContainer.style.background = 'rgba(0, 0, 0, 0.8)';
+    unlockContainer.style.borderRadius = '10px';
+    unlockContainer.style.width = '250px';
+    unlockContainer.style.height = '300px';
+    unlockContainer.style.display = 'flex';
+    unlockContainer.style.flexDirection = 'column';
+    unlockContainer.style.justifyContent = 'center';
+    unlockContainer.style.alignItems = 'center';
+    unlockContainer.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.5)';
+    unlockContainer.style.transition = 'box-shadow 0.5s ease';
 
-    // Icono de la app
-    const appIcon = document.createElement('div');
-    appIcon.className = 'app-icon';
-    appIcon.textContent = app.icon;
+    // Crear un fondo semitransparente
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.zIndex = '998';
+    overlay.style.pointerEvents = 'none';
 
-    // Nombre de la app
-    const appName = document.createElement('h1');
-    appName.className = 'app-name';
-    appName.textContent = app.name;
-
-    // Añadir elementos al contenedor
-    unlockContainer.appendChild(appIcon);
-    unlockContainer.appendChild(appName);
+    // Añadir el overlay y el contenedor al cuerpo
+    document.body.appendChild(overlay);
     document.body.appendChild(unlockContainer);
 
-    // Añadir animación y eliminar después de 5 segundos
-    setTimeout(() => unlockContainer.classList.add('visible'), 100);
+    // Crear el icono de la app
+    const appIcon = document.createElement('div');
+    appIcon.style.backgroundImage = `url(${appIconUrl})`;
+    appIcon.style.width = '120px';
+    appIcon.style.height = '120px';
+    appIcon.style.backgroundSize = 'cover';
+    appIcon.style.borderRadius = '5px';
+
+    // Añadir el icono al contenedor
+    unlockContainer.appendChild(appIcon);
+
+    // Crear el nombre de la app
+    const appName = document.createElement('h1');
+    appName.style.fontSize = '24px'; // Reducido el tamaño del texto
+    appName.style.color = '#FFD700'; // Color dorado para que destaque
+    appName.style.margin = '0';
+    appName.style.position = 'absolute'; // Posicionamiento absoluto
+    appName.style.top = '50%'; // Centrado en el eje vertical
+    appName.style.left = 'calc(50% + 130px)'; // Desplazado a la derecha fuera del contenedor
+    appName.style.transform = 'translateY(-50%)'; // Ajuste para asegurar que esté centrado
+    appName.style.opacity = '0'; // Inicialmente invisible
+    appName.style.transition = 'opacity 2s ease-out, left 2s ease-out'; // Animación para hacerlo visible y moverlo
+    appName.textContent = app.name;
+
+    // Crear el texto de rareza
+    const appRarity = document.createElement('h2');
+    appRarity.style.fontSize = '20px';
+    appRarity.style.color = rarityColor;
+    appRarity.style.margin = '5px 0';
+    appRarity.textContent = `Rareza: ${app.rareza}`;
+
+    // Añadir el nombre y la rareza al contenedor
+    unlockContainer.appendChild(appRarity);
+
+    // Reproducir el sonido
+    const rewardSound = new Audio('https://ia600701.us.archive.org/31/items/rock-cinematic-161648/rock-cinematic-161648.mp3');
+    rewardSound.play().catch((error) => {
+        console.error('Error al reproducir el sonido:', error);
+    });
+
+    // Animación de deslizamiento
     setTimeout(() => {
-        unlockContainer.classList.remove('visible');
-        setTimeout(() => unlockContainer.remove(), 300);
+        unlockContainer.style.animation = 'slideLeft 2s ease-out forwards';
+    }, 500);
+
+    // Eliminar el contenedor y el overlay después de un tiempo
+    setTimeout(() => {
+        unlockContainer.remove();
+        overlay.remove();
     }, 5000);
+
+    // Hacer el nombre de la app visible con animación
+    setTimeout(() => {
+        appName.style.opacity = '1'; // Mostrar el nombre de la app
+        appName.style.left = 'calc(50% + 140px)'; // Ajustar la posición para un desplazamiento más suave
+        appName.style.fontSize = '35px';
+    }, 1000);
+
+    // Añadir el nombre al contenedor
+    unlockContainer.appendChild(appName);
 }
+
+
+// Animación para el deslizamiento hacia la izquierda
+const style = document.createElement('style');
+style.innerHTML = `
+    @keyframes slideLeft {
+        0% {
+            transform: translate(-50%, -50%) translateX(0);
+        }
+        100% {
+            transform: translate(-50%, -50%) translateX(-250px);
+        }
+    }
+`;
+document.head.appendChild(style);
+
+
+
 
 // Función para mostrar mensajes animados
 function showAnimatedMessage(message, type) {
@@ -1202,11 +1388,168 @@ function initializeStore() {
     storeContainer.appendChild(shopItemsContainer);
 }
 
-// Llamar a la inicialización después de cargar el DOM
-document.addEventListener('DOMContentLoaded', () => {
-    initializeStore();
-});
 
+    initializeStore();
+
+
+
+
+
+    const stockInterval = 15 * 60 * 1000; // Intervalo de actualización del stock en milisegundos (15 minutos)
+    let countdownTimer; // Variable para manejar el intervalo del contador
+    let isUpdating = false; // Bandera para evitar actualizaciones consecutivas
+    
+    const rarityChances = {
+        Comun: 80,
+        PocoComun: 50,
+        Raro: 30,
+        Epico: 15,
+        Legendario: 5,
+        Mitico: 2,
+    };
+    
+    const rarityColors = {
+        Comun: "#CCCCCC",
+        PocoComun: "green",
+        Raro: "#007BFF",
+        Epico: "#8A2BE2",
+        Legendario: "#FFD700",
+        Mitico: "#FF0000",
+    };
+    
+    // Función para actualizar el stock
+    function updateStock() {
+        if (isUpdating) return; // Evitar múltiples actualizaciones simultáneas
+        isUpdating = true;
+    
+        const countdownElement = document.getElementById("countdown-timer");
+        countdownElement.innerHTML = `
+            <div class="countdown-message">
+                <span class="icon">🔄</span> El stock se está actualizando...
+            </div>
+        `;
+    
+        setTimeout(() => {
+            let inStockCount = 0;
+            const updatedApps = [];
+    
+            apps.forEach(app => {
+                const chance = rarityChances[app.rareza];
+                const wasInStock = app.stock;
+                const isInStock = Math.random() * 100 < chance;
+                app.stock = isInStock;
+    
+                if (isInStock) inStockCount++;
+                if (wasInStock !== isInStock) updatedApps.push(app);
+            });
+    
+            while (inStockCount < 5) {
+                const randomIndex = Math.floor(Math.random() * apps.length);
+                if (!apps[randomIndex].stock) {
+                    apps[randomIndex].stock = true;
+                    updatedApps.push(apps[randomIndex]);
+                    inStockCount++;
+                }
+            }
+            while (inStockCount > 10) {
+                const randomIndex = Math.floor(Math.random() * apps.length);
+                if (apps[randomIndex].stock) {
+                    apps[randomIndex].stock = false;
+                    updatedApps.push(apps[randomIndex]);
+                    inStockCount--;
+                }
+            }
+    
+            displayAppStock(); // Actualizar visualización de apps
+            isUpdating = false; // Marcar actualización como completada
+            resetCountdown(); // Reiniciar el temporizador
+        }, 3000); // Simular un retraso en la actualización (3 segundos)
+    }
+    
+    // Función para mostrar el stock de las aplicaciones
+    function displayAppStock() {
+        const container = document.getElementById("app-stock-container");
+        container.innerHTML = "";
+    
+        apps.forEach((app, index) => {
+            if (!app.requireBuy) return; // No mostrar si ya fue comprado
+    
+            const appElement = document.createElement("div");
+            appElement.className = "app-element";
+            appElement.style.backgroundColor = rarityColors[app.rareza];
+    
+            appElement.innerHTML = `
+                <img src="${getAppIcon(app.name)}" alt="${app.name}">
+                <div>
+                    <p style="margin: 0; font-weight: bold;">${app.name}</p>
+                    <p style="margin: 0;">Costo: ${app.costo} AppBux</p>
+                    <p style="color: ${app.stock ? 'green' : 'red'}; margin: 0;">
+                        ${app.stock ? "En Stock" : "Agotado"}
+                    </p>
+                </div>
+                <button ${!app.stock ? "disabled" : ""} class="buy-btn" data-index="${index}">
+                    Comprar
+                </button>
+            `;
+            container.appendChild(appElement);
+        });
+    
+        const buyButtons = document.querySelectorAll(".buy-btn");
+        buyButtons.forEach(button => {
+            button.addEventListener("click", (event) => {
+                const index = event.target.getAttribute("data-index");
+                handleBuyApp(index);
+            });
+        });
+    }
+    
+    // Contador personalizado
+    function startCountdown() {
+        const countdownElement = document.getElementById("countdown-timer");
+        let remainingTime = stockInterval / 1000; // Tiempo restante en segundos
+    
+        countdownTimer = setInterval(() => {
+            if (remainingTime <= 0) {
+                clearInterval(countdownTimer);
+                updateStock(); // Actualizar stock cuando el contador termine
+            } else {
+                const minutes = Math.floor(remainingTime / 60);
+                const seconds = remainingTime % 60;
+    
+                let message = remainingTime > 300
+                    ? "¡Aprovecha el tiempo para planear tu compra!"
+                    : remainingTime > 60
+                    ? "¡El cambio de stock está cerca!"
+                    : "¡Últimos segundos! Prepárate.";
+    
+                countdownElement.innerHTML = `
+                    <div class="countdown-box">
+                        <div class="countdown-time">
+                            ⏳ ${minutes}m ${seconds < 10 ? "0" : ""}${seconds}s
+                        </div>
+                        <div class="countdown-message">
+                            ${message}
+                        </div>
+                    </div>
+                `;
+            }
+            remainingTime--;
+        }, 1000);
+    }
+    
+    // Reiniciar el contador
+    function resetCountdown() {
+        const countdownElement = document.getElementById("countdown-timer");
+        countdownElement.innerHTML = ""; // Limpiar mensaje
+        clearInterval(countdownTimer); // Detener el contador anterior
+        startCountdown(); // Iniciar un nuevo contador
+    }
+    
+    // Inicializar la aplicación
+    updateStock();
+    updateAppBuxViewer();
+    startCountdown();
+    
 
 // Función para abrir la app con animación y botón de cierre
 function openApp(app) {
@@ -1293,9 +1636,6 @@ appWindow.style.borderImageSlice = "1";
                 case 'Sugerir App':
     createSuggestApp(content);
     break;
-    case 'Prompt de AllApp':
-    createPromptAllApp(content);
-    break;
     case 'Crear Proyectos':
     createProjectApp(content);
     break;
@@ -1335,9 +1675,6 @@ appWindow.style.borderImageSlice = "1";
                     case 'Sneak Peeks de Apps':
                         createSneakPeeksApp(content);
                         break;
-                        case 'Unlock Link':
-                        createUnlockLinkApp(content);
-                        break;
                         case 'Escape Police':
                         createSubwaySurfersApp(content);
                         break;
@@ -1349,9 +1686,6 @@ appWindow.style.borderImageSlice = "1";
                         break;
                         case 'Galeria de Gatitos':
                         createKittenGalleryApp(content);
-                        break;
-                        case 'Leyes y Reglamentos':
-                        createLawsAndRegulationsApp(content);
                         break;
                         case 'Eventos':
                         createEventsApp(content);
@@ -2933,6 +3267,7 @@ function createUpdateAndBalanceChangesApp(content) {
                 ],
                 'Mejoras': [
                     'Se agregaron mas imagenes a mas apps, pronto quedaran mas pocas apps que requieran una imagen de portada.',
+                    'Se remodelo un poco de diseño el Lion Store, se espera mas remodel de diseño de parte de este.'
                 ],
                 'Optimizaciones': [
                     'Ahora en vez de que haya un numero seleccionado por nosotros (los desarrolladores) para las apps por pagina, ahora con esta actualizacion podras poner el que mas te guste para que sea mas optimizado para cada usuario.'
@@ -2940,7 +3275,9 @@ function createUpdateAndBalanceChangesApp(content) {
                 'Apps': [
                     'Nueva App: Eventos',
                     'Nueva App: Señal de Red (App Importante)',
-                    'Nueva App: Leyes y Reglamentos (App Importante)'
+                    'Nueva App: Leyes y Reglamentos (App Importante)',
+                    'Se removio la app: Unlock Link',
+                    'Se removio la app: Leyes y Reglamentos',
                 ],
                 'Nuevo': [
                     'Se agrego una nueva tienda, podras comprar aplicaciones ahi. Si, las apps ya no seran tan faciles de instalar y simplemente hacer dos clicks y ya esta.',
@@ -2949,6 +3286,61 @@ function createUpdateAndBalanceChangesApp(content) {
                     'Nuevo: AppBux. La moneda del juego, siendo que esta te servira para comprar paquetes/combos y productos individuales de la tienda',
                     'Nuevo: Fragmentos Salvajes. La gema del juego, esta servira para comprar paquetes/combos, productos individuales de la tienda y podras comprar AppBux con esta gema. Puedes obtenerla de los "App Drops"',
                     'Nuevo: App Drops. Son premios que los puedes comprar en el nuevo apartado de la tienda de "App Drops", estos pueden contener apps ahora tendrias dos formas que serian, viendo si hay alguna oferta de producto o combo/paquete que te de la app, o tener suerte y encontrar un App Drop que tengas una posibilidad de obtener esa app (si, requiere suerte obtenerlo).',
+                ]
+            }
+        },
+        {
+            version: '30/11/2024',
+            categories: {
+                'Correcciones de Errores': [
+                    
+                ],
+                'Mejoras': [
+                   'Se reworkeo el diseño de la Lion Store completamente.'
+                ],
+                'Optimizaciones': [
+                    'Ahora en vez de usar Anterior y Siguiente, ahora con numeros para poder navegar a la pagina que tu quieras sera mas facil.'
+                ],
+                'Apps': [
+                ],
+                'Nuevo': [
+                    'Se agrego un sistema de busqueda de aplicaciones en la Lion Store para poder permitirte buscar aplicaciones',
+                ]
+            }
+        },
+        {
+            version: '1/12/2024',
+            categories: {
+                'Correcciones de Errores': [
+                    'Correcciones de Errores con la animacion de desbloqueo de Aplicacion en un AppDrop por el nombre de la app que su posicion era fuera de la pantalla.'
+                ],
+                'Mejoras': [
+                   'Ahora si ya tienes una aplicacion, los AppDrops automaticamente te recompensaran con "Fragmentos Salvajes" y no te saldra la aplicacion repetida (a menos que haya varias, si es asi, no tendras Fragmentos Salvajes por apps repetidas hasta que obtengas todas)',
+                   'Ahora todas las apps tienen rarezas, esto esta para una mejora proxima.'
+                ],
+                'Optimizaciones': [
+                    'Ahora hay una animacion de desbloqueo de aplicacion en los AppDrops.'
+                ],
+                'Apps': [
+                ],
+                'Nuevo': [
+                    'Se agrego un sistema de busqueda de aplicaciones en la Lion Store para poder permitirte buscar aplicaciones',
+                ]
+            }
+        },
+        {
+            version: '2/12/2024',
+            categories: {
+                'Correcciones de Errores': [
+                ],
+                'Mejoras': [
+                ],
+                'Optimizaciones': [
+                ],
+                'Apps': [
+                ],
+                'Nuevo': [
+                    'NUEVO: Stock de Apps.  Esto se puede usar para desbloquear aun mas rapido (pero dependiendo de la suerte si es que el sistema tiene piedad) apps'
                 ]
             }
         },

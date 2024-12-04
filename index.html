@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AllApp</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Script de Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9198071744915934"
+     crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -15,48 +19,51 @@
     <button id="openStoreBtn">Lion Store</button>
 
 
+      
+    
     <!-- Contenedor de apps instaladas -->
     <div id="appContainer"></div>
 
-    <!-- Modal de la tienda de apps -->
-    <div id="appStoreModal" class="modal">
-        <div class="modal-content">
-            <h2>Lion Store</h2>
-            <div class="app-item">
-                <span>Calculadora</span>
-                <button onclick="installApp('Calculadora')">Instalar</button>
-            </div>
-            <div class="app-item">
-                <span>Reloj</span>
-                <button onclick="installApp('Reloj')">Instalar</button>
-            </div>
-            <div class="app-item">
-                <span>Notas</span>
-                <button onclick="installApp('Notas')">Instalar</button>
-            </div>
-            <div class="app-item">
-                <span>Animal AI</span>
-                <button onclick="installApp('Animal AI View')">Instalar</button>
-            </div>
-            <div class="app-item">
-                <span>Checkmate</span>
-                <button onclick="installApp('CheckMate')">Instalar</button>
-            </div>
-            <div class="app-item">
-                <span>Updates</span>
-                <button onclick="installApp('Updates')">Instalar</button>
-            </div>
-            <div class="app-item">
-                <span>Calendario</span>
-                <button onclick="installApp('Calendario')">Instalar</button>
-            </div>
-            <div class="app-item">
-                <span>RNG</span>
-                <button onclick="installApp('RNG')">Instalar</button>
-            </div>
-        </div>
+    <div class="app-slider-container">
+        <div class="app-slider-header">Apps Stock</div>
+        <div id="countdown-timer"></div>
+        <div id="app-stock-container" class="app-slider"></div>
     </div>
 
+
+
+    
+    <!-- Modal de la App Store -->
+    <div id="appStoreModal" style="display: none;">
+        <h2>Tienda</h2>
+        <label for="appsPerPageInput">Apps por página:</label>
+        <input id="appsPerPageInput" type="number" min="1" max="10" value="7">
+        <div id="pagination"></div>
+        <div id="StoreApps"></div>
+    </div>
+
+    <h1>Apoya la Aplicación</h1>
+        <p class="warning">
+            ADVERTENCIA: Lo recaudado con estos anuncios se usará para mejorar la aplicación. Esto es lo que podemos alcanzar por ahora. ¡Gracias por tu apoyo!
+        </p>
+
+        <!-- Contenedor de Google AdSense -->
+        <div class="adsense-container">
+            <p>Publicidad:</p>
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <p>
+            Gracias por tu apoyo. Cada clic en los anuncios cuenta para mejorar esta experiencia.
+        </p>
 
     <h2>Tienda</h2>
     <hr>

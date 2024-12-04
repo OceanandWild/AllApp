@@ -3,6 +3,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #000;
 }
 
 /* Contenedor principal */
@@ -32,32 +33,278 @@ body {
 /* Modal container */
 /* General styles for the modal */
 #appStoreModal {
-display: none; /* Initially hidden */
-position: fixed;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-background-color: #18743e; /* Color verde azulado más suave */
-border-radius: 16px; /* Bordes redondeados más suaves */
-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra más difusa y profunda */
-padding: 30px;
-max-width: 90%;
-max-height: 90%;
-overflow-y: auto;
-z-index: 1000;
-animation: modalFadeIn 0.5s ease-out; /* Animación de aparición */
-transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Transición más suave */
-background-image: url('https://i.pinimg.com/736x/bf/d1/82/bfd18223e331919953068322e9eae65c.jpg'); /* Agregar textura natural de fondo */
-background-size: cover; /* Hace que la textura cubra todo el fondo */
-background-position: center;
-flex-direction: column;
-align-items: center; /* Center the buttons horizontally */
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #18743e;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    z-index: 1000;
+    animation: modalFadeIn 0.5s ease-out;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    background-image: url('https://i.pinimg.com/736x/bf/d1/82/bfd18223e331919953068322e9eae65c.jpg');
+    background-size: cover;
+    background-position: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+/* Estilo principal del contenedor del buscador */
+.search-container {
+    margin: 10px 0;
+    text-align: center;
+}
+
+/* Estilo del input de búsqueda */
+.search-input {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Efecto al enfocar */
+.search-input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+}
+
+/* Clase adicional para destacar al enfocar */
+.highlight-focus:focus {
+    background-color: #f9f9f9;
+}
+
+/* Clase opcional para personalizar */
+.custom-search {
+    color: #333;
+    background-color: #fefefe;
+}
+
+
+
+.lion-store-title {
+    font-size: 48px;
+    font-weight: bold;
+    color: #FF073A;
+    text-align: center;
+    margin: 20px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    border: 3px solid #B2002D;
+    border-radius: 12px;
+    padding: 10px 20px;
+    display: inline-block;
+    background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,7,58,0.6));
+}
+
+
+
+.app-card {
+    /* Estructura base */
+    background-image: url("https://i.pinimg.com/736x/d9/ac/1d/d9ac1d1311d22ec0d3738a2f1e54f436.jpg");
+    background-size: cover; /* Asegura que la imagen cubra toda la tarjeta */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 300px;
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease; 
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+
+  
+    /* Flexbox para mejor control del contenido */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    color: white; /* Cambia el color del texto para que contraste con la imagen */
+    position: relative; /* Permite ajustes precisos de los elementos internos */
+}
+
+  .app-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .app-slider-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.app-slider-header {
+    background-color: #007BFF;
+    color: #fff;
+    text-align: center;
+    padding: 15px 10px;
+    font-size: 1.5em;
+}
+
+.app-slider {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.app-element {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-element img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.app-element button {
+    margin-top: 10px;
+    background-color: #007BFF;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.app-element button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.app-element hr {
+    margin-top: 10px;
+    border: 0;
+    border-top: 1px solid #ccc;
+}
+
+  
+  .app-icon {
+    /* Dimensiones y márgenes */
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 10px;
+    background-size: cover;
+  
+    /* Efectos visuales */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    transition: transform 0.2s ease; /* Transición suave */
+  }
+  
+  .app-icon:hover {
+    transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+  }
+  
+  .app-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  
+    /* Tipografía más atractiva */
+    font-family: 'Roboto', sans-serif; /* Ejemplo de fuente */
+    letter-spacing: 0.5px; /* Espaciado entre letras */
+    color: #333; /* Color de texto más oscuro */
+  }
+
+  .app-rarity {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  
+    /* Tipografía más atractiva */
+    font-family: 'Roboto', sans-serif; /* Ejemplo de fuente */
+    letter-spacing: 0.5px; /* Espaciado entre letras */
+    color: #333; /* Color de texto más oscuro */
+  }
+  
+  .app-tag {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  
+    /* Variaciones de color */
+    display: inline-block; /* Para que el padding funcione correctamente */
+  }
+  
+  .app-tag.primary {
+    background-color: #007bff; /* Etiqueta primaria */
+    color: white;
+  }
+  
+  .app-tag.secondary {
+    background-color: #6c757d; /* Etiqueta secundaria */
+    color: white;
+  }
+  
+  .app-tag.success {
+    background-color: #28a745; /* Etiqueta de éxito */
+    color: white;
+  }
+  
+  /* Animación opcional */
+  .app-icon.spin {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+
+/* Scrollbar estilizado */
+#appStoreModal::-webkit-scrollbar {
+    width: 8px;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+}
+
+#appStoreModal::-webkit-scrollbar-thumb {
+    background-color: #4CAF50; /* Verde brillante */
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Mejor espaciado y alineación */
+.app-icon-container {
+    margin: 20px auto; /* Espaciado vertical entre apps */
 }
 
 .install-btn {
 display: block; /* Make each button a block element */
 width: 100%; /* Ensure buttons take up full width of the container */
-margin: 10px 0; /* Add space between buttons */
+margin: 20px 0; /* Separación uniforme entre botones */
 padding: 12px 24px; /* Adjust button size */
 font-size: 16px; /* Button text size */
 background-color: #4CAF50; /* Green background */
@@ -119,13 +366,6 @@ text-align: center;
 padding: 15px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-#appStoreModal {
-max-width: 95%; /* Ajusta el modal para pantallas pequeñas */
-max-height: 85%;
-}
-}
 
 
 /* Modal content */
@@ -221,16 +461,11 @@ border-radius: 20px; /* Bordes redondeados para el degradado */
 filter: blur(8px); /* Desenfoca el degradado */
 }
 
+/* Common animations */
 @keyframes gradient {
-0% {
-background-position: 0% 50%;
-}
-50% {
-background-position: 100% 50%;
-}
-100% {
-background-position: 0% 50%;
-}
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .version-select {
@@ -952,4 +1187,80 @@ color: white;
 margin: 8px 0;
 font-size: 14px;
 color: #666;
+}
+
+#countdown-timer {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f0f8ff, #e0e7ff);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    text-align: center;
+    transition: background 0.5s ease-in-out;
+}
+
+#countdown-timer .countdown-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#countdown-timer .countdown-time {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1d3557;
+}
+
+#countdown-timer .countdown-message {
+    font-size: 14px;
+    color: #457b9d;
+}
+
+#countdown-timer .icon {
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+#countdown-timer.flash {
+    animation: flash 0.5s alternate infinite;
+}
+
+@keyframes flash {
+    0% {
+        background: linear-gradient(135deg, #fef9c3, #ffe7c7);
+    }
+    100% {
+        background: linear-gradient(135deg, #fef08a, #ffd700);
+    }
+}
+
+.stock-change {
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.adsense-container {
+    margin: 20px 0;
+    border: 1px dashed #007bff;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+.adsense-container p {
+    font-size: 14px;
+    color: #555;
 }
